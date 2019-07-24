@@ -1,0 +1,9 @@
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.DAL\bin\Debug\ProjectName.DAL.dll
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.DAL\bin\Debug\ProjectName.DAL.pdb
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.DAL\bin\Debug\ProjectName.IDAL.dll
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.DAL\bin\Debug\ProjectName.Models.dll
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.DAL\bin\Debug\ProjectName.IDAL.pdb
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.DAL\bin\Debug\ProjectName.Models.pdb
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.DAL\obj\Debug\ProjectName.DAL.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.DAL\obj\Debug\ProjectName.DAL.dll
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.DAL\obj\Debug\ProjectName.DAL.pdb

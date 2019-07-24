@@ -1,0 +1,66 @@
+
+一、接口与多态
+
+
+
+二、接口框架的设计
+
+个人体会：接口设计，源于对需求的更好的理解。
+
+接口抽取，就是根据需求模块，进行功能分装。
+
+1   功能接口
+2   采购（获取库存数据、生成采购单、订单...）
+3
+4
+5
+。。。
+
+以下案例，以三层为中心
+
+
+UI
+
+BLL  （IBLL）
+
+DAL  （IDAL） 
+
+Models
+
+Common
+
+1. 添加需要的模块
+
+2.添加模块之间的引用
+
+【1】ProjectName.IDAL--》 ProjectName.Models
+【2】ProjectName.DAL--》 ProjectName.Models + ProjectName.IDAL  +  System.Configuration
+【3】ProjectName.IBLL--》 ProjectName.Models
+【4】ProjectName.BLL --》 ProjectName.Models  + ProjectName.IBLL + ProjectName.IDAL + ProjectName.DAL
+【5】ProjectUI            --》ProjectName.IBLL + ProjectName.BLL+ ProjectName.Models
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,6 @@
+C:\Users\Administrator\Desktop\TeachDemo\GenericClassAndMethod\bin\Debug\GenericClassAndMethod.exe.config
+C:\Users\Administrator\Desktop\TeachDemo\GenericClassAndMethod\bin\Debug\GenericClassAndMethod.exe
+C:\Users\Administrator\Desktop\TeachDemo\GenericClassAndMethod\bin\Debug\GenericClassAndMethod.pdb
+C:\Users\Administrator\Desktop\TeachDemo\GenericClassAndMethod\obj\Debug\GenericClassAndMethod.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\TeachDemo\GenericClassAndMethod\obj\Debug\GenericClassAndMethod.exe
+C:\Users\Administrator\Desktop\TeachDemo\GenericClassAndMethod\obj\Debug\GenericClassAndMethod.pdb

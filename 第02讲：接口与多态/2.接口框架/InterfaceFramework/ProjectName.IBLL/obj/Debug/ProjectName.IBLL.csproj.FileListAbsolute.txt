@@ -1,0 +1,7 @@
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.IBLL\bin\Debug\ProjectName.IBLL.dll
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.IBLL\bin\Debug\ProjectName.IBLL.pdb
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.IBLL\bin\Debug\ProjectName.Models.dll
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.IBLL\bin\Debug\ProjectName.Models.pdb
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.IBLL\obj\Debug\ProjectName.IBLL.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.IBLL\obj\Debug\ProjectName.IBLL.dll
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.IBLL\obj\Debug\ProjectName.IBLL.pdb

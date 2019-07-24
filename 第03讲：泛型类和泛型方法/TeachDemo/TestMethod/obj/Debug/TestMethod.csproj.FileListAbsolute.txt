@@ -1,0 +1,6 @@
+C:\Users\Administrator\Desktop\TeachDemo\TestMethod\bin\Debug\TestMethod.exe.config
+C:\Users\Administrator\Desktop\TeachDemo\TestMethod\bin\Debug\TestMethod.exe
+C:\Users\Administrator\Desktop\TeachDemo\TestMethod\bin\Debug\TestMethod.pdb
+C:\Users\Administrator\Desktop\TeachDemo\TestMethod\obj\Debug\TestMethod.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\TeachDemo\TestMethod\obj\Debug\TestMethod.exe
+C:\Users\Administrator\Desktop\TeachDemo\TestMethod\obj\Debug\TestMethod.pdb

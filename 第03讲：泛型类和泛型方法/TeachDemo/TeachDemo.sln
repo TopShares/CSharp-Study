@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMethod", "TestMethod\TestMethod.csproj", "{E2D80FB4-68D0-4006-B150-F93C45665830}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.程序性能测试", "01.程序性能测试", "{8FA82CB5-1273-4D0F-A273-FB525E83211D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02.泛型类和泛型 方法", "02.泛型类和泛型 方法", "{703ECB28-D7BE-4025-AFF5-4FDB5A912B64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericClassAndMethod", "GenericClassAndMethod\GenericClassAndMethod.csproj", "{3FC92614-BA06-4EE5-A2EB-4B8441E6B346}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E2D80FB4-68D0-4006-B150-F93C45665830}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2D80FB4-68D0-4006-B150-F93C45665830}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2D80FB4-68D0-4006-B150-F93C45665830}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2D80FB4-68D0-4006-B150-F93C45665830}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FC92614-BA06-4EE5-A2EB-4B8441E6B346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FC92614-BA06-4EE5-A2EB-4B8441E6B346}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FC92614-BA06-4EE5-A2EB-4B8441E6B346}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FC92614-BA06-4EE5-A2EB-4B8441E6B346}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E2D80FB4-68D0-4006-B150-F93C45665830} = {8FA82CB5-1273-4D0F-A273-FB525E83211D}
+		{3FC92614-BA06-4EE5-A2EB-4B8441E6B346} = {703ECB28-D7BE-4025-AFF5-4FDB5A912B64}
+	EndGlobalSection
+EndGlobal

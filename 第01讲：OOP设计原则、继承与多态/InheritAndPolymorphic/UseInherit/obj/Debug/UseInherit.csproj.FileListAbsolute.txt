@@ -1,0 +1,5 @@
+C:\Users\Administrator\Desktop\InheritAndPolymorphic\UseInherit\bin\Debug\UseInherit.exe.config
+C:\Users\Administrator\Desktop\InheritAndPolymorphic\UseInherit\bin\Debug\UseInherit.exe
+C:\Users\Administrator\Desktop\InheritAndPolymorphic\UseInherit\bin\Debug\UseInherit.pdb
+C:\Users\Administrator\Desktop\InheritAndPolymorphic\UseInherit\obj\Debug\UseInherit.exe
+C:\Users\Administrator\Desktop\InheritAndPolymorphic\UseInherit\obj\Debug\UseInherit.pdb

@@ -1,0 +1,5 @@
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.Models\bin\Debug\ProjectName.Models.dll
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.Models\bin\Debug\ProjectName.Models.pdb
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.Models\obj\Debug\ProjectName.Models.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.Models\obj\Debug\ProjectName.Models.dll
+C:\Users\Administrator\Desktop\InterfaceFramework\ProjectName.Models\obj\Debug\ProjectName.Models.pdb
