@@ -16,7 +16,7 @@ namespace DelegateDemo
             //【4】通过委托去调用方法，而不是直接使用方法
             //    int result = objCal(10, 20);
 
-          //  objCal -= Add;//断开委托对象和具体方法的关联
+            //objCal -= Add;//断开委托对象和具体方法的关联
             objCal += Sub;
 
             int result = objCal(10, 20);
