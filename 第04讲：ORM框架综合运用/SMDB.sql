@@ -1,24 +1,24 @@
---Ö¸Ïòµ±Ç°ÒªÊ¹ÓÃµÄÊı¾İ¿â
+--æŒ‡å‘å½“å‰è¦ä½¿ç”¨çš„æ•°æ®åº“
 use master
 go
---ÅĞ¶Ïµ±Ç°Êı¾İ¿âÊÇ·ñ´æÔÚ
+--åˆ¤æ–­å½“å‰æ•°æ®åº“æ˜¯å¦å­˜åœ¨
 if exists (select * from sysdatabases where name='SMDB')
-drop database SMDB --É¾³ıÊı¾İ¿â
+drop database SMDB --åˆ é™¤æ•°æ®åº“
 go
---´´½¨Êı¾İ¿â
+--åˆ›å»ºæ•°æ®åº“
 create database SMDB
 on primary
 (
-	--Êı¾İ¿âÎÄ¼şµÄÂß¼­Ãû
+	--æ•°æ®åº“æ–‡ä»¶çš„é€»è¾‘å
     name='SMDB_data',
-    --Êı¾İ¿âÎïÀíÎÄ¼şÃû£¨¾ø¶ÔÂ·¾¶£©
+    --æ•°æ®åº“ç‰©ç†æ–‡ä»¶åï¼ˆç»å¯¹è·¯å¾„ï¼‰
     filename='D:\DB\SMDB_data.mdf',
-    --Êı¾İ¿âÎÄ¼ş³õÊ¼´óĞ¡
+    --æ•°æ®åº“æ–‡ä»¶åˆå§‹å¤§å°
     size=10MB,
-    --Êı¾İÎÄ¼şÔö³¤Á¿
+    --æ•°æ®æ–‡ä»¶å¢é•¿é‡
     filegrowth=1MB
 )
---´´½¨ÈÕÖ¾ÎÄ¼ş
+--åˆ›å»ºæ—¥å¿—æ–‡ä»¶
 log on
 (
     name='SMDB_log',
@@ -27,7 +27,7 @@ log on
     filegrowth=1MB
 )
 go
---´´½¨Ñ§Ô±ĞÅÏ¢Êı¾İ±í
+--åˆ›å»ºå­¦å‘˜ä¿¡æ¯æ•°æ®è¡¨
 use SMDB
 go
 if exists (select * from sysobjects where name='Students')
@@ -39,16 +39,16 @@ create table Students
     StudentName varchar(20) not null,
     Gender char(2)  not null,
     Birthday smalldatetime  not null,
-    StudentIdNo numeric(18,0) not null,--Éí·İÖ¤ºÅ
-    CardNo  varchar(20) not null,--¿¼ÇÚ¿¨ºÅ
-    StuImage text null,--Ñ§Ô±ÕÕÆ¬
+    StudentIdNo numeric(18,0) not null,--èº«ä»½è¯å·
+    CardNo  varchar(20) not null,--è€ƒå‹¤å¡å·
+    StuImage text null,--å­¦å‘˜ç…§ç‰‡
     Age int not null,
     PhoneNumber varchar(50),
     StudentAddress varchar(500),
-    ClassId int not null  --°à¼¶Íâ¼ü
+    ClassId int not null  --ç­çº§å¤–é”®
 )
 go
---´´½¨°à¼¶±í
+--åˆ›å»ºç­çº§è¡¨
 if exists(select * from sysobjects where name='StudentClass')
 drop table StudentClass
 go
@@ -58,7 +58,7 @@ create table StudentClass
     ClassName varchar(20) not null
 )
 go
---´´½¨³É¼¨±í
+--åˆ›å»ºæˆç»©è¡¨
 if exists(select * from sysobjects where name='ScoreList')
 drop table ScoreList
 go
@@ -71,17 +71,17 @@ create table ScoreList
     UpdateTime smalldatetime not null
 )
 go
---´´½¨¿¼ÇÚ±í
+--åˆ›å»ºè€ƒå‹¤è¡¨
 if exists(select * from sysobjects where name='Attendance')
 drop table Attendance
 create table Attendance
 (
-	Id int identity(100000,1) primary key,--±êÊ¶ÁĞ
-    CardNo varchar(20) not null,--Ñ§Ô±¿¨ºÅ
-    DTime smalldatetime not null --´ò¿¨Ê±¼ä
+	Id int identity(100000,1) primary key,--æ ‡è¯†åˆ—
+    CardNo varchar(20) not null,--å­¦å‘˜å¡å·
+    DTime smalldatetime not null --æ‰“å¡æ—¶é—´
 )
 go
---´´½¨¹ÜÀíÔ±ÓÃ»§±í
+--åˆ›å»ºç®¡ç†å‘˜ç”¨æˆ·è¡¨
 if exists(select * from sysobjects where name='Admins')
 drop table Admins
 create table Admins
@@ -91,23 +91,23 @@ create table Admins
     AdminName varchar(20) not null
 )
 go
---´´½¨Êı¾İ±íµÄ¸÷ÖÖÔ¼Êø
+--åˆ›å»ºæ•°æ®è¡¨çš„å„ç§çº¦æŸ
 use SMDB
 go
---´´½¨¡°Ö÷¼ü¡±Ô¼Êøprimary key
+--åˆ›å»ºâ€œä¸»é”®â€çº¦æŸprimary key
 if exists(select * from sysobjects where name='pk_StudentId')
 alter table Students drop constraint pk_StudentId
 
 alter table Students
 add constraint pk_StudentId primary key (StudentId)
 
---´´½¨¼ì²éÔ¼Êøcheck
+--åˆ›å»ºæ£€æŸ¥çº¦æŸcheck
 if exists(select * from sysobjects where name='ck_Age')
 alter table Students drop constraint ck_Age
 alter table Students
 add constraint ck_Age check (Age between 18 and 35) 
 
---´´½¨Î¨Ò»Ô¼Êøunique
+--åˆ›å»ºå”¯ä¸€çº¦æŸunique
 if exists(select * from sysobjects where name='uq_StudentIdNo')
 alter table Students drop constraint uq_StudentIdNo
 alter table Students
@@ -118,17 +118,17 @@ alter table Students drop constraint uq_CardNo
 alter table Students
 add constraint uq_CardNo unique (CardNo)
 
---´´½¨Éí·İÖ¤µÄ³¤¶È¼ì²éÔ¼Êø
+--åˆ›å»ºèº«ä»½è¯çš„é•¿åº¦æ£€æŸ¥çº¦æŸ
 if exists(select * from sysobjects where name='ck_StudentIdNo')
 alter table Students drop constraint ck_StudentIdNo
 alter table Students
 add constraint ck_StudentIdNo check (len(StudentIdNo)=18)
 
---´´½¨Ä¬ÈÏÔ¼Êø 
+--åˆ›å»ºé»˜è®¤çº¦æŸ 
 if exists(select * from sysobjects where name='df_StudentAddress')
 alter table Students drop constraint df_StudentAddress
 alter table Students 
-add constraint df_StudentAddress default ('µØÖ·²»Ïê' ) for StudentAddress
+add constraint df_StudentAddress default ('åœ°å€ä¸è¯¦' ) for StudentAddress
 
 if exists(select * from sysobjects where name='df_UpdateTime')
 alter table ScoreList drop constraint df_UpdateTime
@@ -140,7 +140,7 @@ alter table Attendance drop constraint df_DTime
 alter table Attendance 
 add constraint df_DTime default (getdate() ) for DTime
 
---´´½¨Íâ¼üÔ¼Êø
+--åˆ›å»ºå¤–é”®çº¦æŸ
 if exists(select * from sysobjects where name='fk_classId')
 alter table Students drop constraint fk_classId
 alter table Students
@@ -152,69 +152,69 @@ alter table ScoreList
 add constraint fk_StudentId foreign key(StudentId) references Students(StudentId)
 
 
--------------------------------------------²åÈëÊı¾İ--------------------------------------
+-------------------------------------------æ’å…¥æ•°æ®--------------------------------------
 use SMDB
 go
 
---²åÈë°à¼¶Êı¾İ
-insert into StudentClass(ClassId,ClassName) values(1,'Èí¼ş1°à')
-insert into StudentClass(ClassId,ClassName) values(2,'Èí¼ş2°à')
-insert into StudentClass(ClassId,ClassName) values(3,'¼ÆËã»ú1°à')
-insert into StudentClass(ClassId,ClassName) values(4,'¼ÆËã»ú2°à')
-insert into StudentClass(ClassId,ClassName) values(5,'ÍøÂç1°à')
-insert into StudentClass(ClassId,ClassName) values(6,'ÍøÂç2°à')
+--æ’å…¥ç­çº§æ•°æ®
+insert into StudentClass(ClassId,ClassName) values(1,'è½¯ä»¶1ç­')
+insert into StudentClass(ClassId,ClassName) values(2,'è½¯ä»¶2ç­')
+insert into StudentClass(ClassId,ClassName) values(3,'è®¡ç®—æœº1ç­')
+insert into StudentClass(ClassId,ClassName) values(4,'è®¡ç®—æœº2ç­')
+insert into StudentClass(ClassId,ClassName) values(5,'ç½‘ç»œ1ç­')
+insert into StudentClass(ClassId,ClassName) values(6,'ç½‘ç»œ2ç­')
 
---²åÈëÑ§Ô±ĞÅÏ¢
+--æ’å…¥å­¦å‘˜ä¿¡æ¯
 insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('ÍõĞ¡»¢','ÄĞ','1989-08-07',22,120223198908071111,'0004018766','022-22222222','Ìì½òÊĞÄÏ¿ªÇøºì´|¹«Ô¢5-5-102',1)
+         values('ç‹å°è™','ç”·','1989-08-07',22,120223198908071111,'0004018766','022-22222222','å¤©æ´¥å¸‚å—å¼€åŒºçº¢ç£¡å…¬å¯“5-5-102',1)
 insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('ºØĞ¡ÕÅ','Å®','1989-05-06',22,120223198905062426,'0006394426','022-33333333','Ìì½òÊĞºÓ±±ÇøÍõ´®³¡58ºÅ',2)
+         values('è´ºå°å¼ ','å¥³','1989-05-06',22,120223198905062426,'0006394426','022-33333333','å¤©æ´¥å¸‚æ²³åŒ—åŒºç‹ä¸²åœº58å·',2)
 insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('ÂíĞ¡Àî','ÄĞ','1990-02-07',21,120223199002078915,'0006073516','022-44444444','Ìì½òÊĞºìÇÅÇø¶¡×Ö¹ÁÊï¹âÂ·79ºÅ',4)
+         values('é©¬å°æ','ç”·','1990-02-07',21,120223199002078915,'0006073516','022-44444444','å¤©æ´¥å¸‚çº¢æ¡¥åŒºä¸å­—æ²½æ›™å…‰è·¯79å·',4)
 insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('·ëĞ¡Ç¿','Å®','1987-05-12',24,130223198705125167,'0006254540','022-55555555',default,2)
+         values('å†¯å°å¼º','å¥³','1987-05-12',24,130223198705125167,'0006254540','022-55555555',default,2)
 insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('¶ÅĞ¡Àö','Å®','1986-05-08',25,130223198605081528,'0006403803','022-66666666','ºÓ±±ºâË®Â·±±µÀ69ºÅ',1)
+         values('æœå°ä¸½','å¥³','1986-05-08',25,130223198605081528,'0006403803','022-66666666','æ²³åŒ—è¡¡æ°´è·¯åŒ—é“69å·',1)
 insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('Íõ¿¡ÇÅ','ÄĞ','1987-07-18',24,130223198707182235,'0006404372','022-77777777',default,1)
+         values('ç‹ä¿Šæ¡¥','ç”·','1987-07-18',24,130223198707182235,'0006404372','022-77777777',default,1)
 insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('ÕÅÓÀÀû','ÄĞ','1988-09-28',24,130223198909282235,'0006092947','022-88888888','ºÓ±±±£¶¨ÊĞ·ç»ªµÀ12ºÅ',3)
+         values('å¼ æ°¸åˆ©','ç”·','1988-09-28',24,130223198909282235,'0006092947','022-88888888','æ²³åŒ—ä¿å®šå¸‚é£åé“12å·',3)
 insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('ÀîÃú','ÄĞ','1987-01-18',24,130223198701182257,'0006294564','022-99999999','ºÓ±±ĞÏÌ¨ÊĞĞÒ¸£Â·5ºÅ',1)
+         values('æé“­','ç”·','1987-01-18',24,130223198701182257,'0006294564','022-99999999','æ²³åŒ—é‚¢å°å¸‚å¹¸ç¦è·¯5å·',1)
 insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('Äş¿¡Ñà','Å®','1987-06-15',24,130223198706152211,'0006092450','022-11111111',default,3)
+         values('å®ä¿Šç‡•','å¥³','1987-06-15',24,130223198706152211,'0006092450','022-11111111',default,3)
 insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('ÁõÁáÁá','Å®','1989-08-19',24,130223198908192235,'0006069457','022-11111222',default,4)
+         values('åˆ˜ç²ç²','å¥³','1989-08-19',24,130223198908192235,'0006069457','022-11111222',default,4)
          
          insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('ÍõĞ¡¾ü','Å®','1986-05-08',25,130224198605081528,'0006403820','022-66666666','ºÓ±±ºâË®Â·±±µÀ69ºÅ',1)
+         values('ç‹å°å†›','å¥³','1986-05-08',25,130224198605081528,'0006403820','022-66666666','æ²³åŒ—è¡¡æ°´è·¯åŒ—é“69å·',1)
          insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('ÁõĞ¡Àö','Å®','1986-05-08',25,130225198605081528,'0006403821','022-66666666','ºÓ±±ºâË®Â·±±µÀ69ºÅ',1)
+         values('åˆ˜å°ä¸½','å¥³','1986-05-08',25,130225198605081528,'0006403821','022-66666666','æ²³åŒ—è¡¡æ°´è·¯åŒ—é“69å·',1)
          insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('ÕÅ»ÛöÎ','Å®','1986-05-08',25,130226198605081528,'0006403822','022-66666666','ºÓ±±ºâË®Â·±±µÀ69ºÅ',1)
+         values('å¼ æ…§é‘«','å¥³','1986-05-08',25,130226198605081528,'0006403822','022-66666666','æ²³åŒ—è¡¡æ°´è·¯åŒ—é“69å·',1)
          insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('ÀîËØÔÆ','Å®','1986-05-08',25,130227198605081528,'0006403823','022-66666666','ºÓ±±ºâË®Â·±±µÀ69ºÅ',1)
+         values('æç´ äº‘','å¥³','1986-05-08',25,130227198605081528,'0006403823','022-66666666','æ²³åŒ—è¡¡æ°´è·¯åŒ—é“69å·',1)
          insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('ÕÔĞ¡½ğ','Å®','1986-05-08',25,130228198605081528,'0006403824','022-66666666','ºÓ±±ºâË®Â·±±µÀ69ºÅ',1)
+         values('èµµå°é‡‘','å¥³','1986-05-08',25,130228198605081528,'0006403824','022-66666666','æ²³åŒ—è¡¡æ°´è·¯åŒ—é“69å·',1)
          insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('ÍõºÆÓî','ÄĞ','1986-05-08',25,130229198605081528,'0006403825','022-66666666','ºÓ±±ºâË®Â·±±µÀ69ºÅ',1)
+         values('ç‹æµ©å®‡','ç”·','1986-05-08',25,130229198605081528,'0006403825','022-66666666','æ²³åŒ—è¡¡æ°´è·¯åŒ—é“69å·',1)
          insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('´ŞÓÀöÎ','Å®','1986-05-08',25,130222198605081528,'0006403826','022-66666666','ºÓ±±ºâË®Â·±±µÀ69ºÅ',1)
+         values('å´”æ°¸é‘«','å¥³','1986-05-08',25,130222198605081528,'0006403826','022-66666666','æ²³åŒ—è¡¡æ°´è·¯åŒ—é“69å·',1)
          insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('°üÀöÔÆ','Å®','1986-05-08',25,130220198605081528,'0006403827','022-66666666','ºÓ±±ºâË®Â·±±µÀ69ºÅ',1)
+         values('åŒ…ä¸½äº‘','å¥³','1986-05-08',25,130220198605081528,'0006403827','022-66666666','æ²³åŒ—è¡¡æ°´è·¯åŒ—é“69å·',1)
          
          insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('ËïÀöæÂ','Å®','1986-05-08',25,130228198605081530,'0006403854','022-66666666','ºÓ±±ºâË®Â·±±µÀ69ºÅ',1)
+         values('å­™ä¸½åª›','å¥³','1986-05-08',25,130228198605081530,'0006403854','022-66666666','æ²³åŒ—è¡¡æ°´è·¯åŒ—é“69å·',1)
          insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('ºÂÖ¾ÔÆ','ÄĞ','1986-05-08',25,130229198605081531,'0006403855','022-66666666','ºÓ±±ºâË®Â·±±µÀ69ºÅ',1)
+         values('éƒå¿—äº‘','ç”·','1986-05-08',25,130229198605081531,'0006403855','022-66666666','æ²³åŒ—è¡¡æ°´è·¯åŒ—é“69å·',1)
          insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('Íõ±£»ª','Å®','1986-05-08',25,130222198605081532,'0006403856','022-66666666','ºÓ±±ºâË®Â·±±µÀ69ºÅ',1)
+         values('ç‹ä¿å','å¥³','1986-05-08',25,130222198605081532,'0006403856','022-66666666','æ²³åŒ—è¡¡æ°´è·¯åŒ—é“69å·',1)
          insert into Students (StudentName,Gender,Birthday,Age,StudentIdNo,CardNo,PhoneNumber,StudentAddress,ClassId)
-         values('ÀîÀöÓ±','Å®','1986-05-08',25,130220198605081544,'0006403857','022-66666666','ºÓ±±ºâË®Â·±±µÀ69ºÅ',1)
+         values('æä¸½é¢–','å¥³','1986-05-08',25,130220198605081544,'0006403857','022-66666666','æ²³åŒ—è¡¡æ°´è·¯åŒ—é“69å·',1)
          
          
          
---²åÈë³É¼¨ĞÅÏ¢
+--æ’å…¥æˆç»©ä¿¡æ¯
 insert into ScoreList (StudentId,CSharp,SQLServerDB)values(100000,60,78)
 insert into ScoreList (StudentId,CSharp,SQLServerDB)values(100001,55,88)
 insert into ScoreList (StudentId,CSharp,SQLServerDB)values(100002,90,58)
@@ -225,16 +225,16 @@ insert into ScoreList (StudentId,CSharp,SQLServerDB)values(100006,52,80)
 insert into ScoreList (StudentId,CSharp,SQLServerDB)values(100007,91,66)
 insert into ScoreList (StudentId,CSharp,SQLServerDB)values(100009,78,35)
 
---²åÈë¹ÜÀíÔ±ĞÅÏ¢
-insert into Admins (LoginPwd,AdminName) values(123456,'ÍõÏş¾ü')
-insert into Admins (LoginPwd,AdminName) values(123456,'ÕÅÃ÷Àö')
+--æ’å…¥ç®¡ç†å‘˜ä¿¡æ¯
+insert into Admins (LoginPwd,AdminName) values(123456,'ç‹æ™“å†›')
+insert into Admins (LoginPwd,AdminName) values(123456,'å¼ æ˜ä¸½')
 
---É¾³ıÑ§Ô±ĞÅÏ¢
+--åˆ é™¤å­¦å‘˜ä¿¡æ¯
 --delete from Students 
 
---truncate table Students --É¾³ıÈ«²¿Êı¾İÒÔºó£¬×Ô¶¯±êÊ¶ÁĞÖØĞÂ±àºÅ
+--truncate table Students --åˆ é™¤å…¨éƒ¨æ•°æ®ä»¥åï¼Œè‡ªåŠ¨æ ‡è¯†åˆ—é‡æ–°ç¼–å·
 
---ÏÔÊ¾Ñ§Ô±ĞÅÏ¢ºÍ°à¼¶ĞÅÏ¢
+--æ˜¾ç¤ºå­¦å‘˜ä¿¡æ¯å’Œç­çº§ä¿¡æ¯
 select * from Students
 select * from StudentClass
 select * from ScoreList

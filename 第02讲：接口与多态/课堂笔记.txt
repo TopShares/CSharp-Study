@@ -1,66 +1,41 @@
 
-Ò»¡¢½Ó¿ÚÓë¶àÌ¬
+ä¸€ã€æŽ¥å£ä¸Žå¤šæ€
 
 
 
-¶þ¡¢½Ó¿Ú¿ò¼ÜµÄÉè¼Æ
+äºŒã€æŽ¥å£æ¡†æž¶çš„è®¾è®¡
 
-¸öÈËÌå»á£º½Ó¿ÚÉè¼Æ£¬Ô´ÓÚ¶ÔÐèÇóµÄ¸üºÃµÄÀí½â¡£
+ä¸ªäººä½“ä¼šï¼šæŽ¥å£è®¾è®¡ï¼ŒæºäºŽå¯¹éœ€æ±‚çš„æ›´å¥½çš„ç†è§£ã€‚
 
-½Ó¿Ú³éÈ¡£¬¾ÍÊÇ¸ù¾ÝÐèÇóÄ£¿é£¬½øÐÐ¹¦ÄÜ·Ö×°¡£
+æŽ¥å£æŠ½å–ï¼Œå°±æ˜¯æ ¹æ®éœ€æ±‚æ¨¡å—ï¼Œè¿›è¡ŒåŠŸèƒ½åˆ†è£…ã€‚
 
-1   ¹¦ÄÜ½Ó¿Ú
-2   ²É¹º£¨»ñÈ¡¿â´æÊý¾Ý¡¢Éú³É²É¹ºµ¥¡¢¶©µ¥...£©
+1   åŠŸèƒ½æŽ¥å£
+2   é‡‡è´­ï¼ˆèŽ·å–åº“å­˜æ•°æ®ã€ç”Ÿæˆé‡‡è´­å•ã€è®¢å•...ï¼‰
 3
 4
 5
-¡£¡£¡£
+ã€‚ã€‚ã€‚
 
-ÒÔÏÂ°¸Àý£¬ÒÔÈý²ãÎªÖÐÐÄ
+ä»¥ä¸‹æ¡ˆä¾‹ï¼Œä»¥ä¸‰å±‚ä¸ºä¸­å¿ƒ
 
 
 UI
 
-BLL  £¨IBLL£©
+BLL  ï¼ˆIBLLï¼‰
 
-DAL  £¨IDAL£© 
+DAL  ï¼ˆIDALï¼‰ 
 
 Models
 
 Common
 
-1. Ìí¼ÓÐèÒªµÄÄ£¿é
+1. æ·»åŠ éœ€è¦çš„æ¨¡å—
 
-2.Ìí¼ÓÄ£¿éÖ®¼äµÄÒýÓÃ
+2.æ·»åŠ æ¨¡å—ä¹‹é—´çš„å¼•ç”¨
 
-¡¾1¡¿ProjectName.IDAL--¡· ProjectName.Models
-¡¾2¡¿ProjectName.DAL--¡· ProjectName.Models + ProjectName.IDAL  +  System.Configuration
-¡¾3¡¿ProjectName.IBLL--¡· ProjectName.Models
-¡¾4¡¿ProjectName.BLL --¡· ProjectName.Models  + ProjectName.IBLL + ProjectName.IDAL + ProjectName.DAL
-¡¾5¡¿ProjectUI            --¡·ProjectName.IBLL + ProjectName.BLL+ ProjectName.Models
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ã€1ã€‘ProjectName.IDAL --> ProjectName.Models
+ã€2ã€‘ProjectName.DAL  --> ProjectName.Models + ProjectName.IDAL  +  System.Configuration
+ã€3ã€‘ProjectName.IBLL --> ProjectName.Models
+ã€4ã€‘ProjectName.BLL  --> ProjectName.Models  + ProjectName.IBLL + ProjectName.IDAL + ProjectName.DAL
+ã€5ã€‘ProjectUI        --> ProjectName.IBLL + ProjectName.BLL+ ProjectName.Models
 
