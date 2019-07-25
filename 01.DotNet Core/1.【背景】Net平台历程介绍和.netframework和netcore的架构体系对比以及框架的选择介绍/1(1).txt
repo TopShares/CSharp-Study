@@ -1,0 +1,48 @@
+一：.Net平台的背景
+
+1. 2010之前 的PC时代的时候，互联网规模还不是特别庞大，以静态编译式语言为代表的JAVA和.Net没什么太大区别，.net以windows自居。
+
+2. 2010年以JAVA为代表的Hadoop大数据兴起后，.net无法对接，因为hadoop是工作平台，需要将jar上传到hdfs上由mapreduce执行，（yarn）
+   而不是像(redis,mongodb)直连式开发。（微软官方曾今也实现了一套基础api，但后来还是放弃维护了）。
+
+3. 2012年移动互联网兴起，.net跟进失败。
+
+4. 2014-2015 微服务时代的来临，以go为代表的docker技术,python为代表的devops，java的spring cloud技术兴起，
+   微服务造就了多语言的盛行，而.net还是一幅老态龙钟的样子，稳居windows平台，不食人间烟火。  【PC  企业级 （工厂 OA,ERP）】
+
+5. 2014年云计算事业部副总裁纳德拉出任微软CEO，改变微软无所不知企业文化，似乎除了C#没有什么语言不能跨平台，开始拥抱linux。
+
+6. 2015年微软对.net 平台进行了重新架构。
+
+7. 2016.6.27 netcore 1.0 项目发布，彻底的改变了 windows only的场景，但能不能挽回颓势，现在很难说，毕竟还没有出现docker这样，
+   spark这样让人眼前一亮的杀手级应用。
+
+https://blogs.msdn.microsoft.com/dotnet/2016/06/27/announcing-net-core-1-0/
+
+
+二：.Net Framework 和 .Net Core 的架构图
+
+
+
+三：.Net Framework 和 .Net Core 在今后的项目中如果选择
+
+3.0 支持winform，wpf pc型应用。。  webform。。。
+
+.net core 2.1 
+
+.net core 不能支持的，请用netframework。。。。
+
+
+
+四：开发工具的选择
+
+
+visual studio。。。  【】
+
+vs code  。。。
+
+rider  。。。。
+
+
+
+

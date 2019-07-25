@@ -1,0 +1,137 @@
+一：.netcore 缓存 MemoryCache
+
+.netcore对MemoryCache进行了重新设计，做了一些精细化的控制，逐渐像guava，ehcache靠拢,增加了缓存系统应该有的功能。。
+
+
+。net framework：
+
+《1》绝对时间的过期。
+《2》滑动时间的过期。
+
+
+.net core: 
+
+1. 缓存容量控制。
+
+   limitsize: 100
+   itemsize: 1
+
+   netcore中的size没有单位，只是一个数字的累积。
+
+   <1> size的控制
+
+       limitsize:100 
+       itemsize:1
+
+
+            //cache的最大限制是：100
+            MemoryCache memoryCache = new MemoryCache(new MemoryCacheOptions()
+            {
+                SizeLimit = 100
+            });
+
+
+            for (int i = 0; i < 1000; i++)
+            {
+                memoryCache.Set<string>(i.ToString(), i.ToString(), new MemoryCacheEntryOptions()
+                {
+                    Size = 1
+                });
+
+                Console.WriteLine(memoryCache.Count);
+            }
+
+
+
+       上面的 配置可以保证你的cache中只能存在100个key。。。
+
+  <2> 容量的控制
+
+       limitsize:100 
+       itemsize:(value).length 
+
+      简单的容量实现。
+
+      Size = i.ToString().Length
+
+
+2. 缓存过期回调通知
+
+   《1》被动过期  
+
+        设置5s之后，触发回调函数。
+
+	            //cache的最大限制是：100
+            MemoryCache memoryCache = new MemoryCache(new MemoryCacheOptions()
+            {
+            });
+
+            var cacheOptions = new MemoryCacheEntryOptions()
+            {
+                AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(5)  //2s过期
+            };
+
+            cacheOptions.RegisterPostEvictionCallback((key, value, reason, obj) =>
+            {
+                Console.WriteLine(reason);
+            });
+
+            memoryCache.Set("key", "value", cacheOptions);
+
+            while (true)
+            {
+                memoryCache.Get("key");
+            }
+
+   《2》主动过期
+
+        
+	            //cache的最大限制是：100
+            MemoryCache memoryCache = new MemoryCache(new MemoryCacheOptions()
+            {
+            });
+
+            CancellationTokenSource tokenSource = new CancellationTokenSource();
+
+            var cacheOptions = new MemoryCacheEntryOptions()
+            {
+                AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(10)  //10s过期
+            };
+
+            cacheOptions.RegisterPostEvictionCallback((key, value, reason, obj) =>
+            {
+                Console.WriteLine(reason);
+            });
+
+            cacheOptions.AddExpirationToken(new CancellationChangeToken(tokenSource.Token));
+
+            memoryCache.Set("key", "value", cacheOptions);
+
+            //System.Threading.Thread.Sleep(2000);
+
+            tokenSource.CancelAfter(1000 * 2);
+
+            Console.Read();
+        
+
+
+3. 增加一些原子性操作  GetOrCreate。
+
+    
+
+4. 缓存项优先级设定。
+
+   CacheItem 都可以配置一个优先级。。
+
+5. 缓存压缩   （20%）
+
+
+        public void Compact(double percentage)
+        {
+            int num = this._entries.get_Count() * percentage;
+            this.Compact((long) num, delegate (CacheEntry _) {
+                return 1L;
+            });
+        }
+
+

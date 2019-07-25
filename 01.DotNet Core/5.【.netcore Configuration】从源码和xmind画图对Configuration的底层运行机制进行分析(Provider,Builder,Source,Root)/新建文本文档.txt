@@ -1,0 +1,76 @@
+一：构造者模式
+
+xmind + 源码解析
+
+
+
+用于json文件中，读取各项配置。。。
+
+        public override void Load(Stream stream)
+        {
+            try
+            {
+                base.set_Data(JsonConfigurationFileParser.Parse(stream));
+            }
+            catch (JsonReaderException exception)
+            {
+                string str = string.Empty;
+                if (stream.get_CanSeek())
+                {
+                    stream.Seek((long) 0L, (SeekOrigin) SeekOrigin.Begin);
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        IEnumerable<string> fileContent = ReadLines(reader);
+                        str = RetrieveErrorContext(exception, fileContent);
+                    }
+                }
+                throw new FormatException(Resources.FormatError_JSONParseError((int) exception.get_LineNumber(), str), exception);
+            }
+        }
+
+
+
+	  public static IDictionary<string, string> Parse(Stream input) => 
+            new JsonConfigurationFileParser().ParseStream(input);
+
+
+        protected IDictionary<string, string> Data { get; set; }
+
+
+
+
+
+
+
+        public static IConfigurationBuilder Add<TSource>(this IConfigurationBuilder builder, Action<TSource> configureSource) where TSource: IConfigurationSource, new()
+        {
+            TSource source = Activator.CreateInstance<TSource>();
+            if (configureSource != null)
+            {
+                configureSource(source);
+            }
+            return builder.Add(source);
+        }
+
+
+
+大家一定要理解里面的： Provider 的Load 函数 和 Data属性，，因为Load的责任就是： 将json文件映射到 Data属性里面去。。。。
+
+
+
+
+
+二：如何自定义
+
+实现一个Properties文件的解析。
+
+java。
+
+port=3306
+host=127.0.0.1
+
+只需要自定义 3个实现类
+
+1. PropertiesConfigurationExtensions  => configurationBuilder.Add
+2. PropertiesConfigurationProvider : ConfigurationProvider
+3. PropertiesConfigurationSource   : IConfigurationSource

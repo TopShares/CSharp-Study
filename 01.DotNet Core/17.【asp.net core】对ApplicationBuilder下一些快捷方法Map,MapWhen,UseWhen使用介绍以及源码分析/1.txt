@@ -1,0 +1,69 @@
+  一： ApplicationBuilder 的那些快捷方法
+
+1. Map
+
+<1> 如果你只提供几个接口，直接用Map就可以了，不需要任何框架。  Webapi,MVC。
+
+    一个Map，一个url。。。
+
+    datamip.com/filter
+
+            app.Map(new PathString("/filter"), (builder) =>
+            {
+                builder.Run(async (context) =>
+                {
+                    await context.Response.WriteAsync("当前是filter的逻辑!");
+                });
+            });
+
+
+<2> branch,无回头路， 源码分析。
+
+   回不到主分支了。。
+
+
+   最后一个中间件是 404 中间件。。。
+
+
+    IApplicationBuilder builder = app.New();
+            configuration(builder);
+            RequestDelegate delegate2 = builder.Build();
+            MapOptions options = new MapOptions {
+                Branch = delegate2,
+                PathMatch = pathMatch
+            };
+            return app.Use(delegate (RequestDelegate next) {
+                return new RequestDelegate(new MapMiddleware(next, options).Invoke);
+            });
+
+
+
+2. MapWhen
+
+<1> 另一种模式的Map
+
+
+
+3. UseWhen
+
+
+            app.UseWhen(context => context.Request.Path.Value.StartsWith("/usewhen"), (builder) =>
+            {
+                builder.Run(async (context) =>
+                {
+                    logger.LogInformation("D before");
+
+                    await context.Response.WriteAsync("当前是 usewhen 的逻辑!");
+
+                    logger.LogInformation("D after");
+                });
+            });
+
+
+<1> branch，有回头路。
+
+
+由这个决定的。
+RequestDelegate arg = <>c.<>9__16_0 ?? (<>c.<>9__16_0 = new RequestDelegate(<>c.<>9, this.<Build>b__16_0));
+
+

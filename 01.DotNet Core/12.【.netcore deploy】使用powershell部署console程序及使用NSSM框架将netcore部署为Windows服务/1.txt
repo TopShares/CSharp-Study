@@ -1,0 +1,108 @@
+一：windows环境部署
+
+   使用netcore，就尽量不要在windows上部署。
+
+二：dotnet build的误区
+
+1. netcore 中的build 和 .netframework 中的build 的区别。
+
+.netframework:  build 把程序集 copy 到 生产环境。。。
+
+
+.netcore ： build之后，我们发现nuget包默认是不放在 output目录中。。。
+
+	    所以就无法移植到其他平台。。。
+
+
+	    取而代之的就是dotnet publish 来实现。。。
+
+[root@localhost output]# dotnet ConsoleApp1.dll
+Error:
+  An assembly specified in the application dependencies manifest (ConsoleApp1.deps.json) was not found:
+    package: 'Microsoft.Extensions.Configuration.Abstractions', version: '2.1.1'
+    path: 'lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll'
+
+
+三：dotnet publish
+
+1. 操作方式
+
+《1》 cli命令		（CI+DI）
+《2》 vs手工发布
+
+
+
+[root@localhost output]# ls
+appsettings.Development.json                         Microsoft.Extensions.Configuration.FileExtensions.dll
+appsettings.Production.json                          Microsoft.Extensions.Configuration.Json.dll
+Common.dll                                           Microsoft.Extensions.FileProviders.Abstractions.dll
+Common.pdb                                           Microsoft.Extensions.FileProviders.Physical.dll
+ConsoleApp1.deps.json                                Microsoft.Extensions.FileSystemGlobbing.dll
+ConsoleApp1.dll                                      Microsoft.Extensions.Primitives.dll
+ConsoleApp1.pdb                                      Newtonsoft.Json.dll
+ConsoleApp1.runtimeconfig.json                       ops.Development.json
+Microsoft.Extensions.Configuration.Abstractions.dll  ops.Production.json
+Microsoft.Extensions.Configuration.dll               System.Runtime.CompilerServices.Unsafe.dll
+
+
+
+2. 框架模式
+
+ 《1》依赖模式
+
+      你一定要先安装runtime。。。sdk环境。。。
+
+      java => jdk，jre....
+      node => 
+
+
+      1M
+
+
+ 《2》非依赖模式
+
+      把应用程序 和 运行环境 一起打包。。。（size会特别大）
+  
+          exe         jit/clr                66M  
+	 
+
+
+
+四：使用NSSM 部署为windows service
+
+
+    如果你的项目比较稳定了，可以采用windows服务的方式进行部署。。。
+
+    控制台程序多了，那么界面也就杂乱了。。
+
+
+Topself => netcore (.net framework)
+
+
+从命令行上使用。。。
+
+<1> ./nssm install mynetcore
+
+
+Path: C:\Program Files\dotnet\dotnet.exe
+
+Startup Dirctory: ConsoleApp1.dll
+
+
+
+
+=> dotnet ConsoleApp1.dll
+
+
+
+<2> 删除 
+
+   ./nssm remove mynetcore
+
+
+
+http://www.nssm.cc/commands 官方文档
+
+
+
+

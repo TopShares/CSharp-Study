@@ -1,0 +1,96 @@
+一： .netcore 网站的默认端口
+
+1. useurls
+
+2. useSettings
+
+
+《1》我改了一个端口号，我就要重新发布一次？？？  烦
+
+
+  不在硬编码，就要在配置文件：  useconfiguration
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            var builder = WebHost.CreateDefaultBuilder(args)
+                  //.UseUrls("http://localhost:9000")
+                  //.UseSetting("urls", "http://localhost:9001")
+                  .UseStartup<Startup>();
+
+            var configuration = new ConfigurationBuilder().SetBasePath(Environment.CurrentDirectory)
+                                                        .AddJsonFile("hosts.json")
+                                                        .Build();
+
+            builder.UseConfiguration(configuration);
+
+            return builder;
+        }
+
+
+
+《2》 urls 你是怎么知道的？？？
+    
+      源码研究 WebHost.EnsureServer()
+
+
+   string str = this._config.get_Item(WebHostDefaults.ServerUrlsKey) ?? this._config.get_Item(DeprecatedServerUrlsKey);
+
+    public static readonly string ServerUrlsKey = "urls";
+    private static readonly string DeprecatedServerUrlsKey = "server.urls";
+
+
+            var builder = WebHost.CreateDefaultBuilder(args)
+                  //.UseUrls("http://localhost:9000")
+                  //.UseSetting("urls", "http://localhost:9001")
+                  .UseSetting(WebHostDefaults.ServerUrlsKey, "http://localhost:9001")
+                  .UseStartup<Startup>();
+
+
+二： .net core 在IIS上的部署
+
+
+kestrel 应用服务器 
+
+tomcat java
+
+		 kestrel
+iis  （proxy）
+
+                 kestrel
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <system.webServer>
+    <handlers>
+      <add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModule" resourceType="Unspecified" />
+    </handlers>
+    <aspNetCore processPath="dotnet" arguments=".\WebApplication5.dll" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" />
+  </system.webServer>
+</configuration>
+<!--ProjectGuid: a564c288-8727-404e-8725-19390f6a7b8a-->
+
+
+iis 毕竟是一个iis服务器。。。（授权，静态文件）
+
+
+
+1. 你需要下载 WindowsHosting.exe 程序，
+
+
+
+
+二：.net core 在 linux上面的部署
+
+1. nginx上的部署
+
+   我的博客地址：https://www.cnblogs.com/huangxincheng/p/7707830.html
+
+
+   特殊配置：https://docs.microsoft.com/zh-cn/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-2.1&tabs=aspnetcore2x
+
+        kestrel
+nginx 
+        kestrel
+
+	kestrel

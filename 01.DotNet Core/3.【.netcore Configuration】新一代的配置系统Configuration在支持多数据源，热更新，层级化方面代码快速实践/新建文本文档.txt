@@ -1,0 +1,129 @@
+一：AppConfig 【弊端】
+
+1. Console (AppConfig)
+   Asp.Net (WebConfig)
+
+<1> xml格式的。。。 （无法支持其他格式） 格式单一，无法支持多数据源。
+
+  <appSettings>
+    <add key="username" value="jack"/>
+  </appSettings>
+  <connectionStrings>
+    
+  </connectionStrings>
+
+ 
+  新一代： json，xml，ini，memory，command， env。。
+
+
+Microsoft.Extensions.Configuration
+
+
+ .AddJsonFile($"appsettings-{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json")
+
+
+
+<2> 配置信息key只能一维化配置。
+
+
+新一代的配置系统支持层级关系：
+{
+  "username": "jack",
+  "mysql": {
+    "host": "192.168.1.1",
+    "port":3306
+  }
+}
+
+
+ 
+
+<3> 框架的基础信息 和 应用程序配置是耦合在一块。
+
+
+显而易见，完全解耦了。。
+
+
+<4> 无法使用多环境版本。。。。
+
+    
+    Development.
+    Test.
+    Fat.
+    Production.
+
+
+新一代的配置系统：可以通过环境变量来获取不同的文件。。。
+
+
+<5> 很难实现配置的热加载（没有watch机制）
+
+reLoadchange 参数配置就可以了。。。
+
+
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+
+namespace ConsoleApp1
+{
+  class Program
+  {
+    static void Main(string[] args)
+    {
+      var initData = new List<KeyValuePair<string, string>>();
+
+      initData.Add(new KeyValuePair<string, string>("username", "abcd"));
+
+
+      IConfiguration configuration = new ConfigurationBuilder().SetBasePath(Environment.CurrentDirectory)
+                                                              .AddJsonFile($"appsettings.json", optional: true, reloadOnChange: true)
+                                                              //.AddXmlFile("appsettings.xml")
+                                                              //.AddInMemoryCollection(initData)
+                                                              .AddEnvironmentVariables()
+                                                              .Build();
+
+      while (true)
+      {
+        var info = configuration["mysql:host"];
+
+        Console.WriteLine(info);
+
+        System.Threading.Thread.Sleep(1000);
+      }
+
+      //Console.WriteLine("Hello World!");
+    }
+  }
+}
+
+
+
+二：新一代的配置系统如何进行解决的
+
+
+三：多个变量优先级的问题
+
+
+谁在后面，以谁为准。。。
+
+
+
+  get
+            {
+                using (IEnumerator<IConfigurationProvider> enumerator = Enumerable.Reverse<IConfigurationProvider>((IEnumerable<IConfigurationProvider>) this._providers).GetEnumerator())
+                {
+                    while (enumerator.MoveNext())
+                    {
+                        string str;
+                        if (enumerator.Current.TryGet(key, ref str))
+                        {
+                            return str;
+                        }
+                    }
+                }
+                return null;
+            }
+
+
+

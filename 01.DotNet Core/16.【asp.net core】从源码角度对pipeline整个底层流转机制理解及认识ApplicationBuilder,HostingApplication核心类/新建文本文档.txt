@@ -1,0 +1,61 @@
+一：pipeline 源码分析
+
+
+1. ApplicationBuilder  
+
+   所有系统的和你添加的中间件 都会放倒 这个类的 components。
+
+
+
+ HostingApplication application = new HostingApplication(host.BuildApplication(), host._logger, requiredService, httpContextFactory);
+
+BuildApplication 初始化asp.net pipeline 管道。。
+
+
+{Microsoft.AspNetCore.Builder.Internal.ApplicationBuilder}
+
+
+  private readonly IList<Func<RequestDelegate, RequestDelegate>> _components;
+
+        public IApplicationBuilder Use(Func<RequestDelegate, RequestDelegate> middleware)
+        {
+            this._components.Add(middleware);
+            return this;
+        }
+
+
+Func<RequestDelegate, RequestDelegate>
+
+
+
+将 next 进行链表式的连接
+
+        {
+            RequestDelegate arg = <>c.<>9__16_0 ?? (<>c.<>9__16_0 = new RequestDelegate(<>c.<>9, this.<Build>b__16_0));
+            using (IEnumerator<Func<RequestDelegate, RequestDelegate>> enumerator = Enumerable.Reverse<Func<RequestDelegate, RequestDelegate>>((IEnumerable<Func<RequestDelegate, RequestDelegate>>) this._components).GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    arg = enumerator.Current(arg);
+                }
+            }
+            return arg;
+        }
+
+
+你在Configure的配置顺序，也就是你的中间件的执行顺序。
+
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMyStaticFile();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Hello World!");
+            });
+        }
+
+
+ public Task ProcessRequestAsync(Context context) => 
+            this._application.Invoke(context.HttpContext);

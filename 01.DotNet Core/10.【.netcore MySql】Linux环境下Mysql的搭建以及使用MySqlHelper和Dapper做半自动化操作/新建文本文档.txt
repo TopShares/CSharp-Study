@@ -1,0 +1,85 @@
+一： 当我们使用NetCore的时候，建议就不要使用Sql Server了，那我们选择什么数据库呢？ 
+     一般来说用MySql的比较多。（centos）
+
+centos上安裝mysql。。。
+
+
+1. 不使用EntiryFramework的原因。
+
+   由于EF比较重，无法控制其生成的sql，在互联网分库分表，讲究高并发，高性能的项目中，用EF相对比较少。
+   
+   可以看看java社区中的Hibernate，一样也使用的不多，更多的是Mybatis。
+
+
+2. MySqlHelper （完全灵活化） 
+
+    这个是MySql.Data 自带的，比较方便，sql完全可控，如果觉得麻烦，大家可以使用代码生成器CodeSmith自动生成就可以了。
+
+
+
+            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlCommand
+
+
+
+            var connectionString = "server=192.168.23.167;userid=root;pwd=DataMip@123;port=3306;database=datamip;SslMode=none;";
+
+            //MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+
+            //MySqlCommand
+
+            //Select 
+            var ds = MySqlHelper.ExecuteDataset(connectionString, "select * from users");
+
+            var info = JsonConvert.SerializeObject(ds);
+
+            //Update
+            var result = MySqlHelper.ExecuteNonQuery(connectionString, "update users set Email='3@qq.com' where UserID=1");
+
+
+
+
+
+只有这种比较复杂。。。
+
+            var reader = MySqlHelper.ExecuteReader(connectionString, "select * from users");
+
+            var users = new Users();
+
+            while (reader.Read())
+            {
+                users.UserID = reader.GetInt32("UserID");
+                users.UserNick = reader.GetString("UserNick");
+                users.LoginIP = reader.GetString("LoginIP");
+                users.Email = reader.GetString("Email");
+            }
+
+
+
+
+
+
+3. Dapper (半自动化)
+
+    Dapper是一个半自动化的ORM开发框架，它的本质就是在 IDbConnection 上定义了一些扩展方法。
+    
+    <1>实现了参数化查询，
+
+    <2> Sql 和 Object 的自动映射等便捷操作。
+
+
+主要是dapper给我们做了两项优化。。。
+
+server=192.168.23.167;userid=root;pwd=DataMip@123;port=3306;database=datamip;SslMode=none;
+
+
+
+            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+
+            var userList = mySqlConnection.Query<Users>("select * from users where UserID=@userid", new { userid = 2 });
+
+
+
+
+
+

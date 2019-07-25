@@ -1,0 +1,64 @@
+一：需要安装的软件
+
+1. 虚拟机安装CentOS系统 （Centos7）
+
+2. Xshell 
+
+link CentOS  习惯的问题，用习惯还是很便捷的。。。
+
+
+3. Filezilla FTP  
+
+（文件的 上传下载）
+
+
+
+二：.net core 安装包的选择
+
+1. .net core Runtime【跑netcore 程序的】  （CoreCLR）
+   .net core SDK (开发工具包 【runtime(jre) + Rolysn(编译器) + (FCL) + netCore CLI】) 【给程序员使用的】
+
+   CLI => MSbuild 
+
+jdk ，jre
+
+
+
+三：一睹为快之使用CLI在 CentOS上进行开发
+
+1.CLI
+  
+  Console程序
+
+  MVC 程序
+
+  WebApi程序
+
+[root@jstw2u93qc2egg mywebapi]# dotnet run
+Using launch settings from /data/netcore-dk/mywebapi/Properties/launchSettings.json...
+info: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[0]
+      User profile is available. Using '/root/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+warn: Microsoft.AspNetCore.Server.Kestrel[0]
+      Unable to bind to https://localhost:5001 on the IPv6 loopback interface: 'Cannot assign requested address'.
+warn: Microsoft.AspNetCore.Server.Kestrel[0]
+      Unable to bind to http://localhost:5000 on the IPv6 loopback interface: 'Cannot assign requested address'.
+Hosting environment: Development
+Content root path: /data/netcore-dk/mywebapi
+Now listening on: https://localhost:5001
+Now listening on: http://localhost:5000
+Application started. Press Ctrl+C to shut down.
+
+
+如何将 locahost 改成 0.0.0.0 。
+
+
+
+
+2. 通过VS开发工具安装 
+
+   有哪些AppModel
+
+
+
+
+

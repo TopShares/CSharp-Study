@@ -1,0 +1,52 @@
+一： asp.net core pipeline 和 httpModule
+
+1. .netframework 中的 httpModule （一个字：复杂）
+
+    asp.net 的生命周期 (十几个事件). （事件驱动）
+
+
+
+   mvc就是UrlRoutingModule来实现的url请求的拦截，介入了mvc框架。 Contrller。。
+
+
+
+
+2. asp.net core 的pipeline 更加轻量级，模块化。
+
+   改变了httpModule这种事件模式。。。
+
+   单链表（递归）的连接模式。
+
+   Node(next)
+
+  
+
+
+
+二：asp.net core middleware的理解
+
+
+  调用堆栈 观察 
+
+   ProcessRequestAsync  (WebHost)
+
+
+
+   RequestServicesContainerMiddleWare
+
+   HostFilteringMiddleware
+
+   ForwardHeadersMiddleware
+
+   IISMiddleWare
+
+   DeveloperExceptionPageMiddleWare
+
+   App.Run
+
+
+三：自定义一个处理静态文件的 middleware
+
+中间件还有短路的功能，可以提前结束这个pipeline管道。。。
+
+

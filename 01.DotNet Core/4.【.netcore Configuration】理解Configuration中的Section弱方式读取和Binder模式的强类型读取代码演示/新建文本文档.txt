@@ -1,0 +1,155 @@
+
+一：多样化的维度读取介绍
+
+1. 实用最多的模式 Json，环境变量。
+
+2. 问题提出 
+{
+    mysql:{
+       "host":"192.168.23.1",
+       "port":3306
+    }
+    "ids": [ 10, 20, 30, 40 ]
+}
+
+如何读取ids中的数据，如何多样化的读取host，port呢？
+
+
+
+
+3. 弱类型方式读取
+
+<1>:  ':'运算符  mysql:host
+
+            IConfiguration configuration = new ConfigurationBuilder().SetBasePath(Environment.CurrentDirectory)
+                                                  .AddJsonFile($"appsettings.json", optional: true, reloadOnChange: true)
+                                                                    //.AddXmlFile("appsettings.xml")
+
+                                                                    //.AddEnvironmentVariables()
+                                                                    .Build();
+            
+            var info = configuration["shopidlist:0:entid"];
+
+
+{
+    "mysql": {
+        "host": "192.168.23.1",
+        "port": 3306
+    },
+    "shopidlist": [
+        { "entid": 20 },
+        { "entid": 25 }
+    ]
+}
+
+<2> GetSection （不同的人，不同的使用习惯） getSection("mysql")["host"]
+
+
+            //var info = configuration.GetSection("shopidlist").GetSection("1").GetSection("entid").Value;
+            var info = configuration.GetSection("shopidlist").GetSection("1")["entid"];
+
+
+        public IConfigurationSection GetSection(string key)
+        {
+            string[] textArray1 = new string[] { this.Path, key };
+            return this._root.GetSection(ConfigurationPath.Combine(textArray1));
+        }
+
+
+3. 强类型方式读取 :   Microsoft.Extensions.Configuration.Binder
+
+
+<1> GetValue
+
+ var info = configuration.GetValue<int>("mysql:port");
+
+
+         public static object GetValue(this IConfiguration configuration, Type type, string key, object defaultValue)
+        {
+            string str = configuration.GetSection(key).Value;
+            if (str != null)
+            {
+                return ConvertValue(type, str);
+            }
+            return defaultValue;
+        }
+
+<2> 配置映射为实体类Bind,Get<T>
+
+            Rootobject rootobject = new Rootobject();
+
+            configuration.Bind(rootobject);
+
+
+<3> Bind 和 Get<T>的区别
+
+其实只是使用上的差别。。。instance.GetType()
+
+
+        public static void Bind(this IConfiguration configuration, object instance, Action<BinderOptions> configureOptions)
+        {
+            if (configuration == null)
+            {
+                throw new ArgumentNullException("configuration");
+            }
+            if (instance != null)
+            {
+                BinderOptions options = new BinderOptions();
+                if (configureOptions != null)
+                {
+                    configureOptions(options);
+                }
+                BindInstance(instance.GetType(), instance, configuration, options);
+            }
+        }
+
+
+	        private static object CreateInstance(Type type)
+        {
+            object obj2;
+            TypeInfo typeInfo = IntrospectionExtensions.GetTypeInfo(type);
+            if (typeInfo.get_IsInterface() || typeInfo.get_IsAbstract())
+            {
+                throw new InvalidOperationException(Resources.FormatError_CannotActivateAbstractOrInterface(type));
+            }
+            if (type.get_IsArray())
+            {
+                if (typeInfo.GetArrayRank() > 1)
+                {
+                    throw new InvalidOperationException(Resources.FormatError_UnsupportedMultidimensionalArray(type));
+                }
+                return Array.CreateInstance(typeInfo.GetElementType(), 0);
+            }
+            if (!Enumerable.Any<ConstructorInfo>(typeInfo.get_DeclaredConstructors(), delegate (ConstructorInfo ctor) {
+                return ctor.get_IsPublic() && (ctor.GetParameters().Length == 0);
+            }))
+            {
+                throw new InvalidOperationException(Resources.FormatError_MissingParameterlessConstructor(type));
+            }
+            try
+            {
+                obj2 = Activator.CreateInstance(type);
+            }
+            catch (Exception exception)
+            {
+                throw new InvalidOperationException(Resources.FormatError_FailedToActivate(type), exception);
+            }
+            return obj2;
+        }
+
+
+《Get<T>》  typeof(T)
+
+        public static object Get(this IConfiguration configuration, Type type, Action<BinderOptions> configureOptions)
+        {
+            if (configuration == null)
+            {
+                throw new ArgumentNullException("configuration");
+            }
+            BinderOptions options = new BinderOptions();
+            if (configureOptions != null)
+            {
+                configureOptions(options);
+            }
+            return BindInstance(type, null, configuration, options);
+        }

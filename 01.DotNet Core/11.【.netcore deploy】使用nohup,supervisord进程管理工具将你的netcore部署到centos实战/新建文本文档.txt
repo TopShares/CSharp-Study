@@ -1,0 +1,141 @@
+一：linux上部署方式分享
+
+{
+    "isquit": "N"
+}
+
+后台服务，
+
+业务1
+
+业务2
+
+业务3
+
+
+程序集一定要是 .net standard 类型。。。
+
+
+突然的停止，会造成程序数据的破坏，数据丢失。。。（mysql）
+
+        static void Main(string[] args)
+        {
+            var tokenSource = new CancellationTokenSource();
+
+            Task.Factory.StartNew(() =>
+            {
+                while (!tokenSource.IsCancellationRequested)
+                {
+                    Console.WriteLine($"{DateTime.Now} :业务逻辑处理中");
+                    System.Threading.Thread.Sleep(1000);
+                }
+            }).ContinueWith(t =>
+            {
+                Console.WriteLine("服务安全退出！");
+                Environment.Exit(0);  //强制退出
+            });
+
+            Console.WriteLine("服务成功开启!");
+
+            while (!"Y".Equals(ConfigurationManager.Configuration["isquit"], StringComparison.OrdinalIgnoreCase))
+                Thread.Sleep(1000);
+
+
+
+            tokenSource.Cancel();
+        }
+
+相对来说让程序安全退出。。。
+
+provider： https://github.com/ctripcorp/apollo
+
+
+你可以用几种办法：
+
+
+CI +DI 一套持续集成，持续部署框架， Centos
+
+=（Jinkens，teamcity）  
+
+git push一段代码，那么test上直接给我 dotnet run （所见即所得）
+
+
+1. dotnet run 
+
+   这个就相当于vs的编译执行。ctrl+f5.
+
+   dotnet run -c Release
+
+2. dotnet publish
+
+   发布：（微软推荐的）
+
+   [root@localhost ConsoleApp1]# dotnet publish -o /data/output -c Release
+
+   dotnet ConsoleApp1 去执行。。。。
+
+
+问题： 如何将前台的进程 转到 后台去。。。
+
+
+
+三：部署方式介绍
+
+1. nohup dotnet xxx.dll &
+
+exit 来结束当前的terminal。。。。否则这个后台进程会退出。。。
+
+[root@localhost output]# ps -ef | grep dotnet
+root      10329  10005  0 01:38 pts/3    00:00:00 dotnet ConsoleApp1.dll
+root      10436  10005  0 01:39 pts/3    00:00:00 grep --color=auto dotnet
+[root@localhost output]# 
+
+
+
+2. supervisord 进程管理工具。。。 （微软）
+
+<1>：yum install supervisor  => systemctl start supervisord.service  => /etc/supervisord.d/*.ini =>
+                             => systemctl restart supervisord.service （service supervisord restart）
+
+
+
+root      18840      1  0 02:12 ?        00:00:00 /usr/bin/python /usr/bin/supervisord -c /etc/supervisord.conf
+
+
+[include]
+files = supervisord.d/*.ini
+
+cd /etc/supervisord.d
+
+
+[root@localhost output]# whereis dotnet
+dotnet: /usr/bin/dotnet /usr/share/dotnet /usr/share/man/man1/dotnet.1
+
+
+[program:mynetcore]
+directory=/data/output
+command=/usr/bin/dotnet /data/output/ConsoleApp1.dll
+autostart=true
+autorestart=true
+stdout_logfile=/data/output/logs/out.log
+stderr_logfile=/data/output/logs/err.log
+
+
+[root@localhost supervisord.d]# ps -ef | grep dotnet
+root      19907  19739  0 02:18 ?        00:00:00 /usr/bin/dotnet /data/output/ConsoleApp1.dll
+root      19994  18379  0 02:19 pts/2    00:00:00 grep --color=auto dotnet
+[root@localhost supervisord.d]# kill -9 19907
+[root@localhost supervisord.d]# ps -ef | grep dotnet
+root      20003  19739  0 02:19 ?        00:00:00 /usr/bin/dotnet /data/output/ConsoleApp1.dll
+root      20013  18379  0 02:19 pts/2    00:00:00 grep --color=auto dotnet
+[root@localhost supervisord.d]# kill -9 20003
+[root@localhost supervisord.d]# ps -ef | grep dotne
+root      20213  19739  0 02:20 ?        00:00:00 /usr/bin/dotnet /data/output/ConsoleApp1.dll
+root      20231  18379  0 02:20 pts/2    00:00:00 grep --color=auto dotne
+[root@localhost supervisord.d]# ps -ef | grep dotnet
+root      20213  19739 10 02:20 ?        00:00:00 /usr/bin/dotnet /data/output/ConsoleApp1.dll
+root      20235  18379  0 02:20 pts/2    00:00:00 grep --color=auto dotnet
+[root@localhost supervisord.d]# 
+
+
+

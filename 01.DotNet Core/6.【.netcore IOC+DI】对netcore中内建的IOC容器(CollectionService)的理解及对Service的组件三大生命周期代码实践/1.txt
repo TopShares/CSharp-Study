@@ -1,0 +1,126 @@
+一： IOC容器
+
+1. 微软重新设计的asp.net core 就是基于内建容器ServiceCollection,其实JAVA的Spring框架的核心也是一个IOC + DI容器（注解，xml，javaConfig）。
+2. Autofac （.net中比较老牌的一种IOC容器技术）
+
+二：IOC的思想
+
+1. 把类当做组件或服务来看待，组件内一定要高内聚，组件之间一定要低耦合，既然要保持低耦合，那就一定不要轻易的去new什么对象。
+   那组件之间的交互怎么处理呢？那最好的方式就是把new的操作交给第三方的治理框架去做，
+   比如往大处说的“Dubbo”， Spring Cloud（服务注册，服务发现，服务自动下线，流量分配，熔断，降级），往小处说就是IOC容器。
+
+
+   把类往大处想。
+
+   把治理框架往小处想。。
+
+
+
+三：IOC容器能做到哪些
+
+1. 对接口和实现类实现了由原来的零散式管理到现在的集中化管理。 （集中化日志，集中化配置系统 etcd，zookeeper）
+
+    new 
+
+    业务驱动   IOC
+    产品驱动   
+
+
+2. 对类之间，类接口之间的关联关系可以采用多种模式注入（构造器注入，属性注入）等等。
+
+
+3. 对实现类的生命周期进行了统一管理，能够控制服务的创建，释放和监控。
+
+4. 对类的依赖由编译时推迟到了运行时。
+
+   new
+
+
+四： ServiceCollection
+
+1. 理解IOC容器管理和DI （服务注册和发现）
+
+   netcore。。。
+
+   Microsoft.Extensions.DependencyInjection
+
+
+        static void Main(string[] args)
+        {
+            //IOC容器
+            ServiceCollection services = new ServiceCollection();
+
+            //注册服务
+            services.AddTransient<IFly, Pig>();
+
+            var provider = services.BuildServiceProvider();
+
+            var fly = provider.GetService<IFly>();
+
+            fly.Fly();
+
+            //var pig=new Pig();
+        }
+
+
+//服务发现  【依赖注入】
+
+Microsoft.Extensions.Logging.Console
+
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //IOC容器
+            ServiceCollection services = new ServiceCollection();
+
+            //注册服务
+            services.AddTransient<IFly, Pig>();
+
+            //注册服务
+            services.AddLogging();
+
+            var provider = services.BuildServiceProvider();
+
+            //设置这个log 的输出地。。Console
+            provider.GetService<ILoggerFactory>().AddConsole(LogLevel.Debug);
+
+            var fly = provider.GetService<IFly>();
+
+            fly.Fly();
+
+            //var pig=new Pig();
+        }
+    }
+
+    public interface IFly
+    {
+        void Fly();
+    }
+
+    public class Pig : IFly
+    {
+        ILogger<Pig> logger = null;
+
+        public Pig(ILoggerFactory loggerFactory)
+        {
+            logger = loggerFactory.CreateLogger<Pig>();
+        }
+
+        public void Fly()
+        {
+            logger.LogInformation("这是console的日志。。。。");
+
+            Console.WriteLine("风口来了，猪都会飞！");
+        }
+    }
+}
+
+
+
+2. 组件的生命周期（single,scoped,transient）
+
+

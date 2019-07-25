@@ -1,0 +1,127 @@
+一：C# 7.0 语法糖IL解析
+
+1. out 变量
+
+  string val="10";
+  int result;
+  int.tryparse(val,out result);
+
+  console.writeline(result);
+
+
+新语法帮我省下了什么？
+
+  int.TryParse(val, out int result);
+
+IL： 编译器编译后的的中间语言。。。
+
+
+IL -> JIT -> 机器语言
+
+
+            //string val = "10";
+
+            ////int reuslt;
+
+            ////int.TryParse(val, out reuslt);
+
+            //int.TryParse(val, out int result);
+
+            //Console.WriteLine(result);
+
+
+
+2. Tuple /ValueTuple
+
+   函数返回多个值。。。
+
+   Tuple 引用类型
+
+   ValueTuple  值类型
+
+<1>. 定义麻烦  Tuple
+
+        public static (bool, string) GetData2()
+        {
+            return (true, "操作成功！");
+        }
+
+<2> Item1,Item2 不好记忆。。。
+
+            var (isSuccess, Msg) = GetData2();
+
+            Console.WriteLine(isSuccess + " " + Msg);
+
+.method private hidebysig static 
+	void Main (
+		string[] args
+	) cil managed 
+{
+	// Method begins at RVA 0x2050
+	// Code size 44 (0x2c)
+	.maxstack 3
+	.entrypoint
+	.locals init (
+		[0] bool,
+		[1] string
+	)
+
+	IL_0000: nop
+	IL_0001: call valuetype [System.Runtime]System.ValueTuple`2<bool, string> ConsoleApp3.Program::GetData2()
+	IL_0006: dup
+	IL_0007: ldfld !0 valuetype [System.Runtime]System.ValueTuple`2<bool, string>::Item1
+	IL_000c: stloc.0
+	IL_000d: ldfld !1 valuetype [System.Runtime]System.ValueTuple`2<bool, string>::Item2
+	IL_0012: stloc.1
+	IL_0013: ldloca.s 0
+	IL_0015: call instance string [System.Runtime]System.Boolean::ToString()
+	IL_001a: ldstr " "
+	IL_001f: ldloc.1
+	IL_0020: call string [System.Runtime]System.String::Concat(string, string, string)
+	IL_0025: call void [System.Console]System.Console::WriteLine(string)
+	IL_002a: nop
+	IL_002b: ret
+} // end of method Program::Main
+
+
+3. Deconstruct函数
+
+
+  	new Person("jack", 20).Deconstruct(out string name, out int age);
+	string arg = name;
+	int num = age;
+	Console.WriteLine(arg + "  " + num); 
+   
+
+4. Local方法
+
+            Console.WriteLine(GetLength("hello world！"));
+
+            int GetLength(string str)
+            {
+                return str.Length;
+            }
+
+函数式编程。。
+
+
+5. switch增强
+
+
+   	foreach (object item in list)
+	{
+		object obj = item;
+		object obj2 = obj;
+		string text;
+		if (obj2 != null && (text = (obj2 as string)) != null)
+		{
+			string s = text;
+			if (int.TryParse(s, out int result))
+			{
+				Console.WriteLine(result);
+			}
+		}
+	}
+
+
+

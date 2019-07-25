@@ -1,0 +1,173 @@
+一：了解asp.net core 中的几大部件
+
+1. 从本质上来看, asp.net core 也就是 console程序台程序，所以花了很大的篇幅去介绍console程序。
+
+   （WebHost，Startup，launchSettings，wwwroot）
+
+二：WebHost
+
+WebHost => Socket实现的web服务的加强版。。
+
+
+
+
+1. WebHost使用了建造者模式。
+
+2. CreateDefaultBuilder 到底干了什么？
+
+   <1> 添加web服务器 支持IIS 和 Kestrel
+
+   <2> 添加configuration配置系统
+
+            支持 appsettings.json && 多环境的 appsettings.env.json
+	    支持 commandline
+  
+   <3> 添加日志系统
+      
+            支持输出到Console和Debug窗口。
+
+		//IL_000d: Unknown result type (might be due to invalid IL or missing references)
+		//IL_0017: Expected O, but got Unknown
+		return WebHostBuilderExtensions.UseDefaultServiceProvider(WebHostBuilderIISExtensions.UseIISIntegration(WebHostBuilderExtensions.ConfigureLogging(WebHostBuilderKestrelExtensions.UseKestrel((IWebHostBuilder)new WebHostBuilder()).UseContentRoot(Directory.GetCurrentDirectory()).ConfigureAppConfiguration(delegate(WebHostBuilderContext hostingContext, IConfigurationBuilder config)
+		{
+			IHostingEnvironment hostingEnvironment = hostingContext.HostingEnvironment;
+			JsonConfigurationExtensions.AddJsonFile(JsonConfigurationExtensions.AddJsonFile(config, "appsettings.json", true, true), $"appsettings.{hostingEnvironment.EnvironmentName}.json", true, true);
+			if (hostingEnvironment.IsDevelopment())
+			{
+				Assembly assembly = Assembly.Load(new AssemblyName(hostingEnvironment.ApplicationName));
+				if (assembly != null)
+				{
+					UserSecretsConfigurationExtensions.AddUserSecrets(config, assembly, true);
+				}
+			}
+			EnvironmentVariablesExtensions.AddEnvironmentVariables(config);
+			if (args != null)
+			{
+				CommandLineConfigurationExtensions.AddCommandLine(config, args);
+			}
+		}), (Action<WebHostBuilderContext, ILoggingBuilder>)delegate(WebHostBuilderContext hostingContext, ILoggingBuilder logging)
+		{
+			LoggingBuilderExtensions.AddConfiguration(logging, hostingContext.Configuration.GetSection("Logging"));
+			ConsoleLoggerExtensions.AddConsole(logging);
+			DebugLoggerFactoryExtensions.AddDebug(logging);
+		})), (Action<WebHostBuilderContext, ServiceProviderOptions>)delegate(WebHostBuilderContext context, ServiceProviderOptions options)
+		{
+			options.set_ValidateScopes(context.HostingEnvironment.IsDevelopment());
+		});
+
+
+
+   在Build方法中做了所有的初始化操作
+
+
+  
+《1》 初始化了一个IOC容器
+
+《2》初始化到了WebHost
+   
+《3》Startup 已单例的方式添加到了IOC容器
+
+     我们也可以继承 IStartup 。。。
+
+
+总结：WebHost在启动之前做了无数的事情。。。
+
+
+
+
+三：Startup 
+
+1. ConfigureServices  
+
+   给程序员添加一些服务的代码区。
+
+   比如AddMvc查看mvc源码
+
+        internal static void AddViewServices(IServiceCollection services)
+        {
+            DataProtectionServiceCollectionExtensions.AddDataProtection(services);
+            AntiforgeryServiceCollectionExtensions.AddAntiforgery(services);
+            EncoderServiceCollectionExtensions.AddWebEncoders(services);
+            ServiceCollectionDescriptorExtensions.TryAddEnumerable(services, ServiceDescriptor.Transient<IConfigureOptions<MvcViewOptions>, MvcViewOptionsSetup>());
+            ServiceCollectionDescriptorExtensions.TryAddEnumerable(services, ServiceDescriptor.Transient<IPostConfigureOptions<MvcViewOptions>, MvcViewOptionsConfigureCompatibilityOptions>());
+            ServiceCollectionDescriptorExtensions.TryAddEnumerable(services, ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, TempDataMvcOptionsSetup>());
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<ICompositeViewEngine, CompositeViewEngine>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<IActionResultExecutor<ViewResult>, ViewResultExecutor>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<IActionResultExecutor<PartialViewResult>, PartialViewResultExecutor>(services);
+            ServiceCollectionDescriptorExtensions.TryAddEnumerable(services, ServiceDescriptor.Transient<IControllerPropertyActivator, ViewDataDictionaryControllerPropertyActivator>());
+            ServiceCollectionDescriptorExtensions.TryAddTransient<IHtmlHelper, HtmlHelper>(services);
+            ServiceCollectionDescriptorExtensions.TryAddTransient(services, typeof(IHtmlHelper<>), typeof(HtmlHelper<>));
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<IHtmlGenerator, DefaultHtmlGenerator>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<ExpressionTextCache>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<IModelExpressionProvider, ModelExpressionProvider>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<ValidationHtmlAttributeProvider, DefaultValidationHtmlAttributeProvider>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<IJsonHelper, JsonHelper>(services);
+            ServiceCollectionDescriptorExtensions.TryAdd(services, ServiceDescriptor.Singleton<JsonOutputFormatter>(delegate (IServiceProvider serviceProvider) {
+                return new JsonOutputFormatter(ServiceProviderServiceExtensions.GetRequiredService<IOptions<MvcJsonOptions>>(serviceProvider).get_Value().get_SerializerSettings(), ServiceProviderServiceExtensions.GetRequiredService<ArrayPool<char>>(serviceProvider));
+            }));
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<IViewComponentSelector, DefaultViewComponentSelector>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<IViewComponentFactory, DefaultViewComponentFactory>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<IViewComponentActivator, DefaultViewComponentActivator>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<IViewComponentDescriptorCollectionProvider, DefaultViewComponentDescriptorCollectionProvider>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<IActionResultExecutor<ViewComponentResult>, ViewComponentResultExecutor>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<ViewComponentInvokerCache>(services);
+            ServiceCollectionDescriptorExtensions.TryAddTransient<IViewComponentDescriptorProvider, DefaultViewComponentDescriptorProvider>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<IViewComponentInvokerFactory, DefaultViewComponentInvokerFactory>(services);
+            ServiceCollectionDescriptorExtensions.TryAddTransient<IViewComponentHelper, DefaultViewComponentHelper>(services);
+            ServiceCollectionDescriptorExtensions.TryAddEnumerable(services, ServiceDescriptor.Transient<IApplicationModelProvider, TempDataApplicationModelProvider>());
+            ServiceCollectionDescriptorExtensions.TryAddEnumerable(services, ServiceDescriptor.Transient<IApplicationModelProvider, ViewDataAttributeApplicationModelProvider>());
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<SaveTempDataFilter>(services);
+            ServiceCollectionDescriptorExtensions.TryAddTransient<ControllerSaveTempDataPropertyFilter>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<ITempDataProvider, CookieTempDataProvider>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<ValidateAntiforgeryTokenAuthorizationFilter>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<AutoValidateAntiforgeryTokenAuthorizationFilter>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<ITempDataDictionaryFactory, TempDataDictionaryFactory>(services);
+            ServiceCollectionDescriptorExtensions.TryAddSingleton<ArrayPool<ViewBufferValue>>(services, ArrayPool<ViewBufferValue>.get_Shared());
+            ServiceCollectionDescriptorExtensions.TryAddScoped<IViewBufferScope, MemoryPoolViewBufferScope>(services);
+        }
+
+
+MVC大概注册了100多的服务。。。
+
+
+2. Configure 
+
+  <1> 这个方法用于在初始化的时候，将所有的中间件添加到 IApplicationBuilder 的componets数组中。
+   
+      在Request请求发起的时候，按照添加顺序执行一次中间件，具体的我们下一节课说。
+
+
+
+     。。。。。。  这个方法配置的东西，只会在Request请求的过程中被调用  。。。。。。
+
+  <2> 这个方法的参数是不固定的，只要容器里面有，都可以实现依赖注入。。比如ILoggerFactory logger
+
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+
+   环境的不同，程序的行为也不一样。。
+
+
+四： launchSettings.json 启动文件
+
+   解决问题：快速的做环境切换，方便调试和开发。
+   
+   目的：让你的程序在多环境一样保持稳定。
+
+
+   1. 直接修改文件。
+   2. 使用vs面板。
+
+
+五：wwwroot
+
+    用来存放静态资源。
+
+

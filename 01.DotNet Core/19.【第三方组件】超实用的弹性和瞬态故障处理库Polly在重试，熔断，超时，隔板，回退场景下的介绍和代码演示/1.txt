@@ -1,0 +1,86 @@
+一：超实用弹性和瞬时故障库Polly
+
+https://github.com/App-vNext/Polly
+
+一：重试策略（Retry）
+
+1. for(var i=0;i<3;i++){
+     var isSuccess= webclient.invoke();
+     if(isSuccess) break;
+   }
+
+   DDOS 攻击。
+
+   失败
+
+   1s  调用
+
+   5s  调用
+
+   10s 调用
+
+   return ;
+
+   流量均摊。
+
+
+
+
+二：熔断器（Circuit-breaker）
+
+
+如果说你的某个远程接口连续调用几次失败，那么就触发熔断。。。（10s），10s之后尝试再次调用，如果还是
+失败，继续熔断，否则恢复熔断。。。
+
+1.  当前有几次连续异常，（触发的前提条件）
+
+    后果：暂时10s，
+
+
+三：超时（Timeout）
+
+CancellationToken
+
+在你的目标函数中将 CancellationToken 穿进去，然后在设定的时间内，
+让你的CancellationToken变成取消状态。。 IsCancellationRequested
+
+
+
+
+
+四：隔板隔离（Bulkhead Isolation）
+
+Docker  ，资源的划分。。（CPU 和Memory 和 Disk）
+
+如果你的物理机有10个web，
+
+
+有一个web超时了，而且有大量的线程和连接。。
+造成 CPU 100% 物理机宕机。。
+
+
+隔离之后，web可能挂掉，但是不影响web1和web2
+
+
+
+五：缓存（Cache）
+
+
+
+六：回退（Fallback）
+
+如果你的接口调用失败，那么我给你一个Fake的值。。。
+
+
+（反爬虫）
+
+price：100
+
+爬虫 ->  web   <- 90
+
+
+
+
+七：策略包装（PolicyWrap）（组合拳）
+
+

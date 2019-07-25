@@ -1,0 +1,111 @@
+一： 分布式Cache缓存（IDistributedCache）
+
+本地缓存： 受内存限制。
+           数据没有序列化机制。
+
+
+Redis。
+Mongodb。
+
+Microsoft.Extensions.Caching.Redis
+Microsoft.Extensions.Caching.SqlServer
+
+
+
+官方： Redis，SqlServer。
+
+
+https://redis.io/download
+
+
+netcore，用开源社区的东西。。 mysql。
+
+
+    public interface IDistributedCache
+    {
+        byte[] Get(string key);
+        Task<byte[]> GetAsync(string key, CancellationToken token = default(CancellationToken));
+        void Refresh(string key);
+        Task RefreshAsync(string key, CancellationToken token = default(CancellationToken));
+        void Remove(string key);
+        Task RemoveAsync(string key, CancellationToken token = default(CancellationToken));
+        void Set(string key, byte[] value, DistributedCacheEntryOptions options);
+        Task SetAsync(string key, byte[] value, DistributedCacheEntryOptions options, CancellationToken token = default(CancellationToken));
+    }
+
+分布式缓存主要的还是依赖于 分布式组件自带的一些功能。。。
+
+        static void Main(string[] args)
+        {
+            RedisCache redisCache = new RedisCache(new RedisCacheOptions()
+            {
+                Configuration = "192.168.23.167:6379",
+                InstanceName = "test"
+            });
+
+            //在Redis中是用Hash的模式存放的。。
+            redisCache.SetString("username", "jack", new DistributedCacheEntryOptions()
+            {
+                AbsoluteExpiration = DateTime.Now.AddDays(1),
+            });
+
+            var info = redisCache.GetString("username");
+
+            Console.WriteLine($"{info}");
+        }
+
+
+        public void Set(string key, byte[] value, DistributedCacheEntryOptions options)
+        {
+            if (key == null)
+            {
+                throw new ArgumentNullException("key");
+            }
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+            if (options == null)
+            {
+                throw new ArgumentNullException("options");
+            }
+            this.Connect();
+            DateTimeOffset creationTime = DateTimeOffset.get_UtcNow();
+            DateTimeOffset? absoluteExpiration = GetAbsoluteExpiration(creationTime, options);
+            RedisKey[] keys = new RedisKey[] { this._instance + key };
+            RedisValue[] values = new RedisValue[4];
+            values[0] = absoluteExpiration.get_HasValue() ? absoluteExpiration.GetValueOrDefault().get_Ticks() : -1L;
+            if (!options.SlidingExpiration.get_HasValue())
+            {
+            }
+            values[1] = -1L.GetValueOrDefault().get_Ticks();
+            long? nullable3 = GetExpirationInSeconds(creationTime, absoluteExpiration, options);
+            values[2] = nullable3.get_HasValue() ? ((RedisValue) nullable3.GetValueOrDefault()) : -1L;
+            values[3] = value;
+            this._cache.ScriptEvaluate("\r\n                redis.call('HMSET', KEYS[1], 'absexp', ARGV[1], 'sldexp', ARGV[2], 'data', ARGV[4])\r\n                if ARGV[3] ~= '-1' then\r\n                  redis.call('EXPIRE', KEYS[1], ARGV[3])\r\n                end\r\n                return 1", keys, values, CommandFlags.None);
+        }
+
+	redis.call('EXPIRE', KEYS[1], ARGV[3])
+
+
+不要看封装的多，最终还是依靠redis机制。。。
+
+
+
+二：开源社区的Mongodb Cache
+
+MarkCBB.Extensions.Caching.MongoDB
+
+https://github.com/MarkCBB/Caching/wiki
+
+
+DistributedCacheExtensions
+
+
+create TTL索引 （）
+
+在时间列上创建一个过期索引。。。。
+
+
+整合到微软的缓存框架中去。
+
