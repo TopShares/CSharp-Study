@@ -1,0 +1,43 @@
+一：装饰者模式
+
+1. 装饰 => 装修  
+
+   给一个对象添加一些额外的行为。 给【谁】装饰。
+
+
+2. 买手机
+
+   贴屏，挂件，手机壳  => 手机的装饰  [将装饰行为组成一个链条]
+
+
+3. 买房子
+
+   砸墙 ，砌墙，，腻子。。。
+
+
+装饰的形式是变化的。。。。 对一些装饰子类按照聚合的形式组合在一起，而不是用继承的方式。。。
+
+桥接模式。。。  组合优于继承。 has - a  , is - a 
+
+
+二：手机 【装饰者模式】
+
+component：抽象手机类           => Phone
+
+concretecomponent: 具体的手机   => ApplePhone
+
+decorate: 装饰的抽象类
+
+sticker[decorate]:  贴膜  => 给ApplePhone贴膜  
+
+accessories：       配件  => 给ApplePhone进行配件
+
+
+三：C#中有没有装饰者模式。。。
+
+    Stream 
+
+MemoryStream  GzipStream  FileStream  ,CryptoStream
+
+
+比如我有一串 字节数组【byte[]】  ->  内存流（MemoryStream）   ->  压缩（GzipStream）   ->  加密(CryptoStream)

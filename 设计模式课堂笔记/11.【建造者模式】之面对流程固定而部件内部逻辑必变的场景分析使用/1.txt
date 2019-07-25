@@ -1,0 +1,94 @@
+一：建造者模式
+
+
+房子： 【单元楼，别墅】
+
+组成部分：【黄沙，瓷砖，水泥，青砖】
+
+
+黄沙的品牌：【多变】
+
+
+一个复杂的对象由很多的子部件的组成，子部件是多变，但是子部件组成的流程确实不易变。。
+
+
+class 单元楼 {
+  黄沙
+  瓷砖
+  水泥
+  青砖
+}
+
+class 别墅 {
+  黄沙
+  瓷砖
+  水泥
+  青砖
+}
+
+二：大话设计模式 【人的构建】
+
+人：【胖人，瘦人】
+
+class person
+{
+头
+身体
+左手
+右手
+左脚
+右脚
+}
+
+部件是多变的。。。组合在一块是不易变的。。。
+
+
+
+三：真实案例  【】
+
+
+  助通           联合维拓
+
+
+======    AbstractMMS ======  
+
+createProductName
+
+createProductLink
+
+createTaoCommand
+
+createSign
+
+
+======   ZhutongMMS ======     MMSContent [Java]
+
+createProductName
+
+createProductLink
+
+createTaoCommand
+
+createSign
+
+
+======  LianheweituoMMS  ======   ZipFile
+
+createProductName
+
+createProductLink
+
+createTaoCommand
+
+createSign
+
+
+======  BuidlerDirector    ======  
+
+
+
+
+
+
+
+

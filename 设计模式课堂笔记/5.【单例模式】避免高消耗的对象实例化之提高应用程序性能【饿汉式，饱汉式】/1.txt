@@ -1,0 +1,97 @@
+一：单例模式
+
+单个实例，new 来创造实例。。。
+
+
+connection db 非托管资源
+
+read file  非托管资源
+
+wcf 远程tcp端口。
+
+
+想要第二次不new的话，我们需要使用缓存。。。。 【单例模式】
+
+
+
+static 就是一个小缓存。。。 只要类加载（在clr中进行了加载），它就加载。
+
+
+多线程的问题： 保存没毛病的。。。
+
+只要类被加载，所有的静态变量都会被 “静态构造函数” 所初始化。。。。
+
+
+饿汉式单例。。。
+
+
+namespace ConsoleApplication6
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ////new一个代价很大
+            //var db = new DB();
+
+            //db.Show();
+
+            //db = new DB();
+
+            //db.Show();
+
+            //var db = DB.GetInstance();
+
+            //db.Show();
+
+            //db = DB.GetInstance();
+
+            //db.Show();
+
+            Console.WriteLine("主线程当前时间:{0}", DateTime.Now);
+            DB.Show();
+
+            Console.Read();
+
+        }
+    }
+
+    public class DB
+    {
+        private static readonly DB instance = new DB();
+
+        private DB()
+        {
+            //构造函数需要5s
+            System.Threading.Thread.Sleep(5000);
+        }
+
+        public static DB GetInstance()
+        {
+            return instance;
+        }
+
+
+        public static void Show()
+        {
+            Console.WriteLine("执行当前时间:{0}", DateTime.Now);
+        }
+    }
+}
+
+
+饱汉式单例。。。  你需要的时候才创建实例 【懒加载】
+
+多线程的问题。。。  【双检锁】
+
+
+redis,memcache,mongodb 底层都一个链接池，Cache。。。 提高性能都会用单例。
+
+
+
+
+
+
+
+
+

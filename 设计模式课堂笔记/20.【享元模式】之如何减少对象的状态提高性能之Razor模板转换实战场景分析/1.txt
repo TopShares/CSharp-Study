@@ -1,0 +1,54 @@
+一：享元模式
+
+1. 共享元数据的意思？？？  ok
+
+   减少内存开销，避免在内存中实例化众多相似或者相同的实例。。。。
+
+
+  做了十次的new ,其实都是一个类，，如果我们把这个new缓存起来，下次new的时候还是取这个缓存。。。【节省了内存】
+
+
+  C# GC
+
+
+2. .net中有很多这样的案例
+
+
+string的驻留池
+
+redis,db 的连接池 
+
+线程池  而不是每次都是new thread。。。。
+
+Task =》 寄托在线程池上的线程，，，而且是多包装的。
+
+
+3. Razor    asp.net mvc 做模板引擎
+
+http://razorengine.codeplex.com/   
+
+
+Razor:    模板 + 商品  =>   一封邮件
+
+
+// RazorEngine.Templating.TemplateService
+internal ITemplate GetTemplate(string template, Type modelType, string name)
+{
+	if (!string.IsNullOrEmpty(name) && this.templateCache.ContainsKey(name))
+	{
+		return this.templateCache[name];
+	}
+	ITemplate template2 = this.CreateTemplate(template, modelType);
+	if (!string.IsNullOrEmpty(name) && !this.templateCache.ContainsKey(name))
+	{
+		this.templateCache.Add(name, template2);
+	}
+	return template2;
+}
+
+
+二：模型
+
+
+可变和不可变参数。。。
+

@@ -1,0 +1,57 @@
+一：备忘录模式
+
+1.定义：  记录某一个对象在某一时刻的状态。。。在合适的时候进行恢复。。。。
+
+          可以撤销，可以恢复。。。
+
+2.举个例子  ctrl + z    photoshop 回退的功能。 后悔。。。
+
+
+二：真实项目
+
+1. leaflet [100个]
+
+   leaflet   -> customerList
+  
+                发送时间
+                
+                发送渠道
+
+
+
+首先通过customerid获取到一批人， 
+
+
+然后对这100个leaflet做过滤。 
+
+【集合过滤】 所有的leaflet中customerid是唯一的。
+
+【疲劳度过滤】  3天
+
+ 
+leaflet1: 100 ->   80    
+
+leaflet2: 50  ->   40
+
+leaflet3: 120 ->   90
+
+
+leaflet3 建错了。。。我要恢复。。。  我要删除leaflet3
+
+是不是leaflet1 和 leaflet2 的人给恢复出来？？？ 
+
+
+三：备忘录模式的原型
+
+1. 发起者： originator     需要备份的实体
+
+2. 备忘实体: memento     需要将状态保存到改对象的实体
+
+3. 看门人：  caretaker   管理这个memento
+
+
+四：这个道理就是 该模式 和 clone 模式的区别。。。
+
+
+
+

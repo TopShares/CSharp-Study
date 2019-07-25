@@ -1,0 +1,77 @@
+一：迭代器模式
+
+ 用来遍历集合的。。。 foreach  C#,Java
+
+foreach 一个集合，底层到底干了什么。。。
+
+foreach就是迭代器。。。 【语法糖】
+
+
+	.try
+	{
+		IL_0028: br.s IL_003b
+		// loop start (head: IL_003b)
+			IL_002a: ldloca.s 1
+			IL_002c: call instance !0 valuetype [mscorlib]System.Collections.Generic.List`1/Enumerator<int32>::get_Current()
+			IL_0031: stloc.2
+			IL_0032: nop
+			IL_0033: ldloc.2
+			IL_0034: call void [mscorlib]System.Console::WriteLine(int32)
+			IL_0039: nop
+			IL_003a: nop
+
+			IL_003b: ldloca.s 1
+			IL_003d: call instance bool valuetype [mscorlib]System.Collections.Generic.List`1/Enumerator<int32>::MoveNext()
+			IL_0042: brtrue.s IL_002a
+		// end loop
+
+		IL_0044: leave.s IL_0055
+	} // end .try
+	finally
+	{
+		IL_0046: ldloca.s 1
+		IL_0048: constrained. valuetype [mscorlib]System.Collections.Generic.List`1/Enumerator<int32>
+		IL_004e: callvirt instance void [mscorlib]System.IDisposable::Dispose()
+		IL_0053: nop
+		IL_0054: endfinally
+	} // end handler
+
+
+Enumerator：迭代类
+
+
+迭代类好处：
+
+1. 读写分离
+
+2. 封装了元数据，比如底层的array数组
+
+3. 简化的业务逻辑
+
+   List 中我foreach 和for都可以循环。。。
+
+
+  for(var i=0; list.count;i++)
+  {
+   console.writeline(list[i]);
+   }
+
+  HashSet 
+
+如果你说for和foreach是一样的，你能用for循环hashset吗？？？
+
+hashset
+
+array
+
+[hashcode] = 1
+[hashcode] =2
+[xxx]
+[hashcode]=4
+
+hashset 主要是一个哈希算法。。。
+
+
+注意事项：
+
+一个聚合对象，一个枚举类。。。

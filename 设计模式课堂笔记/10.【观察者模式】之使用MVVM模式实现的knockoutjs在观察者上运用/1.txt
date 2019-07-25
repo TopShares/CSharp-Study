@@ -1,0 +1,43 @@
+一：观察者模式
+
+一：中间件
+1. redis 发布订阅
+
+2. rabbitmq fanout模式  分发一种机制  
+
+
+二：MVVM模式的js框架
+
+MVVM模式 本质就是 观察者模式 knockoutjs  【js框架】
+
+
+三：一睹为快
+
+
+           subject
+
+
+observer1  oberser2  observer3
+
+
+协调观察者的一致性修改。。。
+
+
+1.轮询，如果发现subject被修改，observer进行自我更新。  【资源浪费，延迟性(1s)】
+
+
+2.主动的推送： 如果subject被修改，subject会出动向三个observer进行推送通知。。。
+                                  然后observer就可以自我更新
+
+                                                       【没有浪费，及时性】
+
+三：代码
+
+四：mvvm模式的依赖跟踪特性分析
+
+1. 主题：this.firstName ，this.lastName, this.fullName是一个监控
+
+
+2. 鼠标离开，有一个blur事件，这个事件会修改firstname的值，当firstname那么被修改，
+             触发notify函数，这个时候fullname会收到通知，最终值会被修改。。。
+

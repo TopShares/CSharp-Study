@@ -1,0 +1,138 @@
+一：设计模式的7大原则
+
+1.依赖倒转原则
+
+  Mytest mytest=new Mytest();... 硬编码
+
+  依赖于抽象，依赖于接口。。 
+
+  ITest mytest=new Mytest(); 
+  
+  
+
+2.单一职责
+
+  只做一件事情，不会做其他不相关，或者跨界的事情。。。
+
+  public class User{
+     Add();
+     Modify();
+     AddOrders();
+  }
+
+public class Orders{
+
+}
+
+专业的人做专业的事情。。。
+
+
+3.开闭原则
+
+  开：可以添加，新增代码。
+
+  闭：对修改代码。
+
+
+我们做新功能，不希望对原有的代码进行修改。。。 【通俗易懂】
+
+
+4.合成复用原则
+
+  我们给一个类添加功能：【继承】，【关联】
+
+  继承： 子类可以获取父类的状态和行为。非private。。
+
+  关联： 
+    
+   Order order=new Order();
+   order.user....xxxx....
+
+        public class Order{
+          public User user=new User();        
+        }
+
+        public class User{
+           protect 
+        }
+
+        public class Order:User{    //获取Order的行为或状态。
+
+        }
+
+   is-a 情况下使用继承    has-a 情况下使用聚合。   【桥接模式】
+
+
+
+5.迪米特法则，又称最少知道原则（Demeter Principle）
+
+  类与类之间保持相对独立，这样才能降低耦合。。。 类与类之间避免不了相互通信的问题。
+
+  A <-> B     
+
+  我绝对不希望在A中引用B，在B中引用A。。。   中间件进去。  【redis,rabbitmq】
+
+  A <- middlesoft  -> B     【中介者模式】
+
+
+6.接口隔离原则
+
+  将几个类中的方法都提取到一个借口中，形成一个大的接口。。。 然后让子类去继承这个大接口。
+  
+  子类只需要继承自己需要的接口。。【最少化接口】
+
+  orders【订单系统】
+
+  前台站点：  query
+
+  网站后台：  CURD
+  
+  第三方分销商：query，add  
+
+public interface Iorder{
+  Add(),
+  Modify(),
+  Query(),
+  Remove();
+}
+
+public interface IOrder1{
+  Add
+}
+
+public interface IOrder2{
+  Add（）
+  Query（）
+}
+
+public interface IOrder3{
+  CURD
+}
+
+
+
+7.里氏替换原则
+
+父类存在的地方，子类都可以替换，并且行为不发生改变。。。
+
+1. 人类可以上厕所(Action)
+
+      人类
+
+男人        女人
+
+
+2.         鸟 （Fly) Action
+
+燕子 (Fly)      企鹅  (Fly)
+
+
+违反了 “里氏替换原则”
+
+生物学上的分类不见得在 面向对象中行得通。。。  【特例】  
+
+
+
+
+
+

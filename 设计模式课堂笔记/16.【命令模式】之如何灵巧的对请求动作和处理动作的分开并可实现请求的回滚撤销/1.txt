@@ -1,0 +1,37 @@
+一：命令模式
+
+1.思想： 将行为的请求者和请求的实现者进行分离。。。 方便于我们做命令的恢复，撤销等等操作。。。
+
+public class Sqlserver
+{
+   public void Add()
+   {
+      //xxxx
+   }
+
+   public void Remove()
+   {
+   }
+}
+
+Sqlserver server=new Sqlserver();
+server.Add();
+
+
+winform经常有撤销。。。【撤销命令，恢复状态】
+
+
+命令模式：有三个角色
+
+1. received  也就是最终要执行的命令【】
+
+2. ICommand  将received命令的方法进行抽象，抽象成一个execute方法
+
+3. ConcreteCommand  将received中的每一个命令生成每一个具体的子类。。 Add（）=> AddCommand, Remove => RemoveCommand
+
+4. Invoker         命令的调用：给client进行调用，同时呢这个类要实现命令的执行，恢复，撤销等操作。。。
+
+5. Client  
+
+
+

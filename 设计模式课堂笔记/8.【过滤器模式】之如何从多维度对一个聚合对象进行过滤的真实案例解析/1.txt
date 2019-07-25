@@ -1,0 +1,38 @@
+一：过滤器模式
+
+对一个聚合对象进行多维度的过滤。
+
+List<int> HashSet,Dictionary ....
+
+where条件的过滤
+
+list.where(i=>i.age<20 && i.name.StartWith("m"） && i.email =="3333333@qq.com"  
+                       && i.time==DateTime.Now.Date);
+
+
+
+遵循开闭原则。。。。
+
+
+
+1. 原子性的过滤器
+
+2. 逻辑过滤器：  它的作用就是将原子性的过滤器进行 逻辑组合  【and or !】
+
+                 原子性1 and  原子性2 
+
+                 原子性1  or  原子性2
+
+
+3. 需求变更 【更加datetime维度】
+
+
+   <1> 新增一个 DateFilter。。
+
+   <2> 然后client端在Filters集合中新增一个过滤器就ok了。。。。
+
+
+
+
+
+

@@ -1,0 +1,68 @@
+一：简单工厂模式
+
+   创建型的设计模式
+
+   工厂里面：将类的创建放在一个工厂里面。 屏蔽了客户端和创建逻辑。
+
+             SqlServer 太浪费资源了，我需要换成小型的Sqlite。。。
+
+        static void Main(string[] args)
+        {
+            Database server = new SqlLite();
+
+            Database server2 = new SqlLite();
+
+            Database server3 = new SqlLite();
+
+            Database server4 = new SqlLite();
+        }
+
+如果还数据库，我们需要改变4次实例化。。。   违背了“开闭原则”。
+
+
+public class Person{
+ private int age
+
+ public int Age{
+  get{ return age }
+set{}
+}
+}
+
+二：总结
+
+
+优点：
+1. 方便切换db。。。 原理在于用 “string”来代替 “new”的硬编码。 
+  
+   string可以存放db，config。。
+
+2. 放到一起管理，可以省略了一些new的时候的构造函数。。。
+
+             return new SqlServer()
+                    {
+                        Connection="asdfasdfasdfasdfasdfasd", 
+                        port="asddfd",
+                        aaa="",
+                        bbb=""
+                    };    
+     
+3. 屏蔽了创建逻辑。。。 将创建的逻辑从客户端中屏蔽开，专门由一个团队去处理。。。
+
+
+缺点： 开闭原则，因为需要修改代码。。。  【不将就绝对】
+
+
+三：真实项目
+
+事件式营销：  
+
+0号    
+1号   MM:DD
+96
+97    1日 15日
+98    每周的周一执行
+
+eventmarketing    eventtype: 97 or 96
+
+   
