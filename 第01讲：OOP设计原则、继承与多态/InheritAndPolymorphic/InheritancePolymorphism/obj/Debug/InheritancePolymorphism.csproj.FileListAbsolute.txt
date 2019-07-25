@@ -1,5 +1,0 @@
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\InheritancePolymorphism\bin\Debug\InheritancePolymorphism.exe.config
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\InheritancePolymorphism\bin\Debug\InheritancePolymorphism.exe
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\InheritancePolymorphism\bin\Debug\InheritancePolymorphism.pdb
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\InheritancePolymorphism\obj\Debug\InheritancePolymorphism.exe
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\InheritancePolymorphism\obj\Debug\InheritancePolymorphism.pdb

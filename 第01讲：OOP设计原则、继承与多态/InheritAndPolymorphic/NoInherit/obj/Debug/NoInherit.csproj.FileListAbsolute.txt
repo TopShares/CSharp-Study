@@ -1,9 +1,0 @@
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\NoInherit\bin\Debug\NoInherit.exe.config
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\NoInherit\bin\Debug\NoInherit.exe
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\NoInherit\bin\Debug\NoInherit.pdb
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\NoInherit\obj\Debug\NoInherit.csprojResolveAssemblyReference.cache
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\NoInherit\obj\Debug\NoInherit.exe
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\NoInherit\obj\Debug\NoInherit.pdb
-C:\Users\Administrator\Desktop\授课源码\InheritAndPolymorphic\NoInherit\bin\Debug\NoInherit.exe.config
-C:\Users\Administrator\Desktop\授课源码\InheritAndPolymorphic\NoInherit\obj\Debug\NoInherit.exe
-C:\Users\Administrator\Desktop\授课源码\InheritAndPolymorphic\NoInherit\obj\Debug\NoInherit.pdb

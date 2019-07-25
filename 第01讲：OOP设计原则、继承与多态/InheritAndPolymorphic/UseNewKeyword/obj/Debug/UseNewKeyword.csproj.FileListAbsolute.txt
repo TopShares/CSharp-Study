@@ -1,5 +1,0 @@
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\UseNewKeyword\bin\Debug\UseNewKeyword.exe.config
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\UseNewKeyword\bin\Debug\UseNewKeyword.exe
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\UseNewKeyword\bin\Debug\UseNewKeyword.pdb
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\UseNewKeyword\obj\Debug\UseNewKeyword.exe
-C:\Users\Administrator\Desktop\InheritAndPolymorphic\UseNewKeyword\obj\Debug\UseNewKeyword.pdb
