@@ -1,0 +1,9 @@
+C:\Users\user\Desktop\EFDemo\EFDemo\bin\Debug\EFDemo.exe.config
+C:\Users\user\Desktop\EFDemo\EFDemo\bin\Debug\EFDemo.exe
+C:\Users\user\Desktop\EFDemo\EFDemo\bin\Debug\EFDemo.pdb
+C:\Users\user\Desktop\EFDemo\EFDemo\bin\Debug\EntityFramework.dll
+C:\Users\user\Desktop\EFDemo\EFDemo\bin\Debug\EntityFramework.xml
+C:\Users\user\Desktop\EFDemo\EFDemo\bin\Debug\zh-Hans\EntityFramework.resources.dll
+C:\Users\user\Desktop\EFDemo\EFDemo\obj\Debug\EFDemo.csprojResolveAssemblyReference.cache
+C:\Users\user\Desktop\EFDemo\EFDemo\obj\Debug\EFDemo.exe
+C:\Users\user\Desktop\EFDemo\EFDemo\obj\Debug\EFDemo.pdb
