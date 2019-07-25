@@ -1,0 +1,179 @@
+
+一:百雀羚
+
+场景： 1500w数据  800w会员，
+
+全内存跑， 25G空间
+
+多条件在1500w数据中做快速检索。。。。最终目的
+
+最原始的时候，能够达到 90s -120s  
+
+别让技术阻碍了业务发展。 【技术一定要领先于业务 eric】
+
+耗费内存不可怕，可怕的是速度提不起来，别让技术阻碍了业务发展。
+
+
+2.性能优化的想法
+ 
+   <1> 能用简单类型就不要用复杂类型，毕竟是在托管堆中实例化。 【总交易个数dictionary】
+
+//1500w
+foreach(var item in list)
+{
+  new class(){tradecount=10 ,customerid=1}
+}
+
+            //tempCustomerEntityList : 1500w   30s
+            var query = from item in tempCustomerEntityList
+                        group item by item.CustomerId
+                      into grp
+                        select new { key = grp.Key, list = grp.Count() };
+
+
+1. 用dictionary 优化       15s
+
+   Dictionary<int,int> dic    
+
+    key: customerid
+    value： totalcount
+
+   因为dictionary本身底层实现就是通过数组的。。。
+
+   int num = this.comparer.GetHashCode(key) & 2147483647;    1500w
+
+2. 数组优化： int[] nums=new int[100];    1s
+
+             index: 0-99   是不是可以存放customerid=1 .。。。 99
+             value: totalcount
+   
+         foreach (var customerEntity in tempCustomerEntityList)
+                            {
+                                if (totalTradeCountArray[(int)customerEntity.CustomerId] == 0)
+                                {
+                                    totalTradeCountArray[(int)customerEntity.CustomerId] = 1;
+                                }
+                                else
+                                {
+                                    totalTradeCountArray[(int)customerEntity.CustomerId]++;
+                                }
+                            }
+
+   数组天然就是一个hash。
+
+
+   <2> 大数据下字典的性能特别烂，因为每次的Add操作都要计算 hashcode,记得使用天然的hash 形式【数组】
+
+       比如：Array中，index=customerid，content=个数  总交易个数
+             BitArray中，index=customerid，content=true/false 是否包含    1s 【城市等级】         
+
+   <3> 重点优化总交易金额排名 【2-3天】
+
+       <1> 原始的方式：  dictionary + orderby【快排2/3】   20 - 30s
+
+	    	         key: customerid   value: payment  最后对字典进行orderby
+                        
+
+       <2> 改进1：       Array     + 小根堆     10s-12s  原因在于小跟堆 太大
+    
+                         TopN的问题。  100个大小的小根堆  1500w * 0.25 %  ~400w大小堆
+   
+       <3> 桶排序 + TopDictonary                   4s
+
+           payment： 81.12  =>  81.12 * 100 =8112 （array index）
+
+                     100w * 100 = 1个亿 （Array数组index 达到1个亿）
+
+                        使用payment * 100 作为index，保持payment在1.5w以内。=1500000
+                        大于1.5w的单独用dictionary存起来，这样的大客户毕竟不多
+
+                    100 -  5000 绝大多数人。。。
+
+          1.5w  => 0 - 1500000  
+
+                    0     1    2  3  4  5    6
+                   100  50             10   30
+
+          比如说前25%是40个人。。直接从后面往前找，扫到6，5就搞定了。。。
+                   
+
+
+  <4> 太漂亮的代码性能基本都不高,返朴归真的代码性能才是最高的，也是最难写的。   
+
+
+2.多线程，在合理的地方使用多线程，尽可能的并发执行  Task<TResult>方式
+
+          Or       条件下的多线程
+          And      条件下的多线程
+          Customer 条件下的多线程
+
+            try
+            {
+                //多线程处理
+                Task<List<long>>[] tasks = new Task<List<long>>[fieldValueItemList.Count];
+
+                for (int i = 0; i < fieldValueItemList.Count; i++)
+                {
+                    tasks[i] = Task.Factory.StartNew((fieldValueItem) =>
+                    {
+                        using (SearchStopWatch watch = new SearchStopWatch(string.Format("或者条件：{0}", filterCore.GetType().Name)))
+                        {
+                            List<long> smallCustomerIDList = null;
+                            try
+                            {
+                                smallCustomerIDList = filterCore.Filter((FilterValueItem)fieldValueItem);
+                            }
+                            catch (Exception ex)
+                            {
+                                LogHelper.WriteLog(ex);
+                                throw;
+                            }
+                            return smallCustomerIDList;
+                        }
+
+                    }, fieldValueItemList[i]);
+                }
+
+                Task.WhenAll(tasks).ContinueWith(t =>
+                {
+                    using (SearchStopWatch watch = new SearchStopWatch(string.Format("或者条件 追加List时间： {0}", filterCore.GetType().Name)))
+                    {
+                        foreach (var task in tasks)
+                        {
+                            customerIDList.AddRange(task.Result);
+                        }
+                    }
+                }, TaskContinuationOptions.OnlyOnRanToCompletion).Wait();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex);
+                throw;
+            }
+
+3. 设计模式板块的分享
+
+   简单工厂模式   客户分组，分析客户，分析模板
+
+
+   状态模式      状态链条 ，将class 进行了串联，避免了判断语句
+
+                 外面来条件，你需要判断到底有哪一个类来处理。。。
+
+                 如果你用普通的方式，那就是很多的swatch。。。if。
+
+             
+   过滤器模式
+
+                 每一个维度都是一些小条件，这些小条件都是用来筛选客户
+                 所以可以用过滤器模式。。
+
+用了设计模式之后，可以保证代码的简洁性，维护性，ADD，Remove都是很方便的。。。
+
+
+
+
+    
+
+
+

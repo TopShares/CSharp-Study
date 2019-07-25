@@ -1,0 +1,68 @@
+
+一：linq to db的框架
+
+1. linq to sql
+
+2. linq to ado.net entity framework
+
+linq to sql是一个团队
+
+ef 是一个团队。。。
+
+linq to sql => ef 团队。
+
+
+linq to sql 适合一些小型的项目 => sqlserver
+
+ef 适合中形的项目，而且可以支持 sqllite，mysql,sqlserver
+
+
+
+掌柜的项目开发中：使用的还是 单纯的 ADO.Net 纯sql，项目做大了，我们需要分库分表，这时候ef不好处理。
+
+
+二：linq to sql框架
+
+1. vs 设计器给我们自动生成了 访问数据库的代码
+
+2.特点：我们的Context类是继承于DataContext
+   
+        <1> 其实所有的数据库操作都是DataContext这个类来完成。
+
+        <2> linq to sql需要将实体和表的字段通过Attribute进行一一对应。
+
+        <3> 它的操作是Table<T>
+
+
+    public class Program
+    {
+        static void Main(string[] args)
+        {
+            DatamipDataClassDataContext context = new DatamipDataClassDataContext();
+
+            //context.Product.InsertOnSubmit(new Product()
+            //{
+            //    ProductID = 7,
+            //    ProductName = "商品7"
+            //});
+
+            //context.SubmitChanges();
+
+            //关联表查询
+            //var query = from p in context.Product
+            //            join o in context.Order
+            //            on p.ProductID equals o.ProductID
+            //            select new { ProductID = p.ProductID, OrderTitle = o.OrderTitle };
+
+            //var list = query.ToList();
+        }
+    }
+
+三：EF
+
+1. 它是一个继承于DbContext的类，那么这里封装了一下对数据库的操作。
+
+2. 对表的操作是DbSet<T>类
+
+3. 我们发现ef还是比较智能的，如果我的linq语句是两表关联，而从profile中可以看到它其实只用了一张表查询。
+

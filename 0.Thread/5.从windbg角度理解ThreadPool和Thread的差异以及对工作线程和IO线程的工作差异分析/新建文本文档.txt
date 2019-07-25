@@ -1,0 +1,123 @@
+一：thread  它是clr表示一个线程的数据结构
+
+
+二：ThreadPool 线程池
+
+
+   thread   我如果想做一个异步任务，就需要开启一个Thread。 具有专有性。。。
+
+
+   ThreadPool      =》 如果想做异步任务      只需要向租车公司借用    =》 使用完了就要归还 
+
+    租车公司
+
+三：ThreadPool的使用方式
+
+        static void Main(string[] args)
+        {
+            ThreadPool.QueueUserWorkItem((obj) =>
+            {
+                var func = obj as Func<string>;
+
+                Console.WriteLine("我是工作线程:{0}, content={1}", Thread.CurrentThread.ManagedThreadId,
+                                                                   func());
+            }, new Func<string>(() => "hello world"));
+
+            Console.WriteLine("主线程ID：{0}", Thread.CurrentThread.ManagedThreadId);
+
+            Console.Read();
+        }
+
+
+四：Thread 和 ThreadPool 到底多少区别。。。
+
+
+现在有10个任务，如果用Thread来做，需要开启10个Thread
+
+	       如果用ThreadPool来做，只需要将10个任务丢给线程池
+
+windbg的角度来看一下两者的区别。。。。
+
+
+1.区别： DeadThread: 10  
+
+         虽然都挂掉了，但是没有被GC回收。。。。
+
+		~Thread()
+		{
+			this.InternalFinalize();
+		}
+
+从析构函数中可以看到 this.InternalFinalize();  就是说销毁之后，先进入终结器。。。
+
+《1》 或许能够被复活。。。
+《2》 下次被GC回收。。。。
+
+虽然thread已经死掉了，但是该占的资源还是要站。。。。
+
+
+  static void Main(string[] args)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Thread thread = new Thread(() =>
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        Console.WriteLine("work:{0}，tid={1}", i, Thread.CurrentThread.ManagedThreadId);
+                    }
+                });
+
+                thread.Name = "main" + i;
+
+                thread.Start();
+            }
+
+            Console.Read();
+        }
+
+
+2.threadPool解决同样的问题。。。
+
+
+从windbg中可以看到，当前没有死线程，而是都是默认初始化的。。。
+
+DeadThread:       0
+
+0:014> !threadpool
+CPU utilization: 4%
+Worker Thread: Total: 8 Running: 0 Idle: 8 MaxLimit: 2047 MinLimit: 8
+Work Request in Queue: 0
+--------------------------------------
+Number of Timers: 0
+--------------------------------------
+Completion Port Thread:Total: 0 Free: 0 MaxFree: 16 CurrentLimit: 0 MaxLimit: 1000 MinLimit: 8
+
+好像看到了当前的threadpool，
+
+其中有“工作线程” 和 “IO线程”
+
+工作线程： 给一般的异步任务执行的。。其中不涉及到 网络，文件 这些IO操作。。。 【开发者调用】
+
+IO线程：  一般用在文件，网络IO上。。。  【CLR调用】
+
+
+8的又来就是因为我有 8个逻辑处理器，也就是说可以8个Thread 并行处理。。。。
+
+
+总结：
+
+1.threadPool 可以用8个线程 解决 thread 10个线程干的事情，
+
+节省了空间和时间：
+
+时间： 通过各个托管和非托管的dll。。。
+
+空间：teb，osthread结构， 堆栈。
+
+
+
+
+
+
+

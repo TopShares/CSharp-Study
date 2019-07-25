@@ -1,0 +1,137 @@
+一：task中的取消功能
+
+1. thread。在这个种如何做取消操作。。。
+
+isstop变量取判断thread中是否可以退出。。。。 low。。。
+
+        static void Main(string[] args)
+        {
+            var isStop = false;
+
+            var thread = new Thread(() =>
+            {
+                while (!isStop)
+                {
+                    Thread.Sleep(100);
+
+                    Console.WriteLine("当前thread={0} 正在运行", Thread.CurrentThread.ManagedThreadId);
+                }
+            });
+
+            thread.Start();
+
+            Thread.Sleep(1000);
+
+            isStop = true;
+
+            Console.Read();
+        }
+
+不能让多个线程操作一个共享变量，否则会在release版本中有潜在bug。。。。
+
+
+2. task中有一个专门的类【CancellationTokenSource】去处理 “任务取消”
+
+
+CancellationTokenSource 远比 isStop这个变量强的多。。。
+
+1. 使用cancel实现isStop同样的功能。。。
+
+
+强在哪里？？？？
+ 
+<1> 当任务取消的时候，我希望有一个函数能够被触发，这个触发可以做一些资源的清理，
+    又或者是更新数据库信息。。。
+
+            CancellationTokenSource source = new CancellationTokenSource();
+
+            source.Token.Register(() =>
+            {
+                //如果当前的token被取消，此函数将会被执行
+                Console.WriteLine("当前source已经被取消，现在可以做资源清理了。。。。");
+            });
+
+            var task = Task.Factory.StartNew(() =>
+            {
+                while (!source.IsCancellationRequested)
+                {
+                    Thread.Sleep(100);
+
+                    Console.WriteLine("当前thread={0} 正在运行", Thread.CurrentThread.ManagedThreadId);
+                }
+            }, source.Token);
+
+            Thread.Sleep(1000);
+            source.Cancel();
+
+            Console.Read();
+
+<2> 延时取消
+
+我想2秒之后自动取消，N秒。。。。 webservice。。。wcf。
+
+《1》 CancelAfter   
+
+ source.CancelAfter(new TimeSpan(0, 0, 0, 1));
+
+《2》 CancellationTokenSource 的构造函数中进行取消
+
+CancellationTokenSource source = new CancellationTokenSource(1000);
+
+
+<3> 取消的组合 将CancellationTokenSource 组合成一个链表
+
+    其中任何一个CancellationTokenSource被取消，组合source也会被取消。。。
+
+    var s3= s1 && s2;
+
+        static void Main(string[] args)
+        {
+            CancellationTokenSource source1 = new CancellationTokenSource();
+
+            //现在要让source1取消
+            //source1.Cancel();
+
+            CancellationTokenSource source2 = new CancellationTokenSource();
+
+            source2.Cancel();
+
+            var combineSource = CancellationTokenSource.CreateLinkedTokenSource(source1.Token, source2.Token);
+
+            Console.WriteLine("s1={0}  s2={1}  s3={2}", source1.IsCancellationRequested,
+                                                     source2.IsCancellationRequested,
+                                                     combineSource.IsCancellationRequested);
+
+            Console.Read();
+        }
+
+<4> ThrowIfCancellationRequested 比 IsCancellationRequested 多了throw。。。
+
+    如果一个任务被取消，我希望代码抛出一个异常。。。
+    
+    if(IsCancellationRequested) throw new Exception("adasdaf");
+
+     == 等价操作  ==     
+
+    throwIfCancellationRequested();
+
+
+            CancellationTokenSource source1 = new CancellationTokenSource();
+
+            //现在要让source1取消
+            //source1.Cancel();
+
+            CancellationTokenSource source2 = new CancellationTokenSource();
+
+            source2.Cancel();
+
+            var combineSource = CancellationTokenSource.CreateLinkedTokenSource(source1.Token, source2.Token);
+
+            Console.WriteLine("s1={0}  s2={1}  s3={2}", source1.IsCancellationRequested,
+                                                     source2.IsCancellationRequested,
+                                                     combineSource.IsCancellationRequested);
+
+            Console.Read();
+
+http://www.cnblogs.com/huangxincheng/p/6541220.html
+

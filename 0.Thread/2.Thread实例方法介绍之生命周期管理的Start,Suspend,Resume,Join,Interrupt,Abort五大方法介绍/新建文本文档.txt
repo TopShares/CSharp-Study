@@ -1,0 +1,91 @@
+一：在clr中Thread这个名字来表示线程这个概念
+
+
+本节课了解Thread的实例方法。。。 【id，ThreadState】
+
+
+如果管理Thread生命周期
+
+Start, Suspend, Resume, Intterupt，Abort。。。  Join   在使用Thread的时候是用的非常多的。。。
+
+
+1. Start演示
+
+     thread = new Thread(new ThreadStart(() =>
+            {
+                while (true)
+                {
+                    try
+                    {
+                        Thread.Sleep(1000);
+
+                        textBox1.Invoke(new Action(() =>
+                                   {
+                                       textBox1.AppendText(string.Format("{0},", index++));
+                                   }));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(string.Format("{0}, {1}", ex.Message, index));
+                    }
+                }
+            }));
+
+            thread.Start();
+
+
+2. suspend演示
+
+先暂停，然后通过winddebug看一下thread 的状态。。。。
+
+0:017> !ThreadState ab024
+    User Suspend Pending
+    Legal to Join
+    CLR Owns
+    CoInitialized
+    In Multi Threaded Apartment
+    Fully initialized
+    Sync Suspended
+
+
+3.Resume演示
+
+用来恢复suspend的暂停功能。。。
+
+
+4. Interrupt 演示
+
+用来中断处于WaitSleepJoin状态的线程。。。。
+
+while(true){
+  continue.... 效果
+}
+
+当你调用interrupt的时候，会抛出一个interrupt的异常。。。。
+
+
+5. Abort演示
+
+通过抛出异常的方式销毁一个线程。。。。
+
+while(true){
+  break.... 效果
+}
+
+Interrupt 和 Abort做对比。。。
+
+6. Join演示
+
+task.wait();
+
+
+0:007> !ThreadState 202b020
+    Legal to Join
+    CLR Owns
+    CoInitialized
+    In Multi Threaded Apartment
+    Fully initialized
+    Interruptible
+
+
+

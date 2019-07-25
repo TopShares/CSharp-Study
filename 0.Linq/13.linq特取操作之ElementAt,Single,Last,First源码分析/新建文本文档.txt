@@ -1,0 +1,169 @@
+一：linq的特取操作
+
+First/FirstOrDefault, Last/LastOrDefault, ElementAt/ElementAtOrDefault, Single/SingleOrDefault
+
+
+二：First/FirstOrDefault 介绍
+
+解释： 用于返回序列中的第一个值
+
+
+异常： 如果当前集合没有值的话，如果你取第一个值，会抛出throw Error.NoElements();异常。
+
+public static TSource First<TSource>(this IEnumerable<TSource> source)
+{
+	if (source == null)
+	{
+		throw Error.ArgumentNull("source");
+	}
+	IList<TSource> list = source as IList<TSource>;
+	if (list != null)
+	{
+		if (list.Count > 0)
+		{
+			return list[0];
+		}
+	}
+	else
+	{
+		using (IEnumerator<TSource> enumerator = source.GetEnumerator())
+		{
+			if (enumerator.MoveNext())
+			{
+				return enumerator.Current;
+			}
+		}
+	}
+	throw Error.NoElements();
+}
+
+===> FirstOrDefault  <=====
+
+if(list.count==0)  return default(TSource)
+
+
+三：Last/LastOrDefault
+
+默认直接返回序列的最后一个元素。
+
+我们也可以使用Func条件，返回满足指定条件的最后一个元素。
+
+        static void Main(string[] args)
+        {
+            var nums = new int[] { 4, 3, 2 };
+
+            var query = nums.LastOrDefault(i => i % 2 == 0);
+        }
+
+源码：
+
+=> throw Error.NoElements();
+
+=> return default(TSource);
+
+
+四： ElementAt/ElementAtOrDefault
+
+ElementAtOrDefault: 这个方便就避免了我们在代码写过多的if判断。【判断是否超出索引】
+
+		    如果现在用此方法，你就不需要担心这个问题了。。。
+
+
+源码分析：【效率分析】
+
+public static TSource ElementAtOrDefault<TSource>(this IEnumerable<TSource> source, int index)
+{
+	if (source == null)
+	{
+		throw Error.ArgumentNull("source");
+	}
+	if (index >= 0)
+	{
+		IList<TSource> list = source as IList<TSource>;
+		if (list != null)
+		{
+			if (index < list.Count)
+			{
+				return list[index];
+			}
+		}
+		else
+		{
+			using (IEnumerator<TSource> enumerator = source.GetEnumerator())
+			{
+				while (enumerator.MoveNext())
+				{
+					if (index == 0)
+					{
+						return enumerator.Current;
+					}
+					index--;
+				}
+			}
+		}
+	}
+	return default(TSource);
+}
+
+
+可以看到，FCL中已经给我们做了一个“索引判断”，所以我们就不需要再代码中进行判断了，这样就方便我们更加的
+关于业务逻辑。
+
+
+五：Single/SingleOrDefault
+
+解释：返回序列中满足指定条件的唯一元素；如果这类元素不存在，则返回默认值；如果有多个元素满足该条件，此方法将引发异常。【三个结果】
+
+First：第一个元素
+
+Single：唯一元素
+
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var nums = new int[] { 4, 3, 1, 2 };
+
+            var query = nums.FirstOrDefault(i => i % 2 == 0);     //nums[2];
+
+            var query2 = nums.SingleOrDefault(i => i % 2 == 0);
+        }
+    }
+
+
+我们再看源码解释：
+
+public static TSource SingleOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+{
+	if (source == null)
+	{
+		throw Error.ArgumentNull("source");
+	}
+	if (predicate == null)
+	{
+		throw Error.ArgumentNull("predicate");
+	}
+	TSource result = default(TSource);
+	long num = 0L;
+	checked
+	{
+		foreach (TSource current in source)
+		{
+			if (predicate(current))
+			{
+				result = current;
+				num += 1L;
+			}
+		}
+		if (num == 0L)
+		{
+			return default(TSource);
+		}
+		if (num != 1L)
+		{
+			throw Error.MoreThanOneMatch();
+		}
+		return result;
+	}
+}

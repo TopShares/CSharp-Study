@@ -1,0 +1,60 @@
+一：对象初始化器
+
+1.就是在new的时候给公共属性赋值的一种方式
+
+
+2. 在没有初始化器之前的时候，我们是怎么初始化的呢？？？
+
+   1. 构造函数初始化。。。
+
+        public Student(string Name, int Age)
+        {
+            this.Name = Name;
+            this.Age = Age;
+        }
+
+        public Student(string Name):this(Name,default(int))
+        {
+            
+        }
+
+   2. 一个一个的赋值。。。
+
+            var student = new Student();
+
+            student.Name = "jack";
+            student.Age = 20;
+
+
+3. 为什么要使用初始化器，有一个本质性的原因是什么？？？【匿名类型】
+
+    var person = new { Name = "jack", Age = 20 };
+
+   可以看到，其实对象初始化器也是为linq而生。
+
+
+二：探索匿名类型
+
+1.查看MSIL的中间代码
+
+.class private auto ansi sealed beforefieldinit '<>f__AnonymousType0`2'<'<Name>j__TPar','<Age>j__TPar'>
+       extends [mscorlib]System.Object
+
+《1》 .class private auto ansi sealed                          说明是私有的密封的类。
+
+《2》 '<>f__AnonymousType0`2'<'<Name>j__TPar','<Age>j__TPar'>  类名
+
+《2》 extends [mscorlib]System.Object                          可以看到“：”其实就是语法糖，匿名类型都是继承自
+							       System.Object
+
+2. 我们看被重写的equals方法是采用逐值比较的模式判断是否相等。
+
+   《1》 我们要知道类名的生成大概手段  '<>f__AnonymousType0`2'<'<Name>j__TPar','<Age>j__TPar'>
+
+
+				       '<>f__AnonymousType1`3'<'<Name>j__TPar','<Age>j__TPar','<Say>j__TPar'>
+
+   《2》 equals采用的是逐值比较
+         
+         
+

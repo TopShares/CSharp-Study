@@ -1,0 +1,98 @@
+Thread中的一些静态方法
+
+1. AllocateDataSlot
+
+   AllocateNamedDataSlot
+
+   GetNamedDataSlot
+
+   FreeNamedDataSlot
+
+   给所有线程分配一个数据槽。 存放数据。。。
+
+  SetData
+
+  GetData
+
+2.干嘛用的？？？
+
+
+变量  =>  Thread 的关系  t1, t2
+
+
+《1》 t1，t2  共享 变量    public         注意有“锁”的概念
+
+《2》 t1, t2 各自有一个 变量  internel    没有锁争用的概念
+
+
+  static void Main(string[] args)
+        {
+            var slot = Thread.AllocateNamedDataSlot("username");
+
+            //主线程 上 设置槽位，， 也就是hello world 只能被主线程读取，其他线程无法读取
+            Thread.SetData(slot, "hello world!!!");
+
+            var t = new Thread(() =>
+            {
+                var obj = Thread.GetData(slot);
+
+                Console.WriteLine("当前工作线程:{0}", obj);
+            });
+
+            t.Start();
+
+            var obj2 = Thread.GetData(slot);
+
+            Console.WriteLine("主线程:{0}", obj2);
+
+            Console.Read();
+        }
+
+
+二：性能提升版： ThreadStatic
+
+        [ThreadStatic]
+        static string username = string.Empty;
+
+        static void Main(string[] args)
+        {
+            username = "hello world!!!";
+
+            var t = new Thread(() =>
+            {
+                Console.WriteLine("当前工作线程:{0}", username);
+            });
+
+            t.Start();
+
+            Console.WriteLine("主线程:{0}", username);
+
+            Console.Read();
+        }
+
+三：ThreadLocal： 也是用来做 线程可见性
+
+  static void Main(string[] args)
+        {
+            ThreadLocal<string> local = new ThreadLocal<string>();
+
+            local.Value = "hello world!!!";
+
+            var t = new Thread(() =>
+            {
+                Console.WriteLine("当前工作线程:{0}", local.Value);
+            });
+
+            t.Start();
+
+            Console.WriteLine("主线程:{0}", local.Value);
+
+            Console.Read();
+        }
+
+这些数据都是存放在线程环境块中。。【是线程的空间开销】 !teb来查看。。
+
+TLS： thread local storage。。。
+ 
+
+

@@ -1,0 +1,84 @@
+
+一： AsParallel 【并行化查询】
+
+这个函数的功效就是将计算结果多线程化。【并行计算】 =>【多核】
+
+二：AsQueryable 【将lambda表达式作为数据结构存储起来，Expresstion 表达式树】
+
+三：Join
+
+    多表关联操作，我们可以用”查询关键字“解决。
+
+为了更加的脱俗易懂，我们建议用人性化的”查询关键字“来解决这个复杂的Join，lambda。
+
+
+四：SelectMany
+
+1.解释： 将序列的每个元素投影到 System.Collections.Generic.IEnumerable`1 并将结果序列合并为一个序列。
+
+
+这个SelectMany我们在实际使用中还是用的比较多的。因为有一个【合并】的功能。
+
+        static void Main(string[] args)
+        {
+            var dic = new Dictionary<int, List<int>>();
+
+            dic.Add(1, new List<int>() { 10, 20, 30, 40 });
+
+            dic.Add(2, new List<int>() { 100, 200, 300, 400 });
+
+            //我有一个需求，就是将 key=1的List 和 key=2的List进行合并。
+            var query = dic.SelectMany(i => i.Value);
+        }
+
+
+五：SequenceEqual
+
+1.解释：  通过使用相应类型的默认相等比较器对序列的元素进行比较，以确定两个序列是否相等。
+
+          两个集合中的元素是逐一进行比较的。
+
+
+        static void Main(string[] args)
+        {
+            var num1 = new List<int>() { 10, 20, 30, 40 };
+
+            var num2 = new List<int>() { 10, 20, 30, 40 };
+
+            var query = num1.SequenceEqual(num2);
+        }
+
+六： Zip
+
+1. 解释： 将指定函数应用于两个序列的对应元素，以生成结果序列。
+
+从代码解释上来看，我SequenceEqual还是有一点相似。
+
+
+        static void Main(string[] args)
+        {
+            var num1 = new List<int>() { 10, 20, 30, 40 };
+
+            var num2 = new List<int>() { 10, 20, 30, 40 };
+
+            //我现在的需求就是想把两个序列中的元素进行相加操作
+            var query = num1.Zip(num2, (i, j) =>
+            {
+                return i - j;
+            });
+        }
+
+
+2. 疑问：
+
+ 如果说我们两个集合的元素不对应的话，会怎么样。。。
+
+
+通过Zip的测试，如果两个集合的个数不行等，以最短的那个集合为标准。这个函数又叫做“拉链函数”。
+
+
+3.源代码
+
+ 我们看到，又是一个枚举类：<ZipIterator>d__60<, , > GetEnumertor 和 MoveNext。
+
+

@@ -1,0 +1,104 @@
+一：定时器    Timer
+
+ThreadPool 也有定时器的功能。。。。 
+
+定时器的功能肯定需要 工作线程来处理。。。
+
+1. ThreadPool 定时器功能
+
+        static void Main(string[] args)
+        {
+            ThreadPool.RegisterWaitForSingleObject(new AutoResetEvent(true), new WaitOrTimerCallback((obj, b) =>
+            {
+                //做逻辑判断，判断是否在否以时刻执行。。。
+                Console.WriteLine("obj={0}，tid={1}, datetime={2}", obj, Thread.CurrentThread.ManagedThreadId,
+                                                                         DateTime.Now);
+            }), "hello world", 1000, false);
+
+            Console.Read();
+        }
+
+ 一般在使用Timer的时候，有一个延期执行的功能。
+
+windbg 来看一下底层线程是什么样的。。。。
+
+
+       ID OSID ThreadOBJ    State GC Mode     GC Alloc Context  Domain   Count Apt Exception
+   0    1 3f54 01157bc8     2a020 Preemptive  02E8A3E4:00000000 01152258 1     MTA 
+   5    2 2594 011678f8     2b220 Preemptive  00000000:00000000 01152258 0     MTA (Finalizer) 
+   6    3 3c28 01189990   1020220 Preemptive  00000000:00000000 01152258 0     Ukn (Threadpool Worker) 
+   7    4 121c 0118a2c0   8029220 Preemptive  02E8D8A4:00000000 01152258 0     MTA (Threadpool Completion Port) 
+   8    5 28f4 0118bd70   8029220 Preemptive  00000000:00000000 01152258 0     MTA (Threadpool Completion Port) 
+
+
+0:009> !threadpool
+CPU utilization: 9%
+Worker Thread: Total: 0 Running: 0 Idle: 0 MaxLimit: 2047 MinLimit: 8
+Work Request in Queue: 0
+--------------------------------------
+Number of Timers: 0
+--------------------------------------
+Completion Port Thread:Total: 2 Free: 2 MaxFree: 16 CurrentLimit: 2 MaxLimit: 1000 MinLimit: 8
+
+
+2. Timer
+
+System.threading    下面有timer
+
+System.Timer        下面Timer。。。
+
+System.Windows.Form 下面Timer。。。
+
+System.Web.UI        下面Timer。。。
+
+0:009> !threads
+ThreadCount:      4
+UnstartedThread:  0
+BackgroundThread: 3
+PendingThread:    0
+DeadThread:       0
+Hosted Runtime:   no
+                                                                         Lock  
+       ID OSID ThreadOBJ    State GC Mode     GC Alloc Context  Domain   Count Apt Exception
+   0    1 2d74 00f785c8     2a020 Preemptive  02E360F0:00000000 00f72030 1     MTA 
+   5    2 3784 00f87ea0     2b220 Preemptive  00000000:00000000 00f72030 0     MTA (Finalizer) 
+   6    3 2dc4 00faae18   102a220 Preemptive  00000000:00000000 00f72030 0     MTA (Threadpool Worker) 
+   7    4 3e34 00fab748   1029220 Preemptive  02E3D4D0:00000000 00f72030 0     MTA (Threadpool Worker) 
+
+
+底层有一个队列	TimerQueue instance2 = TimerQueue.Instance;
+
+internal class TimerQueue
+
+Timer 首先是用 ThreadPool.UnsafeQueueUserWorkItem(waitCallback, timer); 来完成定时功能。。
+
+
+三：实战开发中，基本上不会用Timer来处理问题。。。。
+
+因为处理的功能太少：
+
+1. 我希望早上8点执行。。。
+
+2. 我希望明天8点执行。。。
+
+3. 我希望每天8点执行。。。
+
+4. 我希望每个月的8号执行。。。
+
+5. 我希望下个月8号执行，排除双休日。。。
+
+6. 半个小时执行一次。。。
+
+
+四：Quarz.net 
+
+Quartz.dll
+
+
+
+
+
+
+
+
+

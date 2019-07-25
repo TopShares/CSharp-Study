@@ -1,0 +1,76 @@
+Linq的四种生成运算 DefautIfEmpty,Empty,Range,Repeat 也就是给我们初始化用的。
+
+
+一：DefaultIfEmpty 【返回枚举类的类型】
+
+1. 看注释： 返回指定序列的元素；如果序列为空，则返回单一实例集合中的类型参数的默认值。
+
+
+2. 查看实例代码
+
+        static void Main(string[] args)
+        {
+            var list = new List<int>();
+
+            var query = list.DefaultIfEmpty().ToList();
+        }
+
+我编译之后的结果可以看到，DefaultIfEmpty就是告诉如果集合为空，则返回一个T参数的默认值放到集合中。。。。
+
+可以看到，最后的集合至少有一个item。
+
+3. 探究源代码
+
+
+二：Empty   
+
+我们经常初始化List的时候，该怎么做呢？  var list=new List<int>()；
+
+那么现在我们linq中的生成运算有了新的方式。
+
+
+ var list = Enumerable.Empty<int>();
+
+
+然后我们来看一下，Empty方法的源码
+
+namespace System.Linq
+{
+	internal class EmptyEnumerable<TElement>
+	{
+		public static readonly TElement[] Instance = new TElement[0];
+	}
+}
+
+
+可以看到：Enumerable.Empty<int>() 其实在内部生成了一个T[]数组。数组的个数为0。
+
+
+三：Range   【返回枚举类的类型】
+
+1. 生成指定范围内的整数的序列。
+
+
+2. 代码
+
+ var list = Enumerable.Range(10, 100);
+
+
+可以看到，上面这样的代码就避免了我们自己去执行foreach/for添加数字。
+
+
+3. ILSpy源代码
+
+
+四：Repeat  【返回枚举类的类型】
+
+1. 生成包含一个重复值的序列。
+
+2. 代码
+
+var list = Enumerable.Repeat<int>(10, 100);
+
+
+总结： 这四个生成方法，让我们避免了一些比较无聊的操作，也就提高了我们的编码效率。
+
+       还是印证了前面课程的话，要想延迟执行，必须使用枚举类类型。

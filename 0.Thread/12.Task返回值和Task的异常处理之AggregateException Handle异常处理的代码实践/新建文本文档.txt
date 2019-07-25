@@ -1,0 +1,233 @@
+一：Task<TResult> 
+
+   前些课程主要讲没有返回值的task。。。本节课就超重去说这个有“返回值”的。。。
+
+实际开发中，带有TResult的形式还是特别多。。。
+
+
+        protected List<long> ExecuteOR(IFilterCore filterCore, List<FilterValueItem> fieldValueItemList)
+        {
+            List<long> customerIDList = new List<long>();
+
+            try
+            {
+                //多线程处理
+                Task<List<long>>[] tasks = new Task<List<long>>[fieldValueItemList.Count];
+
+                for (int i = 0; i < fieldValueItemList.Count; i++)
+                {
+                    tasks[i] = Task.Factory.StartNew((fieldValueItem) =>
+                    {
+                        using (SearchStopWatch watch = new SearchStopWatch(string.Format("或者条件：{0}", filterCore.GetType().Name)))
+                        {
+                            List<long> smallCustomerIDList = null;
+                            try
+                            {
+                                smallCustomerIDList = filterCore.Filter((FilterValueItem)fieldValueItem);
+                            }
+                            catch (Exception ex)
+                            {
+                                LogHelper.WriteLog(ex);
+                                throw;
+                            }
+                            return smallCustomerIDList;
+                        }
+
+                    }, fieldValueItemList[i]);
+                }
+
+                Task.WhenAll(tasks).ContinueWith(t =>
+                {
+                    using (SearchStopWatch watch = new SearchStopWatch(string.Format("或者条件 追加List时间： {0}", filterCore.GetType().Name)))
+                    {
+                        foreach (var task in tasks)
+                        {
+                            customerIDList.AddRange(task.Result);
+                        }
+                    }
+                }, TaskContinuationOptions.OnlyOnRanToCompletion).Wait();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex);
+                throw;
+            }
+
+            return customerIDList;
+        }
+
+
+二：Task<TResult>是继承于Task
+
+1. Result 多了此属性
+
+<1> 获取Task<TResult>的返回值： Wait();
+
+public class Task<TResult> : Task
+
+
+            Task<int> task1 = Task.Factory.StartNew(() =>
+            {
+                //做一些逻辑运算
+                return 1;
+            });
+
+            task1.Wait();
+
+            Console.WriteLine(task1.Result);
+
+            Console.Read();
+
+
+// System.Threading.Tasks.Task
+[__DynamicallyInvokable]
+public bool Wait(int millisecondsTimeout, CancellationToken cancellationToken)
+{
+	if (millisecondsTimeout < -1)
+	{
+		throw new ArgumentOutOfRangeException("millisecondsTimeout");
+	}
+	if (!this.IsWaitNotificationEnabledOrNotRanToCompletion)
+	{
+		return true;
+	}
+	if (!this.InternalWait(millisecondsTimeout, cancellationToken))
+	{
+		return false;
+	}
+	if (this.IsWaitNotificationEnabledOrNotRanToCompletion)
+	{
+		this.NotifyDebuggerOfWaitCompletionIfNecessary();
+		if (this.IsCanceled)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+		}
+		this.ThrowIfExceptional(true);
+	}
+	return true;
+}
+
+
+
+<2> 直接TResult。。。
+
+// System.Threading.Tasks.Task<TResult>
+internal TResult GetResultCore(bool waitCompletionNotification)
+{
+	if (!base.IsCompleted)
+	{
+		base.InternalWait(-1, default(CancellationToken));
+	}
+	if (waitCompletionNotification)
+	{
+		base.NotifyDebuggerOfWaitCompletionIfNecessary();
+	}
+	if (!base.IsRanToCompletion)
+	{
+		base.ThrowIfExceptional(true);
+	}
+	return this.m_result;
+}
+
+
+2. ContinueWith<TResult> 也可以具有返回值
+
+        static void Main()
+        {
+            Task<int> task1 = Task.Factory.StartNew(() =>
+            {
+                //做一些逻辑运算
+                return 1;
+            });
+
+            var task2 = task1.ContinueWith<string>(t =>
+            {
+                int num = t.Result;
+
+                var sum = num + 10;
+
+                return sum.ToString();
+            });
+
+            Console.WriteLine(task2.Result);
+
+            Console.Read();
+        }
+
+3. Task.WhenAll<TResult>/ WhenAny
+
+        static void Main()
+        {
+            Task<int> task1 = Task.Factory.StartNew(() =>
+            {
+                //做一些逻辑运算
+                return 1;
+            });
+
+            Task<int> task2 = Task.Factory.StartNew(() =>
+            {
+                //做一些逻辑运算
+                return 2;
+            });
+
+            var task = Task.WhenAll<int>(new Task<int>[2] { task1, task2 });
+
+            var result = task.Result;
+
+            Console.WriteLine(task2.Result);
+
+            Console.Read();
+        }
+
+
+二：异常
+
+AggregateException  是一个集合，因为task中可能会抛出多个异常，所以我们需要一种新的类型
+把这些异常都追加到一个集合中。。。
+
+1. 什么时候抛出异常： Wait操作， TResult操作。。。
+
+2. 何时会有多个异常在 AggregateException，以及如何去一个一个的去获取
+
+3. Handle方法。。。就是处理当前的异常数组，判断上一层我当前哪些已经处理好了，
+   没有处理好的，还需要向上抛出。。。
+
+                  ex.Handle(x =>
+                {
+                    if (x.InnerException.Message == "我是 childTask1 异常")
+                    {
+                        return true;
+                    }
+
+                    return false;
+                });
+
+当前的Handle就是来遍历 异常数组，如果有一个异常信息是这样的，我认为是已经处理的。
+
+如果你觉得异常还需要往上抛，请返回false。。。
+
+		public void Handle(Func<Exception, bool> predicate)
+		{
+			if (predicate == null)
+			{
+				throw new ArgumentNullException("predicate");
+			}
+			List<Exception> list = null;
+			for (int i = 0; i < this.m_innerExceptions.Count; i++)
+			{
+				if (!predicate(this.m_innerExceptions[i]))
+				{
+					if (list == null)
+					{
+						list = new List<Exception>();
+					}
+					list.Add(this.m_innerExceptions[i]);
+				}
+			}
+			if (list != null)
+			{
+				throw new AggregateException(this.Message, list);
+			}
+		}
+
+

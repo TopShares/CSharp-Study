@@ -1,0 +1,73 @@
+linq的集合运算
+
+常见的集合运算有哪些？ 
+
+
+这三个扩展方法在我们实际使用中用的还是非常多的，而且这里还涉及到了“复杂度”
+
+无算法基础： O(MN)
+
+有算法基础： O（M+N)
+
+这个复杂度就不是一个级别上了。
+
+1. Intersect 【交集】
+
+
+        static void Main(string[] args)
+        {
+            var num1 = new int[] { 10, 40, 80, 100 };
+
+            var num2 = new int[] { 20, 30, 40, 70 };
+
+            //求交集
+            var query = num1.Intersect(num2);
+
+            HashSet<int> hashset = new HashSet<int>(num1);   // O(N) N=num1.Length
+
+            foreach (var num in num2)      //O(M)  M=num2.Length
+            {
+                if (hashset.Contains(num))   // O（1）的复杂度。
+                {
+                    //Add操作
+                }
+            }
+
+            //=> O(M+N)
+        }
+
+<1> newobj instance void class System.Linq.Set`1<!TSource>::.ctor(class [mscorlib]System.Collections.Generic.IEqualityComparer`1<!0>)
+
+<2> callvirt instance bool class System.Linq.Set`1<!TSource>::Add(!0)
+
+先将数据塞入到Set中，然后foreach随便一个集合，判断将当前值和foreach的迭代变量进行比较。
+
+
+2. Except    【差集】
+
+  集合的差集运算，同样你也可以将复杂度从O(MN) => O(M+N)
+
+
+3. Union     【并集】
+
+        static void Main(string[] args)
+        {
+            var num1 = new int[] { 10, 40, 80, 100 };
+
+            var num2 = new int[] { 20, 30, 40, 70 };
+
+            //Num1-Num2  = {10,80,100}
+
+            //var query = num1.Except(num2);
+
+
+            var query = num1.Union(num2);
+
+        }
+
+
+linq有了这些扩展方法之后，就避免了我们写过多的foreach，for循环。这样让我们更加的专注于业务逻辑。
+
+
+从源代码可以看到，两个串行的foreach，也养复杂度也做到了 “加法运算”。
+

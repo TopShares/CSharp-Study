@@ -1,0 +1,78 @@
+一：taskSchedule
+
+taskSchedule是干嘛的？？？
+
+我们发现我们的任务执行都要经过Schedule。。。task的核心就是这个Schedule。。。因为他要把任务
+安排在线程或者线程池中。。。
+
+RunLonging... Thread。。。。
+
+二：在.net framework中有两种taskschedule。。。
+
+1.ThreadPoolTaskScheduler
+
+也就是Task的默认调度形式。。。。ThreadPool
+
+protected internal override void QueueTask(Task task)
+		{
+			if ((task.Options & TaskCreationOptions.LongRunning) != TaskCreationOptions.None)
+			{
+				new Thread(ThreadPoolTaskScheduler.s_longRunningThreadWork)
+				{
+					IsBackground = true
+				}.Start(task);
+				return;
+			}
+			bool forceGlobal = (task.Options & TaskCreationOptions.PreferFairness) > TaskCreationOptions.None;
+			ThreadPool.UnsafeQueueCustomWorkItem(task, forceGlobal);
+		}
+
+2.SynchronizationContextTaskScheduler
+
+在winform，或者wpf中如果给一个控件赋值，都是调用invoke方法。。。
+
+《1》不要再UIThread做非常耗时的任务，否则会出问题。。。。
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Task task = new Task(() =>
+            {
+                try
+                {
+                    label1.Text = "你好";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            });
+
+            task.Start(TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+
+《2》 耗时的操作我们要放到threadpool，更新操作放到同步上下文中。。。
+
+                 var task = Task.Factory.StartNew(() =>
+            {
+                //默认耗时操作
+                Thread.Sleep(1000 * 10);
+            });
+
+            task.ContinueWith(t =>
+            {
+                label1.Text = "你好";
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+
+
+三：我可以自定义Scheduler吗？？？
+
+我自定义的scheduler，需要将每一个task都委托到一个thread中去执行。。。
+
+PerThreadTaskScheduler
+
+通过windbg去查看是否真的使用Thread去执行的。。。
+
+
+
+

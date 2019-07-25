@@ -1,0 +1,132 @@
+
+linq的限定操作
+
+常见的限定操作： All，Any,Contains
+
+
+一：All
+
+1. 解释： 确定序列中的所有元素是否满足条件。
+
+         从字面意思上面，我们是否可以看到，避免我们写foreach语句。
+
+        static void Main(string[] args)
+        {
+            var nums = new int[] { 10, 20, 30, 40 };
+
+            var query = nums.All(i => i  == 10);
+        }
+
+
+2. 看源码：
+
+//foreach (var num in nums)
+//{
+//    if (num % 10 != 0)
+//    {
+//        return false;
+//    }
+//}
+
+//return true;
+
+可以看到，果然和我自己实现的一模一样
+
+
+二：Any 【bool】
+
+1.解释： 确定序列是否包含任何元素。
+
+
+2.代码：
+            foreach (var num in nums)
+            {
+                if (num == 20) return true;
+            }
+            return false;
+
+
+三：Contains
+
+
+1. 解释：通过使用默认的相等比较器确定序列是否包含指定的元素。
+
+
+2. 相等比较器
+
+   也就是说只有比较器认为是相等的才能认为是相等。。
+
+
+3. 源码实现
+
+
+我们发现，Contains最终调用的是Array的IndexOf函数，而这种Contains实在SZArrayHelper中实现的。
+
+
+		private bool Contains<T>(T value)
+		{
+			return Array.IndexOf<T>(JitHelpers.UnsafeCast<T[]>(this), value) != -1;
+		}
+
+
+4. 如何定义比较器
+
+使用默认的比较器，一般用来操作“复杂类型”的比较。
+
+
+namespace ConsoleApplication1
+{
+    public class Program
+    {
+        static void Main(string[] args)
+        {
+            //只要名称相等，那么就认为两个类是相等的
+
+            var personList = new List<Person>() {
+                 new Person() { Name="mary", Age=20 },
+                 new Person() { Name="jack", Age=25 }
+            };
+
+            var b = personList.Contains(new Person() { Name = "mary", Age = 25 }, new MyComparer());
+        }
+    }
+
+    public class Person
+    {
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+    }
+
+    public class MyComparer : IEqualityComparer<Person>
+    {
+        public bool Equals(Person x, Person y)
+        {
+            return x.Name == y.Name;
+        }
+
+        public int GetHashCode(Person obj)
+        {
+            return obj.ToString().GetHashCode();
+        }
+    }
+}
+
+大家有应该清楚了，如何定义IEqualityComparer的子类，来实现自定义比较。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

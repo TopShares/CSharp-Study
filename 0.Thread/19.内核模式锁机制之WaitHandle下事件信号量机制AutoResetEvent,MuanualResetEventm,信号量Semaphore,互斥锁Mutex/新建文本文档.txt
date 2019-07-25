@@ -1,0 +1,217 @@
+一：锁机制的内核模式
+
+1. 在万不得已的情况下，不要使用内核模式的锁，因为代价太大。。。其实我们有更多的方式可以替代：
+
+   混合锁机制， lock
+
+2. 事件锁
+
+3. 信号量
+
+4. 互斥锁
+
+二：事件锁 【开关锁，true,false的变量来进行控制】
+
+1. 自动事件锁 【AutoResetEvent】
+
+   《1》场景：可以用此锁实现多线程环境下某个变量的自增
+              
+             true：表示终止状态   false：表示非终止
+
+       现实中的场景： 进站火车闸机，我们用火车票来实现进站操作。
+                 
+                true:      终止表示： 闸机中没有火车票，     终止=> 初始状态
+                false:     非终止表示：闸机中此时有一张火车票
+
+        static AutoResetEvent areLock = new AutoResetEvent(false);
+
+        static void Main(string[] args)
+        {
+            areLock.WaitOne(); //塞一张火车票到闸机中，因为此时有票在闸机，所以我只能等待  =》 mainthread
+
+            Console.WriteLine("火车票检验通过，可以通行");
+
+            areLock.Set();   //从闸机中取火车票
+        }
+
+WaitOne：用来将火车票塞入到闸机中
+
+Set：    从闸机中把票取出来
+                      
+
+        static AutoResetEvent areLock = new AutoResetEvent(true);
+
+        static void Main(string[] args)
+        {
+            areLock.WaitOne(); //塞一张火车票到闸机中  =》 mainthread
+
+            Console.WriteLine("火车票检验通过，可以通行");
+
+            areLock.Set();   //从闸机中取火车票
+        }
+	      
+2. 手动事件锁
+
+   ManualResetEvent ：现实场景就是 => 有人看守的铁道栅栏
+
+                       如果有火车马上要来了，这个栅栏会合围起来，阻止行人通过铁路。
+                       如果火车走了，这个栅栏就会从合围状态转为两侧。 行人就可以通过了
+                    
+	         true： 栅栏没有合围，没有阻止行人通过铁路
+                 false：栅栏合围了， 阻止行人通过   
+
+3.注意点
+
+两者 ManualResetEvent  和 AutoResetEvent  是不一样的，所以不能混用。。。
+
+ class Program
+    {
+        //static AutoResetEvent areLock = new AutoResetEvent(true);
+        static ManualResetEvent mreLock = new ManualResetEvent(false);
+
+        static void Main(string[] args)
+        {
+            //比如开启5个task
+            for (int i = 0; i < 5; i++)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Run();
+                });
+            }
+
+            Thread.Sleep(5000);  //5s中之后，火车开走了，这个时候就要撤销栅栏
+            mreLock.Set();
+
+            Console.Read();
+        }
+
+        static int nums = 0;
+
+        static void Run()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                try
+                {
+                    mreLock.WaitOne();
+                    Console.WriteLine(nums++);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+
+                }
+            }
+        }
+    }
+
+4. Semaphore 【他是通过int数值来控制线程个数】
+
+static Semaphore seLock = new Semaphore(1, 1);  我当前只能是一个线程通过。。
+
+ class Program
+    {
+        //static AutoResetEvent areLock = new AutoResetEvent(true);
+        //static ManualResetEvent mreLock = new ManualResetEvent(false);
+        static Semaphore seLock = new Semaphore(1, 10);
+
+        static void Main(string[] args)
+        {
+            //比如开启5个task
+            for (int i = 0; i < 5; i++)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Run();
+                });
+            }
+
+            Console.Read();
+        }
+
+        static int nums = 0;
+
+        static void Run()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                try
+                {
+                    seLock.WaitOne();
+                    Console.WriteLine(nums++);
+                    seLock.Release();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+
+                }
+            }
+        }
+    }
+
+5. mutex 互斥锁
+
+  class Program
+    {
+        //static AutoResetEvent areLock = new AutoResetEvent(true);
+        //static ManualResetEvent mreLock = new ManualResetEvent(false);
+        //static Semaphore seLock = new Semaphore(1, 10);
+        static Mutex mutex = new Mutex();
+
+        static void Main(string[] args)
+        {
+            //比如开启5个task
+            for (int i = 0; i < 5; i++)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Run();
+                });
+            }
+
+            Console.Read();
+        }
+
+        static int nums = 0;
+
+        static void Run()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                try
+                {
+                    //seLock.WaitOne();
+                    mutex.WaitOne();
+                    Console.WriteLine(nums++);
+                    //seLock.Release();
+                    mutex.ReleaseMutex();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+
+                }
+            }
+        }
+    }
+
+6：这三种锁，我们发现都有一个WaitOne方法。。。因为他们都是继承于WaitHandle。。。
+
+   三种锁都是同根生，其实底层都是通过SafeWaitHandle来对win32api的一个引用。
+
+
+
+
+
+ 

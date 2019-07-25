@@ -1,0 +1,121 @@
+
+一：扩展方法
+
+《1》 先上代码
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var str = "12345";
+
+            var result = str.SayLength();
+        }
+    }
+
+    public static class Extension
+    {
+        public static int SayLength(this string str)
+        {
+            return str.Length;
+        }
+    }
+
+}
+
+二：如果说“没有扩展方法”，这个世界会是什么样子？？？
+
+1. 包装类 【在原有的福利上享受新福利】  【不能被继承】的类的扩展
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //var str = "12345";
+
+            //var result = str.SayLength();
+
+            StrExtenstion str = new StrExtenstion();
+
+            str.Str = "12345";
+
+            var result = str.SayLength();
+        }
+    }
+
+
+    public class StrExtenstion
+    {
+        //原有的福利
+        public string Str { get; set; }
+
+        //附加的福利
+        public int SayLength()
+        {
+            return Str.Length;
+        }
+    }
+
+如果上面的例子不是很明显，可以看看FCL中的包装类。 List => array
+
+List源码初探
+
+1. 	
+        private T[] _items;
+
+	public List()
+		{
+			this._items = List<T>._emptyArray;
+		}
+
+
+
+
+2. 继承扩展
+
+   FCL中到处都是继承扩展，子类可以享受父类的的福利，并且子类还有独自的附加福利。
+
+   继承链太多，导致很难管理和调试。
+
+
+3. 我既能享受类似继承的语法形式，也能对方法进行扩展。 那这个就是“扩展方法”
+
+
+三：扩展方法如何定义
+
+1. 静态类 +静态方法
+
+2. 方法的第一个参数叫做“数据源”。也就是扩展方法要依附到谁之上？？？？ 【this string/object str】
+
+3. 扩展方法要注意的地方。
+
+   很多专家说，能不用扩展方法就不要用。担心的就是【方法冲突/覆盖】
+
+   一定要知道扩展方法是后娘养的，所以说它不如亲生的重要，也就是说不是一等公民。
+
+
+  比如说我在.net 3.5 上定义了一个SayLength方法，如果版本升级到4.0的时候，FCL给string增加了一个SayLength
+
+方法，这时候代码就会出问题，因为我们的扩展SayLength被4.0的SayLength所覆盖，也就导致了bug的产生。
+
+四：linq之扩展方法
+
+linq其实就是在扩展方法上面玩的lambda表达式。
+
+1. linq所玩的扩展方法在哪里？？？
+
+   通过F12，我们发现在System.Linq命名空间之下。
+
+public static TSource Aggregate<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, TSource> func);
+
+=>
+
+public static string Aggregate(this IEnumerable source, Func func);
+
+加上泛型之后，就是一个算法的重用。
+
+
+
+

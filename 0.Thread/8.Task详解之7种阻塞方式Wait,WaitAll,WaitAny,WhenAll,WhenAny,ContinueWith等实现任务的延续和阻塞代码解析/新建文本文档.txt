@@ -1,0 +1,112 @@
+一：task的阻塞和延续操作
+
+这些都是task的核心
+
+1. 阻塞
+
+   thread => Join方法 【让调用线程阻塞】
+ 
+
+            Thread t = new Thread(() =>
+            {
+                System.Threading.Thread.Sleep(100);
+
+                Console.WriteLine("我是工作线程1");
+            });
+
+            Thread t2 = new Thread(() =>
+            {
+                System.Threading.Thread.Sleep(100);
+
+                Console.WriteLine("我是工作线程2");
+            });
+
+            t.Start();
+            t2.Start();
+
+            t.Join();   // t1 && t2 都完成了 WaitAll操作。。。  WaitAny  t1 ||  t2 
+            t2.Join();
+
+            Console.WriteLine("我是主线程");
+
+            Console.Read();
+
+
+Task:
+
+WaitAll方法   必须其中所有的task执行完成才算完成
+
+WaitAny方法，只要其中一个task执行完成就算完成
+
+task.wait方法： 等待操作
+
+上面这些等待操作，返回值都是void。。。。
+
+
+现在有一个想法就是，我不想阻塞主线程实现一个waitall的操作。。。。
+
+
+t1 执行完成了执行 t2  ，这就是延续的概念。。。。
+
+延续 = 它的基础就是wait。。。
+
+
+   static void Main(string[] args)
+        {
+            Task task1 = new Task(() =>
+            {
+                System.Threading.Thread.Sleep(1000);
+
+                Console.WriteLine("我是工作线程1:{0}", DateTime.Now);
+            });
+
+            task1.Start();
+
+            Task task2 = new Task(() =>
+            {
+                System.Threading.Thread.Sleep(2000);
+
+                Console.WriteLine("我是工作线程2:{0}", DateTime.Now);
+            });
+
+            task2.Start();
+
+            Task.WhenAll(task1, task2).ContinueWith(t =>
+            {
+                //执行“工作线程3”的内容
+                Console.WriteLine("我是工作线程 {0}", DateTime.Now);
+            });
+
+            Console.Read();
+        }
+
+WhenAll
+
+WhenAny
+
+Task工厂中的一些延续操作。。。
+
+ContinueWhenAll
+
+ Task.Factory.ContinueWhenAll(new Task[2] { task1, task2 }, (t) =>
+            {
+                //执行“工作线程3”的内容
+                Console.WriteLine("我是主线程 {0}", DateTime.Now);
+            });
+
+ContinueWhenAny
+
+
+本节课就是介绍Task的7种阻塞方式 +  延续
+
+如果会打组合拳，task异步任务还是写的非常漂亮。。。。
+
+
+
+
+
+
+
+
+
+

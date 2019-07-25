@@ -1,0 +1,208 @@
+一：Task中的常见两种枚举
+
+
+1. Task构造函数中使用的。。。
+
+public Task(Action action, TaskCreationOptions creationOptions);
+
+
+    //
+    // 摘要:
+    //     指定可控制任务的创建和执行的可选行为的标志。
+    [Flags]
+    public enum TaskCreationOptions
+    {
+        //
+        // 摘要:
+        //     指定应使用默认行为。
+        None = 0,
+        //
+        // 摘要:
+        //     提示 System.Threading.Tasks.TaskScheduler 以一种尽可能公平的方式安排任务，这意味着较早安排的任务将更可能较早运行，而较晚安排运行的任务将更可能较晚运行。
+        PreferFairness = 1,
+        //
+        // 摘要:
+        //     指定任务将是长时间运行的、粗粒度的操作，涉及比细化的系统更少、更大的组件。它会向 System.Threading.Tasks.TaskScheduler
+        //     提示，过度订阅可能是合理的。您可以通过过度订阅创建比可用硬件线程数更多的线程。
+        LongRunning = 2,
+        //
+        // 摘要:
+        //     指定将任务附加到任务层次结构中的某个父级。有关详细信息，请参阅 已附加和已分离的子任务。
+        AttachedToParent = 4,
+        //
+        // 摘要:
+        //     如果尝试附有子任务到创建的任务，指定 System.InvalidOperationException 将被引发。
+        DenyChildAttach = 8,
+        //
+        // 摘要:
+        //     防止环境计划程序被视为已创建任务的当前计划程序。这意味着像 StartNew 或 ContinueWith 创建任务的执行操作将被视为 System.Threading.Tasks.TaskScheduler.Default
+        //     当前计划程序。
+        HideScheduler = 16
+    }
+
+
+2. 任务延续中的枚举   
+
+public Task ContinueWith(Action<Task> continuationAction, TaskContinuationOptions continuationOptions);
+
+
+二：演示
+
+TaskCreationOptions ：
+
+
+1. AttachedToParent  ：指定将任务附加到任务层次结构中的某个父级
+
+建立了父子关系。。。  父任务想要继续执行，必须等待子任务执行完毕。。。。
+
+  看例子可以看到，其中是一个WaitAll的一个操作。。。
+
+            Task task = new Task(() =>
+            {
+                Task task1 = new Task(() =>
+                {
+                    Thread.Sleep(100);
+                    Console.WriteLine("task1");
+                }, TaskCreationOptions.AttachedToParent);
+
+                Task task2 = new Task(() =>
+                {
+                    Thread.Sleep(10);
+                    Console.WriteLine("task2");
+                }, TaskCreationOptions.AttachedToParent);
+
+                task1.Start();
+
+                task2.Start();
+            });
+
+            task.Start();
+
+            task.Wait();  //task.WaitAll(task1,task2);
+
+            Console.WriteLine("我是主线程！！！！");
+
+            Console.Read();
+
+
+DenyChildAttach： 不让子任务附加到父任务上去。。。
+
+        static void Main(string[] args)
+        {
+            Task task = new Task(() =>
+            {
+                Task task1 = new Task(() =>
+                {
+                    Thread.Sleep(100);
+                    Console.WriteLine("task1");
+                }, TaskCreationOptions.AttachedToParent);
+
+                Task task2 = new Task(() =>
+                {
+                    Thread.Sleep(10);
+                    Console.WriteLine("task2");
+                }, TaskCreationOptions.AttachedToParent);
+
+                task1.Start();
+
+                task2.Start();
+            }, TaskCreationOptions.DenyChildAttach);
+
+            task.Start();
+
+            task.Wait();  //task.WaitAll(task1,task2);
+
+            Console.WriteLine("我是主线程！！！！");
+
+            Console.Read();
+        }
+
+HideScheduler： 子任务默认不使用父类的Task的Scheduler。。。而是使用默认的。
+
+LongRunning：如果你明知道是长时间运行的任务，建议你使用此选项。。
+             建议使用 “Thread” 而不是“threadPool"。
+
+             如果长期租用不还给threadPool,threadPool为了满足市场需求，会新开一些线程。。。
+             满足当前使用，如果此时租用线程被归还，这会导致ThreadPool的线程过多，销毁和
+	     调度都是一个很大的麻烦。。。
+
+	try
+	{
+		this.m_taskScheduler.InternalQueueTask(this);
+	}
+	catch (ThreadAbortException exceptionObject)
+	{
+		this.AddException(exceptionObject);
+		this.FinishThreadAbortedTask(true, false);
+	}
+
+		internal void InternalQueueTask(Task task)
+		{
+			task.FireTaskScheduledIfNeeded(this);
+			this.QueueTask(task);
+		}
+
+
+		protected internal override void QueueTask(Task task)
+		{
+			if ((task.Options & TaskCreationOptions.LongRunning) != TaskCreationOptions.None)
+			{
+				new Thread(ThreadPoolTaskScheduler.s_longRunningThreadWork)
+				{
+					IsBackground = true
+				}.Start(task);
+				return;
+			}
+			bool forceGlobal = (task.Options & TaskCreationOptions.PreferFairness) > TaskCreationOptions.None;
+			ThreadPool.UnsafeQueueCustomWorkItem(task, forceGlobal);
+		}
+
+
+PreferFairness： 给你的感觉就是一个”queue“的感觉。。。
+
+
+会将Task放入到ThreadPool的全局队列中。。。。 让work thread进行争抢。。。。
+
+默认情况会放到task的一个本地队列中。。。。
+
+// System.Threading.ThreadPoolWorkQueue
+[SecurityCritical]
+public void Enqueue(IThreadPoolWorkItem callback, bool forceGlobal)
+{
+	ThreadPoolWorkQueueThreadLocals threadPoolWorkQueueThreadLocals = null;
+	if (!forceGlobal)
+	{
+		threadPoolWorkQueueThreadLocals = ThreadPoolWorkQueueThreadLocals.threadLocals;
+	}
+	if (this.loggingEnabled)
+	{
+		FrameworkEventSource.Log.ThreadPoolEnqueueWorkObject(callback);
+	}
+	if (threadPoolWorkQueueThreadLocals != null)
+	{
+		threadPoolWorkQueueThreadLocals.workStealingQueue.LocalPush(callback);
+	}
+	else
+	{
+		ThreadPoolWorkQueue.QueueSegment queueSegment = this.queueHead;
+		while (!queueSegment.TryEnqueue(callback))
+		{
+			Interlocked.CompareExchange<ThreadPoolWorkQueue.QueueSegment>(ref queueSegment.Next, new ThreadPoolWorkQueue.QueueSegment(), null);
+			while (queueSegment.Next != null)
+			{
+				Interlocked.CompareExchange<ThreadPoolWorkQueue.QueueSegment>(ref this.queueHead, queueSegment.Next, queueSegment);
+				queueSegment = this.queueHead;
+			}
+		}
+	}
+	this.EnsureThreadRequested();
+}
+
+
+
+
+
+
+
+
+

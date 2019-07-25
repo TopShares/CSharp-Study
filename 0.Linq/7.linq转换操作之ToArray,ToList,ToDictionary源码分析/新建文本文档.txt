@@ -1,0 +1,40 @@
+一：linq中的转换运算符
+
+1. ToArray
+
+   我们经常用在linq查询上吧。 linq只能运用在IEnumerable这个集合类型上面。
+  
+源码分析：  我们发现如果该类型可以转化为ICollection，我们最后执行CopyTo方法
+
+            如果不能转换为ICollection，那么就执行foreach。
+
+
+2. ToList
+
+   这个我们发现比ToArray更简单，如果说可以转换为ICollection，那么它直接使用了List的构造函数，在List的构造函数中，我们看到非常
+
+   简单。如果不能转为就执行foreach添加。
+
+
+3. ToDictionary
+
+
+            var list = new List<int>() { 10, 20, 30 };
+
+            var query2 = from n in list
+                         select new { num = n };
+
+            var myarr = query2.ToDictionary(i => i.num);
+
+从编译器中我们应该可以看到，toDictionary之后，我们的key是一个int，value为一个匿名类型 'a
+
+  [10, 'a],[20,'a],[30,'a]
+
+
+最终可以看到ToDictionary最后调用的是
+
+	foreach (TSource current in source)
+	{
+		dictionary.Add(keySelector(current), elementSelector(current));
+	}
+   

@@ -1,0 +1,160 @@
+一：ContinuWith
+
+1. Task   TaskCreationOptions   第一个task
+
+2. Task  TaskContinuationOptions 第二个task
+
+
+第二个task需要判断第一个task在什么情况下，我该执行或者不该执行。。。。
+
+       //
+        // 摘要:
+        //     Default = "Continue on any, no task options, run asynchronously" 指定应使用默认行为。默认情况下，完成前面的任务之后将安排运行延续任务，而不考虑前面任务的最终
+        //     System.Threading.Tasks.TaskStatus。
+        None = 0,
+        //
+        // 摘要:
+        //     提示 System.Threading.Tasks.TaskScheduler 以一种尽可能公平的方式安排任务，这意味着较早安排的任务将更可能较早运行，而较晚安排运行的任务将更可能较晚运行。
+        PreferFairness = 1,
+        //
+        // 摘要:
+        //     指定某个任务将是运行时间长、粗粒度的操作。它会向 System.Threading.Tasks.TaskScheduler 提示，过度订阅可能是合理的。
+        LongRunning = 2,
+        //
+        // 摘要:
+        //     指定将任务附加到任务层次结构中的某个父级。
+        AttachedToParent = 4,
+        //
+        // 摘要:
+        //     如果尝试附有子任务到创建的任务，指定 System.InvalidOperationException 将被引发。
+        DenyChildAttach = 8,
+        //
+        // 摘要:
+        //     防止环境计划程序被视为已创建任务的当前计划程序。这意味着像 StartNew 或 ContinueWith 创建任务的执行操作将被视为 System.Threading.Tasks.TaskScheduler.Default
+        //     当前计划程序。
+        HideScheduler = 16,
+        //
+        // 摘要:
+        //     在延续取消的情况下，防止延续的完成直到完成先前的任务。
+        LazyCancellation = 32,
+        //
+        // 摘要:
+        //     指定不应在延续任务前面的任务已完成运行的情况下安排延续任务。此选项对多任务延续无效。
+        NotOnRanToCompletion = 65536,
+        //
+        // 摘要:
+        //     指定不应在延续任务前面的任务引发了未处理异常的情况下安排延续任务。此选项对多任务延续无效。
+        NotOnFaulted = 131072,
+        //
+        // 摘要:
+        //     指定只应在延续任务前面的任务已取消的情况下安排延续任务。此选项对多任务延续无效。
+        OnlyOnCanceled = 196608,
+        //
+        // 摘要:
+        //     指定不应在延续任务前面的任务已取消的情况下安排延续任务。此选项对多任务延续无效。
+        NotOnCanceled = 262144,
+        //
+        // 摘要:
+        //     指定只有在延续任务前面的任务引发了未处理异常的情况下才应安排延续任务。此选项对多任务延续无效。
+        OnlyOnFaulted = 327680,
+        //
+        // 摘要:
+        //     指定只应在延续任务前面的任务已完成运行的情况下才安排延续任务。此选项对多任务延续无效。
+        OnlyOnRanToCompletion = 393216,
+        //
+        // 摘要:
+        //     指定应同步执行延续任务。指定此选项后，延续任务将在导致前面的任务转换为其最终状态的相同线程上运行。如果在创建延续任务时已经完成前面的任务，则延续任务将在创建此延续任务的线程上运行。只应同步执行运行时间非常短的延续任务。
+        ExecuteSynchronously = 524288
+
+
+二： LazyCancellation
+
+1. Cancellation 判断任务的取消。。。 Thread abort
+
+
+task1 -> continuewith  task2  -> continuewith -> task3
+
+
+就是说，continuewith的时候，预先判断了source.token的值，结果发现任务已经取消。
+
+这个时候，task2就不会执行了。。，但是task3和task2有延续。。。
+
+有因为task2 和task1已经没有延续关系了。。。所以 task1和task3可以并行，
+
+看似continuewith的关系得不到延续。。。。【并行】
+
+
+TaskContinuationOptions.LazyCancellation 它的本质就是：
+
+需要等待task1执行完成之后再判断source.token的状态。。。。 这样的话，
+
+首先就形成了一条链： task1 -> task2 -> task3...
+
+
+        static void Main(string[] args)
+        {
+            CancellationTokenSource source = new CancellationTokenSource();
+
+            source.Cancel();
+
+            Task task1 = new Task(() =>
+            {
+                Thread.Sleep(1000);
+                Console.WriteLine("task1 tid={0}， dt={1}", Thread.CurrentThread.ManagedThreadId, DateTime.Now);
+            });
+
+            var task2 = task1.ContinueWith(t =>
+            {
+                Console.WriteLine("task2 tid={0}， dt={1}", Thread.CurrentThread.ManagedThreadId, DateTime.Now);
+            }, source.Token, TaskContinuationOptions.LazyCancellation, TaskScheduler.Current);
+
+            var task3 = task2.ContinueWith(t =>
+            {
+                Console.WriteLine("task3 tid={0}， dt={1}  {2}", Thread.CurrentThread.ManagedThreadId,
+                                                                 DateTime.Now, task2.Status);
+            });
+
+            task1.Start();
+
+            Console.Read();
+        }
+
+
+
+
+
+
+三：ExecuteSynchronously 这个枚举就是希望执行前面那个task的thread也在执行本延续任务。
+
+task2 也希望使用 task1的线程去执行，这样可以防止线程切换。。。
+
+            Task task1 = new Task(() =>
+            {
+                Thread.Sleep(1000);
+                Console.WriteLine("task1 tid={0}， dt={1}", Thread.CurrentThread.ManagedThreadId, DateTime.Now);
+            });
+
+            var task2 = task1.ContinueWith(t =>
+            {
+                Console.WriteLine("task2 tid={0}， dt={1}", Thread.CurrentThread.ManagedThreadId, DateTime.Now);
+            },TaskContinuationOptions.ExecuteSynchronously);
+
+
+四：NotOnRanToCompletion  OnlyOnRanToCompletion
+
+前面表示延续任务必须在前面task非完成状态才能执行。。
+
+后面表示延续任务必须在前面task完成状态才能执行。。。
+
+            Task task1 = new Task(() =>
+            {
+                Thread.Sleep(1000);
+                Console.WriteLine("task1 tid={0}， dt={1}", Thread.CurrentThread.ManagedThreadId, DateTime.Now);
+
+                throw new Exception("hello world");
+            });
+
+            var task2 = task1.ContinueWith(t =>
+            {
+                Console.WriteLine("task2 tid={0}， dt={1}", Thread.CurrentThread.ManagedThreadId, DateTime.Now);
+            }, TaskContinuationOptions.NotOnRanToCompletion);

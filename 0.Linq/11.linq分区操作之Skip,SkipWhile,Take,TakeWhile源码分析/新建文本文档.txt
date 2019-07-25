@@ -1,0 +1,75 @@
+
+二：linq的分区操作
+
+常用的分区操作：Take，TakeWhile,Skip,SkipWhile
+
+
+三：Take
+
+1. 注释：  从序列的开头返回指定数量的连续元素
+
+
+2. 实战：            
+            var nums = new int[] { 10, 20, 30, 40, 50, 60 };
+
+            var query = nums.Take(2).ToList();    // 10，20
+
+
+3. 探究源码：
+
+
+四：TakeWhile
+
+1. 注释： 只要满足指定的条件，就会返回序列的元素。 【find】
+
+
+2.           var nums = new int[] { 10, 20, 30, 40, 50, 60 };
+
+            var query = nums.TakeWhile(i => i < 20);
+
+3. 大家要记住，TakeWhile和Where的区别在于，TakeWhile是从前往后计算，如果遇到不满足Func条件，则提前退出。
+
+
+4. 源代码研究：
+
+			IL_0041: ldfld class [mscorlib]System.Func`2<!0, bool> class System.Linq.Enumerable/'<TakeWhileIterator>d__26`1'<!TSource>::predicate
+			IL_0046: ldloc.2
+			IL_0047: callvirt instance !1 class [mscorlib]System.Func`2<!TSource, bool>::Invoke(!0)
+			IL_004c: brfalse.s IL_0075
+
+
+这里是在MoveNext中执行的，如果predicate为false，则直接退出。
+
+
+五：Skip
+
+1. 跳过序列中指定数量的元素，然后返回剩余的元素。
+
+2.实战：
+
+            var nums = new int[] { 10, 20, 30, 40, 50, 60 };
+
+            var query = nums.Skip(3);
+
+
+六：SkipWhile
+
+大家一定要知道SkipWhile的灵活性是Skip的延伸。
+
+
+        static void Main(string[] args)
+        {
+            var nums = new int[] { 10, 20, 30, 40, 50, 60 };
+
+            var query = nums.SkipWhile(i => i < 30);
+
+        }
+
+从linq中我们要知道，ILSpy和ILDasm是我们学习C#必备的两个工具。
+
+
+http://www.cnblogs.com/flyingbirds123/archive/2011/01/29/1947626.html
+
+
+
+

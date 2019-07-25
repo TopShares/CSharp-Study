@@ -1,0 +1,171 @@
+一：.net framework中有一些模型对task进行了封装。。。
+
+这些类封装了这个task。。。所以我们可以用这些类来进行并行编程。。。
+
+1. Parallel
+
+for，foreach invoke
+
+
+2.For
+
+            //串行计算
+            for (int i = 0; i < 100; i++)
+            {
+                Console.WriteLine(i);
+            }
+
+            //并行计算
+            Parallel.For(0, 100, (item) =>
+            {
+                Console.WriteLine(item);
+            });
+
+
+3. 从源码中看一下Parallel.For实现结构
+
+<1> 我们在并行的时候，可以指定当前有几个线程参与计算。。。
+    
+    不让所有的thread参与计算，不让cpu太凶猛了。。。
+
+<2> 	RangeManager rangeManager = new RangeManager((long)fromInclusive, (long)toExclusive, 1L, nNumExpectedWorkers);
+
+    
+
+分区函数 【0-100】
+
+8个thread去计算。 s
+
+100/8 =12   
+
+100 % 8 = 4
+
+
+t1 => 0-11
+
+t2 => 12-24
+
+t3 => 25-36
+
+。。。
+
+
+ParallelForReplicatingTask : Task
+
+最后会使用ParallelForReplicatingTask 进行处理
+
+
+不要在Parallel.For中使用break或者stop，或许会给你引入一些不必要的bug。。。
+
+因为大家都是并行执行的，所以别的线程是刹不住车的。。。
+
+        static void Main()
+        {
+            ConcurrentStack<int> stack = new ConcurrentStack<int>();
+
+            //并行计算
+            Parallel.For(0, 100, (item, loop) =>
+            {
+                if (item == 10)
+                {
+                    loop.Stop();
+                    return;
+                }
+
+                stack.Push(item);
+            });
+
+            Console.WriteLine(string.Join(",", stack));
+        }
+
+
+3.For的高级重载
+
+
+        public static ParallelLoopResult For<TLocal>(int fromInclusive, int toExclusive, Func<TLocal> localInit, Func<int, ParallelLoopState, TLocal, TLocal> body, Action<TLocal> localFinally);
+
+聚合函数是一样的。。。 其实就是一个并行的聚合计算。
+
+比如说：我想做一个并行的从 1-100的累积计算。。。
+
+
+1+2+3+4+5+。。。。+99  =4950 
+
+
+Parallel.For 可以实现一些数组的累计运算。。。
+
+
+Parallel.ForEach 应对一些集合运算 【非数组】
+
+// System.Threading.Tasks.Parallel
+private static ParallelLoopResult ForEachWorker<TSource, TLocal>(IEnumerable<TSource> source, ParallelOptions parallelOptions, Action<TSource> body, Action<TSource, ParallelLoopState> bodyWithState, Action<TSource, ParallelLoopState, long> bodyWithStateAndIndex, Func<TSource, ParallelLoopState, TLocal, TLocal> bodyWithStateAndLocal, Func<TSource, ParallelLoopState, long, TLocal, TLocal> bodyWithEverything, Func<TLocal> localInit, Action<TLocal> localFinally)
+{
+	if (parallelOptions.CancellationToken.IsCancellationRequested)
+	{
+		throw new OperationCanceledException(parallelOptions.CancellationToken);
+	}
+	TSource[] array = source as TSource[];
+	if (array != null)
+	{
+		return Parallel.ForEachWorker<TSource, TLocal>(array, parallelOptions, body, bodyWithState, bodyWithStateAndIndex, bodyWithStateAndLocal, bodyWithEverything, localInit, localFinally);
+	}
+	IList<TSource> list = source as IList<TSource>;
+	if (list != null)
+	{
+		return Parallel.ForEachWorker<TSource, TLocal>(list, parallelOptions, body, bodyWithState, bodyWithStateAndIndex, bodyWithStateAndLocal, bodyWithEverything, localInit, localFinally);
+	}
+	return Parallel.PartitionerForEachWorker<TSource, TLocal>(Partitioner.Create<TSource>(source), parallelOptions, body, bodyWithState, bodyWithStateAndIndex, bodyWithStateAndLocal, bodyWithEverything, localInit, localFinally);
+}
+
+
+就是说Parallel函数，第一点就是要分区。。
+
+	internal InternalPartitionEnumerable(IEnumerator<TSource> sharedReader, bool useSingleChunking, bool isStaticPartitioning)
+	{
+		this.m_sharedReader = sharedReader;
+		this.m_sharedIndex = new Partitioner.SharedLong(-1L);
+		this.m_hasNoElementsLeft = new Partitioner.SharedBool(false);
+		this.m_sourceDepleted = new Partitioner.SharedBool(false);
+		this.m_sharedLock = new object();
+		this.m_useSingleChunking = useSingleChunking;
+		if (!this.m_useSingleChunking)
+		{
+			int num = (PlatformHelper.ProcessorCount > 4) ? 4 : 1;
+			this.m_FillBuffer = new KeyValuePair<long, TSource>[num * Partitioner.GetDefaultChunkSize<TSource>()];
+		}
+		if (isStaticPartitioning)
+		{
+			this.m_activePartitionCount = new Partitioner.SharedInt(0);
+			return;
+		}
+		this.m_activePartitionCount = null;
+	}
+
+字典的分区函数 。。。。
+
+Dictionary<int, int> dic = new Dictionary<int, int>()
+            {
+                {1,100},
+                {2,200 },
+                {3,300 }
+            };
+
+            Parallel.ForEach(dic, (item) =>
+            {
+                Console.WriteLine(item.Key);
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

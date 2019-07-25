@@ -1,0 +1,81 @@
+
+一：linq基础必备IEnumerable，IEnumerator
+
+
+linq查询必须的集合必须要实现这两个接口。
+
+
+《1》 IEnumerable
+
+     GetEnumerator方法
+
+
+《2》  Current 和MoveNext()属性， Reset方法
+
+
+二：迭代的基础
+
+1. 因为有了这IEnumerable，IEnumerator接口，我们的集合才可以迭代，可以迭代，我们就可以使用select词法和select扩展方法
+
+
+2. foreach语法糖
+
+   谁知道foreach的MSIL是什么？？？
+
+
+《1》 深刻认识foreach这个语法糖
+
+  .locals init ([0] class [mscorlib]System.Collections.Generic.List`1<int32> nums,
+           [1] class [mscorlib]System.Collections.Generic.List`1<int32> V_1,
+           [2] valuetype [mscorlib]System.Collections.Generic.List`1/Enumerator<int32> V_2,
+           [3] int32 num)
+
+
+我们发现，多了一个临时变量，是一个Enumerator<int32>类型变量 V_2
+
+
+            var nums = new List<int>() { 1, 2 };
+
+            var MyEnumerator = nums.GetEnumerator();
+
+            try
+            {
+                while (MyEnumerator.MoveNext())
+                {
+                    var num = MyEnumerator.Current;
+
+                    Console.WriteLine(num);
+                }
+            }
+            finally
+            {
+                MyEnumerator.Dispose();
+            }
+
+            //foreach (var num in nums)
+            //{
+            //    Console.WriteLine(num);
+            //}
+
+三：yield词法探索
+
+了解词法之前，我们需要知道的一个类：Enumerator
+
+这个类其实就是对list进行了一个封装，本质上所谓的movenext和current是对list进行的操作。
+
+
+yield词法生成的MSIL代码：
+
+.class auto ansi sealed nested private beforefieldinit '<GetNums>d__1'
+       extends [mscorlib]System.Object
+       implements class [mscorlib]System.Collections.Generic.IEnumerable`1<int32>,
+                  [mscorlib]System.Collections.IEnumerable,
+                  class [mscorlib]System.Collections.Generic.IEnumerator`1<int32>,
+                  [mscorlib]System.IDisposable,
+                  [mscorlib]System.Collections.IEnumerator
+
+其实 <GetNums>d__1  和 Enumerator 其实就是一样的。
+
+yield词法给我们生成时一个和系统定义的 Enumerator 是具有一样的功能类。
+
+

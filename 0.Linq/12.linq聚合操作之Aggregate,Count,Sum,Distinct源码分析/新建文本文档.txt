@@ -1,0 +1,125 @@
+
+一：Linq的聚合运算
+
+1. 常见的聚合运算：Aggregate，Count, Sum, Distinct,Max,Min
+
+这几个聚合运算，我们在sql中看的还是比较多的。
+
+
+二：Count
+
+1. 这个我们用到的非常多，Count() / LongCount().
+
+2. LongCount每次都是foreach循环，所以这个性能问题就出来了。
+
+
+三：Sum
+
+  var nums = new int[] { 10, 20, 30, 40, 50, 60 };
+
+  var query = nums.Sum(i => (long)i);
+
+
+我们最好看一下源代码，这样方便我们了解代码的性能问题，这样可以做到心中有数。
+
+public static decimal Sum(this IEnumerable<decimal> source)
+{
+	if (source == null)
+	{
+		throw Error.ArgumentNull("source");
+	}
+	decimal num = 0m;
+	foreach (decimal current in source)
+	{
+		num += current;
+	}
+	return num;
+}
+
+可以看到，其实就是一个简单的foreach。
+
+
+四：Distinct
+
+我想大家有非常清楚，它是一个去重。
+
+        static void Main(string[] args)
+        {
+            var nums = new int[] { 10, 20, 10, 40, 20, 30 };
+
+            var query = nums.Distinct();
+        }
+
+源码探究：
+
+private static IEnumerable<TSource> DistinctIterator<TSource>(IEnumerable<TSource> source, IEqualityComparer<TSource> comparer)
+{
+	Enumerable.<DistinctIterator>d__63<TSource> expr_07 = new Enumerable.<DistinctIterator>d__63<TSource>(-2);
+	expr_07.<>3__source = source;
+	expr_07.<>3__comparer = comparer;
+	return expr_07;
+}
+
+一定要清楚，又是一个枚举类【<DistinctIterator>d__63`1】
+
+可以看到，所谓的去重，就是将集合的数字添加到System.Linq.Set集合中，这个Set一看就是HashSet，对不对。。。
+
+
+IL_005b: callvirt instance bool class System.Linq.Set`1<!TSource>::Add(!0)
+
+
+五：Aggregate
+
+相对来说是最复杂的,它就是一个累加器，就是对集合中的每一次数组执行一个func函数，其中有一个累加值，有一个当前值。
+
+我们可以用Aggregate做一个Sum的操作。
+
+
+        static void Main(string[] args)
+        {
+            var nums = new int[] { 10, 20, 10, 40, 20, 30 };
+
+            var list = nums.Aggregate((total, next) =>
+              {
+                  return total + next;
+              });
+        }
+
+Aggregate的源码分析：
+
+public static TSource Aggregate<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, TSource> func)
+{
+	if (source == null)
+	{
+		throw Error.ArgumentNull("source");
+	}
+	if (func == null)
+	{
+		throw Error.ArgumentNull("func");
+	}
+	TSource result;
+	using (IEnumerator<TSource> enumerator = source.GetEnumerator())
+	{
+		if (!enumerator.MoveNext())            //获取第一个current值。
+		{
+			throw Error.NoElements();
+		}
+		TSource tSource = enumerator.Current; //将第一个值作为全局变量。
+		while (enumerator.MoveNext())         //取当前的source的第二个值。
+		{
+			tSource = func(tSource, enumerator.Current);   //然后将第一个值和第二个值调用func委托。
+								       //取得的值放到全局变量tSource中。
+		}
+		result = tSource;
+	}
+	return result;
+}
+
+
+六： Max,Min 函数
+
+学过sql都明白。
+
+
+
+

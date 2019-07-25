@@ -1,0 +1,65 @@
+linq中存在的 14个关键字
+
+网址: https://msdn.microsoft.com/zh-cn/library/bb310804.aspx
+
+from:  迭代变量
+
+where：对数据源进行逻辑筛选
+
+select：对数据进行塑形。
+
+group： 分组
+
+into：  分组链接
+
+orderby[ascending/descending]: 排序
+
+join：表关联
+
+let：就是局部变量
+
+
+            string[] strings =
+        {
+            "A penny saved is a penny earned.",
+            "The early bird catches the worm.",
+            "The pen is mightier than the sword."
+        };
+
+            // Split the sentence into an array of words
+            // and select those whose first letter is a vowel.
+            var earlyBirdQuery =
+                from sentence in strings
+                let words = sentence.Split(' ')
+                from word in words
+                let w = word.ToLower()
+                where w[0] == 'a' || w[0] == 'e'
+                    || w[0] == 'i' || w[0] == 'o'
+                    || w[0] == 'u'
+                select word;
+
+            foreach (var sentence in strings)
+            {
+                var words = sentence.Split(' ');
+
+                foreach (var word in words)
+                {
+                    var w = word.ToLower();
+                    
+                    if (w[0] == 'a' || w[0] == 'e'|| w[0] == 'i' || w[0] == 'o'|| w[0] == 'u')
+                    {
+                        // List.Add(word);
+                    }
+                }
+            }
+
+这些查询表达式 源自于 sql。。。这样方便我们去快速的写出代码，而且也不失可读性。
+
+
+好一点的文章：
+
+linq可以嵌套，太复杂也不容易看得懂
+
+
+
+

@@ -1,0 +1,103 @@
+一：Plinq => linq
+
+为了能够达到最大的灵活度，linq有了并行的版本。。。
+
+
+二：如何将linq转换为plinq。。。
+
+linq to object  
+
+
+            var nums = Enumerable.Range(0, 100);
+
+            var query = from n in nums.AsParallel()
+                        select new
+                        {
+                            thread = Thread.CurrentThread.ManagedThreadId,
+                            num = n
+                        };
+
+            foreach (var item in query)
+            {
+                Console.WriteLine(item);
+            }
+
+AsParallel() 可以将串行的代码转换为并行
+
+AsOrdered() 就是将并行结果还是按照 未排序的样子进行排序。。。
+
+asOrdered => orderby 
+
+[10,1,2,3,4]  => 并行计算.asOrderrd => [10,1,2,3,4]
+
+[10,1,2,3,4]  => orderby             =>[1,2,3,4,10]
+
+
+AsUnordered()  不按照原始的顺序排序。。。
+
+
+AsSequential()  <=> AsParallel() 是相对应的。。。。
+
+		前者将plinq转换为linq
+                后者将linq转换为plinq
+
+0:010> !clrstack
+OS Thread Id: 0x579c (10)
+Child SP       IP Call Site
+053bf580 77c0e91c [HelperMethodFrame: 053bf580] System.Threading.Thread.SleepInternal(Int32)
+053bf604 7029daba System.Threading.Thread.Sleep(Int32)
+053bf60c 00ba18f4 *** WARNING: Unable to verify checksum for C:\1\ConsoleApplication2\ConsoleApplication2\bin\Debug\ConsoleApplication2.exe
+ConsoleApplication2.Program.GetThreadID() [C:\1\ConsoleApplication2\ConsoleApplication2\Program.cs @ 38]
+053bf620 00ba188d ConsoleApplication2.Program+c.b__0_0(Int32) [C:\1\ConsoleApplication2\ConsoleApplication2\Program.cs @ 22]
+053bf638 00ba184e System.Linq.Parallel.SelectQueryOperator`2+SelectQueryOperatorResults[[System.Int32, mscorlib],[System.__Canon, mscorlib]].GetElement(Int32)
+053bf644 68466a7d System.Linq.Parallel.QueryResults`1[[System.__Canon, mscorlib]].get_Item(Int32)
+053bf64c 6845712c System.Linq.Parallel.PartitionedDataSource`1+ListContiguousIndexRangeEnumerator[[System.__Canon, mscorlib]].MoveNext(System.__Canon ByRef, Int32 ByRef)
+053bf668 00ba17cf System.Linq.Parallel.PipelineSpoolingTask`2[[System.__Canon, mscorlib],[System.Int32, mscorlib]].SpoolingWork()
+053bf684 6846c222 System.Linq.Parallel.SpoolingTaskBase.Work()
+053bf6bc 6845a7e0 System.Linq.Parallel.QueryTask.BaseWork(System.Object)
+053bf6dc 6845aa42 System.Linq.Parallel.QueryTask+c.b__10_0(System.Object)
+053bf6e0 7028dcff System.Threading.Tasks.Task.InnerInvoke()
+053bf6ec 7028d934 System.Threading.Tasks.Task.Execute()
+053bf710 7028dcba System.Threading.Tasks.Task.ExecutionContextCallback(System.Object)
+053bf714 702e1512 System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, System.Object, Boolean)
+053bf780 702e1446 System.Threading.ExecutionContext.Run(System.Threading.ExecutionContext, System.Threading.ContextCallback, System.Object, Boolean)
+053bf794 7028db38 System.Threading.Tasks.Task.ExecuteWithThreadLocal(System.Threading.Tasks.Task ByRef)
+053bf7f8 7028da4c System.Threading.Tasks.Task.ExecuteEntry(Boolean)
+053bf808 7028d98c System.Threading.Tasks.Task.System.Threading.IThreadPoolWorkItem.ExecuteWorkItem()
+053bf80c 7029b2d3 System.Threading.ThreadPoolWorkQueue.Dispatch()
+053bf85c 7029b17a System.Threading._ThreadPoolWaitCallback.PerformWaitCallback()
+053bfa80 7151ea96 [DebuggerU2MCatchHandlerFrame: 053bfa80] 
+
+
+plinq底层都是用task的。。。。  基于task的一些编程模型，让我们快速进行并行计算的。
+
+
+WithDegreeOfParallelism：
+
+WithDegreeOfParallelism(Environment.ProcessorCount) 告诉plinq当前8个线程都要参与。。。
+
+
+WithCancellation： 如果执行之前被取消，那就不要执行了。。。
+
+WithExecutionMode：此参数可以告诉系统当前是否强制并行。。。
+
+    public enum ParallelExecutionMode
+    {
+        Default = 0,
+        ForceParallelism = 1
+    }
+
+Plinq ：主要是划分区块，然后对区块进行聚合计算。。。从而达到分而治之。。。
+ 
+        sum
+
+smallsum   smallsum   smallsum  smallsum
+
+      -> mergesum   <-              -> mergesum  <-
+
+ 
+                      ->  totalsum  <-
+
+
+最灵活的东西莫过于自己去写业务逻辑。。封装的越厉害，灵活性越差，性能自然也越差。。。
+

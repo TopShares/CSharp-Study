@@ -1,0 +1,75 @@
+
+一：linq to Ado.Net
+
+1. linq为什么要扩展ado.net，原因在于给既有代码增加福利。FCL中在ado.net上扩展了一些方法。
+
+    简单一点的说： 就是在DatTable 和 DataRow 上面做了一些扩展。
+
+
+二：扩展方法一览
+
+1. AsEnumerable
+
+2. Field
+
+三：扩展类一览
+
+DataTableExtensions 扩展
+
+=>      public static EnumerableRowCollection<DataRow> AsEnumerable(this DataTable source);
+
+DataRowExtensions 扩展
+
+《1》 Field
+
+《2》 SetField
+
+
+        static DataTable BuildTable()
+        {
+            DataTable table = new DataTable();
+
+            table.Columns.Add(new DataColumn("Name", typeof(string)));
+            table.Columns.Add(new DataColumn("Age", typeof(int)));
+
+            var rand = new Random();
+
+            for (int i = 0; i < 10; i++)
+            {
+                var row = table.NewRow();
+
+                row.SetField<string>("Name", "jack" + rand.Next(0, 1000));
+                row.SetField<int>("Age", rand.Next(20, 30));
+
+
+                //row["Name"] = "jack" + rand.Next(0, 1000);
+                //row["Age"] = rand.Next(20, 30);
+
+                table.Rows.Add(row);
+            }
+
+            return table;
+        }
+   
+
+有了这两个扩展方法，我们就可以成功将linq运用在DataTable上，就好像我们对object【linq to object】
+进行查询一样。
+
+
+《1》 简单的查询
+
+            var table = BuildTable();
+
+            var query = from n in table.AsEnumerable()
+                        select new
+                        {
+                            Name = n.Field<string>("Name"),
+                            Age = n.Field<int?>("Age")
+                        };
+
+《2》 分组 ，统计每个年龄对应的人数
+
+《3》 join 操作
+
+
+可以看到，在没有linq之前，我们也是可以操作dataset的，但是代码写起来，就不是那么便利了

@@ -1,0 +1,142 @@
+一：监视锁
+
+限定线程个数的一把锁 ：Monitor
+
+Enter 锁住某一个资源
+
+Exit  退出某一个资源
+
+static object lockMe = new object();
+
+     static void Run()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                var b = false;
+                try
+                {
+
+                    //SpinLock
+                    Monitor.Enter(lockMe, ref b);
+                    Console.WriteLine(nums++);
+                    //seLock.Release();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    if (b) Monitor.Exit(lockMe);
+                }
+            }
+        }
+
+给一个什么感觉：为了严谨性，是不是为了加锁区域我都有trycatchfinally..而且还要用
+
+if来判断。。太麻烦。
+
+                lock (lockMe)
+                {
+                    Console.WriteLine(nums++);
+                }
+
+凡是简化我们编程的方式，基本上都叫语法糖
+
+语法糖
+
+--------------- 编译器 --------------
+
+该是什么样的还是什么样。
+
+.method private hidebysig static 
+	void Run () cil managed 
+{
+	// Method begins at RVA 0x20a0
+	// Code size 72 (0x48)
+	.maxstack 3
+	.locals init (
+		[0] int32,
+		[1] object,
+		[2] bool,
+		[3] bool
+	)
+
+	IL_0000: nop
+	IL_0001: ldc.i4.0
+	IL_0002: stloc.0
+	IL_0003: br.s IL_003e
+	// loop start (head: IL_003e)
+		IL_0005: nop
+		IL_0006: ldsfld object ConsoleApplication1.Program::lockMe
+		IL_000b: stloc.1
+		IL_000c: ldc.i4.0
+		IL_000d: stloc.2
+		.try
+		{
+			IL_000e: ldloc.1
+			IL_000f: ldloca.s 2
+			IL_0011: call void [mscorlib]System.Threading.Monitor::Enter(object, bool&)
+			IL_0016: nop
+			IL_0017: nop
+			IL_0018: ldsfld int32 ConsoleApplication1.Program::nums
+			IL_001d: dup
+			IL_001e: ldc.i4.1
+			IL_001f: add
+			IL_0020: stsfld int32 ConsoleApplication1.Program::nums
+			IL_0025: call void [mscorlib]System.Console::WriteLine(int32)
+			IL_002a: nop
+			IL_002b: nop
+			IL_002c: leave.s IL_0039
+		} // end .try
+		finally
+		{
+			IL_002e: ldloc.2
+			IL_002f: brfalse.s IL_0038
+
+			IL_0031: ldloc.1
+			IL_0032: call void [mscorlib]System.Threading.Monitor::Exit(object)
+			IL_0037: nop
+
+			IL_0038: endfinally
+		} // end handler
+
+		IL_0039: nop
+		IL_003a: ldloc.0
+		IL_003b: ldc.i4.1
+		IL_003c: add
+		IL_003d: stloc.0
+
+		IL_003e: ldloc.0
+		IL_003f: ldc.i4.s 100
+		IL_0041: clt
+		IL_0043: stloc.3
+		IL_0044: ldloc.3
+		IL_0045: brtrue.s IL_0005
+	// end loop
+
+	IL_0047: ret
+} // end of method Program::Run
+
+二：lock/Monitor的内部机制
+
+因为众多的锁机制中，唯独只有Monitor有专用的语法糖。。。。所以说非常受重视。。。
+
+本质就是利用堆上的同步块实现资源锁定。。。
+
+
+
+总结：
+1. Enter中添加的对象，相当于把对象的同步块索引和CLR的同步块数组了关联。
+
+   Exit中释放的资源，相当于把对象的同步快索引和CLR的同步块数组进行了解绑。
+
+注意事项：
+
+1. 你锁住的资源一定要让你的可访问的线程必须能够访问到。。。
+
+   所以锁住的资源千万不要使用值类型。。。
+
+
+
+

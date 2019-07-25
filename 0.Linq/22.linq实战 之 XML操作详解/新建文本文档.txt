@@ -1,0 +1,49 @@
+
+一：linq to xml
+
+1. 在xml出来之前，我们是怎么操作xml的呢？？？
+
+   XMLDocument操作类
+  
+   在linq to xml之前操作xml还是有一点复杂度的，通过xpath读取。
+
+
+2.XDocument,XElement,XAtrribute   =>  XElement
+
+<1> 我们构造Xml
+
+<Products>
+  <Product>
+    <ProductID>1</ProductID>
+    <ProductName>商品1</ProductName>
+  </Product>
+
+   ....
+</Products>
+
+
+<2> 我们写代码的时候，经常会涉及到数据转存。
+
+      table  =>  xml   这个手段，我们用linq to xml 就可以了，非常方便
+
+            //DatamipDataContext context = new DatamipDataContext();
+
+            //var root = new XElement("Products",
+            //                                    (
+            //                                       from p in context.Product
+            //                                       select new XElement("Product",
+            //                                                     new XAttribute("ID", Guid.NewGuid().ToString()),
+            //                                                     new XElement("ProductID", p.ProductID),
+            //                                                     new XElement("ProductName", p.ProductName)
+            //                                               )
+            //                                    ).ToList()
+            //                       );
+
+<3> 如果加载xml
+  
+在XElement角度来看，我们可用用parse或者Load的方法加载xml， 它拿到的是xml的根节点
+
+XDocument角度来加载xml，  它拿到的是整个xml。
+
+
+<4> 如何查找元素 【linq】

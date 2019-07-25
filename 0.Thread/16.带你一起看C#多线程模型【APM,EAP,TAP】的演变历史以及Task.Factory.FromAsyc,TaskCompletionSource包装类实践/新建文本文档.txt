@@ -1,0 +1,73 @@
+C# 7.0
+
+
+一：同步编程模式（SPM）
+
+二：异步编程模型（APM）
+
+    xxxbegin
+    xxxend
+    这么两个配对的经典方法。。。。 委托给线程池去执行的。。。
+   
+    FileStream  （ReadBegin, ReadEnd）配对方法
+
+    Action委托，都可以异步执行
+
+三：基于事件的编程模型（EAP）
+
+    xxxAsync这样的事件模型。。。。【WebClient】
+
+四：基于Task的编程模型（TAP）
+
+ 微软大力推广Task的时候，APM和EAP都能包装成Task使用。。。。微软想用Task来统治我们的异步编程领域。
+
+1. 用Task包装APM
+
+   如果真的被大一统了，大家都可以使用Task的一切东西。。。
+
+        static void Main()
+        {
+            FileStream fs = new FileStream(Environment.CurrentDirectory + "//1.txt", FileMode.Open);
+
+            var bytes = new byte[fs.Length];
+
+            var task = Task.Factory.FromAsync(fs.BeginRead, fs.EndRead, bytes, 0, bytes.Length, string.Empty);
+
+            var nums = task.Result;
+
+            Console.WriteLine(nums);
+        }
+
+《1》代码量比较小
+《2》使用task更方便，更强大。。。
+
+            FileStream fs = new FileStream(Environment.CurrentDirectory + "//1.txt", FileMode.Open);
+
+            var bytes = new byte[fs.Length];
+
+            fs.BeginRead(bytes, 0, bytes.Length, (aysc) =>
+            {
+                var nums = fs.EndRead(aysc);
+
+                Console.WriteLine(nums);
+
+            }, string.Empty);
+
+            Console.Read();
+   
+
+2.用Task去包装 EAP
+
+
+包装EAP的话呢，我们需要用TaskCompletionSource包装器进行包装。。。
+
+aysc await 本质也是用了一个包装器。。。
+
+
+DownloadDataTaskAsync： 看看这个是怎么用的。。
+
+
+用task解决了大一统的问题。。
+
+
+    

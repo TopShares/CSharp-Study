@@ -1,0 +1,145 @@
+一：Cast的扩展方法
+
+1. 将 IEnumerable 的元素强制转换为指定的类型。  这句话有强大的误导性
+
+
+System.Collections.ArrayList fruits = new System.Collections.ArrayList();
+fruits.Add("mango");
+fruits.Add("apple");
+fruits.Add("lemon");
+
+IEnumerable<string> query =
+    fruits.Cast<string>().OrderBy(fruit => fruit).Select(fruit => fruit);
+
+为什么这个可以cast成功的原因是什么？？？
+
+
+string => object  => string[cast]
+
+
+这个过程叫做拆装箱。。。
+
+        static void Main(string[] args)
+        {
+            var list = new int[] { 10, 20, 30 };
+
+            var query = list.Cast<object>().ToList();   //装箱
+
+            var myquery = query.Cast<int>().ToList();   //拆箱
+
+            var myquery2 = list.Cast<long>().ToList();  //隐式转换  [不可以]
+        }
+
+可以看得到，Cast并不是我们看到如解释一样那么容易理解。
+
+
+二：Select
+
+    它是延迟执行。yield有得一拼，因为他们都是生成了一个枚举类。
+
+if (source is TSource[])
+	{
+		return new Enumerable.WhereSelectArrayIterator<TSource, TResult>((TSource[])source, null, selector);
+	}
+
+
+可以清楚的看到WhereSelectArrayIterator<TSource, TResult> 是一个枚举类。
+
+WhereSelectArrayIterator<TSource, TResult> =>  numerable.Iterator<TResult>   => IEnumerable<TSource>
+
+大家应该清楚，延迟执行的本质是什么？？？ 枚举类。
+
+
+	public override bool MoveNext()
+	{
+		if (this.state == 1)
+		{
+			while (this.index < this.source.Length)
+			{
+				TSource arg = this.source[this.index];
+				this.index++;
+				if (this.predicate == null || this.predicate(arg))
+				{
+					this.current = this.selector(arg);
+					return true;
+				}
+			}
+			this.Dispose();
+		}
+		return false;
+	}
+
+
+所以说，大家一定要对foreach这个语法糖有一个清楚的认识。
+
+可以看到，foreach遍历数组的时候，用到了内部的一个ArrayEnumerator枚举类。
+
+
+
+三：Where
+
+   我们知道where应该是用于筛选操作。
+
+   var list = new int[] { 10, 20, 30 };
+
+   var query = list.Where(i => i / 20 == 0).ToList();
+
+然后我们来分析一下代码：
+
+我们看到，其实where方法也是用到了内部的一个WhereArrayIterator<TSource> 枚举类，同时我们也看到了一个奇葩的
+公共父类Enumerable.Iterator<TSource>，对吧，当我们知道枚举类的时候，你应该重点去查看MoveNext这个方法。
+
+
+	public override bool MoveNext()
+	{
+		if (this.state == 1)
+		{
+			while (this.index < this.source.Length)
+			{
+				TSource tSource = this.source[this.index];
+				this.index++;
+				if (this.predicate(tSource))
+				{
+					this.current = tSource;
+					return true;
+				}
+			}
+			this.Dispose();
+		}
+		return false;
+	}
+
+通过这个MoveNext，我们应该非常清楚这个Where的业务逻辑。
+
+
+
+四：OrderBy,ThenBy源码分析
+
+            var list = new int[] { 10, 20, 30 };
+
+            var query = list.OrderByDescending(i => i).ToList();
+
+可以看到OrderBy返回的是一个new OrderedEnumerable<TSource, TKey> 的一个类。
+
+
+当你从OrderedEnumerable类型上面调用ToList，也就执行了GetEnumerator方法。
+
+也就是说这个方法才是我们排序的关键。
+
+我们发现所谓的orderby方法，其实最后调用的是 EnumerableSorter<TElement>.Sort方法。。
+
+而这个Sort用到了“快速排序”。
+
+
+《2》ThenBy就是在OrderBy的基础上进行了第二轮排序。
+
+    如果大家接触过sql server的话，应该明白二次排序。
+
+一种类似嵌套的方式来做的。
+
+id name age
+
+3  jack  22
+1  john  32
+2  mary  20
+

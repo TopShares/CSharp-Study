@@ -1,0 +1,155 @@
+一：ReaderWriteLock
+
+不是从限定个数的角度出发。 而是按照读写的角度进行功能分区。。。。
+
+
+sqllite: 库锁
+
+sqlserver： 行锁 【我只锁住行】
+
+
+多个线程可以一起读， 只能让要给线程去写。。。
+
+
+模拟：多个线程读，一个线程写，那么写的线程是否会阻止读取的线程。。。。
+
+
+读写 8/2 开。。。
+
+如果你的写入线程时间太久。。。比如说：10s/20s
+
+这个时候你的读线程会被卡死，从而超时。。。。
+
+Ctrip。。。。。 机票db。。。 
+
+商旅事业部： orders,,,
+
+机票事业部： orders。。。
+
+给腾讯做对外接口【企业商旅】
+
+order1 join order2...join plane   读取时间太长，也导致write线程长时间进不来，
+                                  同样也导致了写入线程超时。。。
+
+
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        static ReaderWriterLock rwlock = new ReaderWriterLock();
+
+        static void Main(string[] args)
+        {
+            //比如开启5个task
+            for (int i = 0; i < 5; i++)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Read();
+                });
+            }
+
+            Task.Factory.StartNew(() =>
+            {
+                Write();
+            });
+
+            Console.Read();
+        }
+
+        static int nums = 0;
+
+        /// <summary>
+        /// 线程读
+        /// </summary>
+        static void Read()
+        {
+            while (true)
+            {
+                Thread.Sleep(10);
+
+                rwlock.AcquireReaderLock(int.MaxValue);
+
+                Thread.Sleep(10);
+                Console.WriteLine("当前 t={0} 进行读取 {1}", Thread.CurrentThread.ManagedThreadId, DateTime.Now);
+
+                rwlock.ReleaseReaderLock();
+            }
+        }
+
+        /// <summary>
+        /// 线程写
+        /// </summary>
+        static void Write()
+        {
+            while (true)
+            {
+                //3s进行一次写操作
+                Thread.Sleep(3000);
+
+                rwlock.AcquireWriterLock(int.MaxValue);
+
+                Thread.Sleep(3000);
+                Console.WriteLine("当前 t={0} 进行写入。。。。。。。。。。。。。。。。。。。。。。。{1}", Thread.CurrentThread.ManagedThreadId, DateTime.Now);
+
+                rwlock.ReleaseWriterLock();
+            }
+        }
+    }
+}
+
+
+二：CountdownEvent
+
+限制线程数的一个机制。。。而且这个也非常实用。
+
+Shopex。。。。 
+
+多个线程从某一张表中读取数据：
+
+比如说：Orders      
+
+       Products
+
+       Users
+
+每张表我都喜欢通过多个线程去读取。。。。
+
+比如说：Orders表 10w： 10个线程读取，一个线程1w
+        Products表：5w  5个线程     一个1w
+        Users  表 1w    2个线程      5w
+
+   xxxx.continuewithcontinuewith....
+
+       continuewith +  TaskCreationOptions.AttachedToParent
+
+
+ CountdownEvent cdeLock = new CountdownEvent(10);
+
+初始化的时候设置一个 默认threadcount上线。。。
+
+当你使用一个thread。这个threacount就会--操作。。直到为0之后，继续下一步
+
+操作，相当于Task.Wait() 执行完成了。
+
+
+Reset： 重置当前的threadcount上线
+
+Signal：将当前的threadcount--操作
+
+Wait： 相当于我们的Task.WaitAll
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,122 @@
+
+一：C#的一个分支Linq
+
+二：学Linq需要有一些基础知识
+
+1. var
+
+2. 匿名类型/匿名方法
+
+3. 自动属性
+
+4. 委托/泛型的委托
+
+5. lambda
+
+6. 扩展方法
+
+7. 对象初始化器
+
+
+三：linq的作用的是什么  【大一统】
+
+1. wcf 【tcp，http，udp。。。】
+
+2. linq 【对象查询，数据查询，xml查询， xxx】
+
+3. linq 其实就是使用扩展方法的lambda表达式。
+
+
+四：linq to object
+
+      1. 原来 VS 现在
+
+           《1》 定义一个类
+
+           《2》 初始化了一个List集合。
+
+           《3》 foreach循环遍历。
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //找到str中包含“A”的字符串，然后已大写字符串和字符串长度的形式转存出来。
+
+            //{Word="AS",Length=2},{Word="SPA",Length=3}
+
+            //最原始的方式
+            var strs = new string[] { "is", "as", "spa" };
+
+            List<Word> words = new List<Word>();
+
+            foreach (var str in strs)
+            {
+                var upper = str.ToUpper();
+
+                if (upper.Contains("A"))
+                {
+                    words.Add(new Word() { Str = upper, Length = upper.Length });
+                }
+            }
+
+            //现在的读取方式
+            var query = from str in strs
+                        let upper = str.ToUpper()
+                        where upper.Contains("A")
+                        select new { Str=upper, Length=upper.Length };
+
+        }
+    }
+
+    class Word
+    {
+        public string Str { get; set; }
+
+        public int Length { get; set; }
+
+    }
+}
+
+这个案例说明，现在我们对集合的查询有了一个新的方式，那就是linq查询。
+
+
+2. linq to sql/ ado.net entityframework
+
+   这两个都是用linq的方式读取/操作数据库。
+
+   原来： 我们是写sql代码的形式操作数据库。
+
+          表达式树【expression】，将lamada用树的形式存储起来，这样就方便将lambda表达式
+          解析成sql。
+
+3. linq to dataset => datatable
+
+   原来：我们操作dataset/datatable 有foeach的形式。
+   
+   现在：我们就可以用linq的方式了。
+
+
+4. linq  to xml
+
+   原来：用xmlwriter和xmlreader的形式来操作xml。
+
+   现在：我们用linq中的XDocument和XElement这样两种方式操作xml。
+
+   当然，大家一定要知道 linq to xml 其实是对xmlwriter的一种高层封装。
+
+
+5. linq to xxx
+  
+   这里的xxx需要自己去实现IQueryable接口。
+   
+            
+三：参考资料
+
+1. Linq编程技术内幕
+
+
+
+

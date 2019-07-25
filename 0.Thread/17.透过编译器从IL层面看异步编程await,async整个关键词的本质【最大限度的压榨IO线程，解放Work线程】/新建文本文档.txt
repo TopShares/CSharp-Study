@@ -1,0 +1,58 @@
+一：async await
+
+1. 这两个关键词适专用于处理一些文件IO。 【潜规则】  ThreadPool IOthread
+
+   网络IO，文件IO都有一些异步方法。  MemoryStream，FileStream。WebRequest
+
+   
+2. Task 是最大限度的压榨 work thread。。。
+
+3. 好处： 1. 代码简洁，把异步的代码形式写成了同步方式。。。
+
+          2. 提到了开发效率
+
+   坏处： 如果你用同步的思维去理解，容易出问题。。。返回值对不上
+
+          我们在编译器层面看到的代码，不见得是真的代码。。。
+
+4. 通过ILSpy去反编译这段代码。
+
+
+   如果返回值都是Task，你都可以用await进行等待。。
+
+
+三：角色扮演
+
+1. AsyncTaskMethodBuilder 扮演了一个TaskcomplationSource一个角色，就是做
+		          Task的包装器。
+
+2. state：扮演者状态机状态的角色
+
+3. AwaitUnsafeOnCompleted 这个函数是丢给线程池去执行的，当某一时刻执行
+			  结束，会调用Movenext。。。
+
+
+   	private static void InvokeMoveNext(object stateMachine)
+	{
+		((IAsyncStateMachine)stateMachine).MoveNext();
+	}
+
+四：异步IO处理的流程  压榨IOthread
+
+work thread:  是应用程序主动使用
+
+IO thread：   是clr反向通知的。。
+
+
+如果你用同步IO，会是什么样的呢？？？
+
+
+
+
+
+
+
+
+         
+   
+

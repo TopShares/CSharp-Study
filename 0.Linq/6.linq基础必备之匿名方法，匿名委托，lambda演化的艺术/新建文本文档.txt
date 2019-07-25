@@ -1,0 +1,136 @@
+
+一：匿名方法，委托，匿名委托，lambda。。。
+
+1. 委托=> 函数指针
+
+2. 委托不是一个新概念，在其他的编程语言中早已经产生。
+
+   javascript：非常熟悉匿名函数【闭包】
+
+   C++:  函数指针
+
+
+3. 那么C#为了引进这个函数指针，将其进行包装成“委托”，同时将非托管的变成托管的。
+
+
+4. 委托的定义
+
+ /// <summary>
+    /// 这就是一个委托的定义
+    /// </summary>
+    /// <param name="str"></param>
+    delegate void MyAction(string str);
+
+5. 委托的演化过程
+
+
+函数指针 -> 委托【高等封装】   
+
+
+1. 最初的委托该怎么用？？？
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            MyAction action = Run;
+
+            Run("mytest");
+        }
+
+        static void Run(string str)
+        {
+            Console.WriteLine(str);
+        }
+    }
+
+    /// <summary>
+    /// 这就是一个委托的定义
+    /// </summary>
+    /// <param name="str"></param>
+    delegate void MyAction(string str);
+}
+
+弊端： 写的代码量过多，在于我还必须要手写一个显示的方法（Run），那有没有好的办法让我不写显式的方法。
+
+
+2. 匿名委托
+
+   那么匿名委托就是在Run方法上面开刀。
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            MyAction action = delegate(string str)
+            {
+                Console.WriteLine(str);
+            };
+        }
+    }
+
+    /// <summary>
+    /// 这就是一个委托的定义
+    /// </summary>
+    /// <param name="str"></param>
+    delegate void MyAction(string str);
+}
+
+可以看到，已经成功的把显式方法去掉了，上面就是一个典型的匿名方法，其中有delegate包装了起来，
+
+现在可以动刀的地方就是匿名函数：
+            MyAction action = delegate(string str)
+            {
+                Console.WriteLine(str);
+            };
+
+有没有这种方法呢？？？ 有的，那就是lambda表达式。。。。
+
+
+3.lambda表达式
+
+MyAction action = str => Console.WriteLine(str);
+
+通过对比，发现原来可以向参数声明，大括号，delegate都可以踢掉。。。
+
+我们成功的将代码从 27 优化到了 24行。。。。
+
+
+4. 还有优化的空间吗？？？
+
+  看了代码之后，惟一可以优化的地方就是delegate声明。
+
+因为FCL中给我们定义了三个系统委托，一个叫做Action，一个叫做Func，一个叫做Predicate。  
+
+我们把delegate删掉之后，用了一个系统委托，成功的将代码从24号优化到了18行。
+
+本质上来说，我们将曾今10几行的代码 成功的优化到了1行。
+
+没有编译器的帮忙，绝对不能优化到这样的极致。   
+
+5. Action      封装一个方法，该方法只有一个参数并且不返回值。
+
+               通过ILSpy可以看到，Action最多接受8个参数。。。
+
+              【重点在于无返回值】
+
+
+6. Func        封装一个不具有参数但却返回 TResult 参数指定的类型值的方法。
+
+              【重点再于有返回值】
+
+7.Predicate    入参的类型随意，返回值必须是bool，
+
+
+从整个演化的过程来看，它就是一个代码优化，代码压缩的过程，并且非常具有优雅性。
+
+
+
+
+
+
+

@@ -1,0 +1,50 @@
+
+一：Expression
+
+1. 解释：    //     提供一种基类，表示表达式目录树节点的类派生自该基类。它还包含用来创建各种节点类型的 static（在 Visual Basic 中为 Shared）工厂方法。这是一个
+             //     abstract 类。
+
+
+2. 场景：常用语操作上数据库上。。。
+
+         遇到的问题： 如果将lambda表达式转换为 sql 语句。 
+
+ 
+         lambda    =>  sql
+
+Func<int, bool> func = i => i == 2;
+
+// select * from xxxTable where i ==2
+
+3. 为了解决这个问题，Ｃ＃提供了一个新的数据类型，它是专门用于存放ｌａｍｂｄａ表达式。
+
+　　　      Expression<Func<int, bool>> exp = i => i == 2;
+
+            var param = exp.Parameters;
+
+            var body = exp.Body.ToString();
+
+　　有了Ｅｘｐｒｅｓｓｉｏｎ，我们就可以将一个“匿名方法”逐一分解，然后就可以构建ｓｑｌ语句。
+
+
+４．创建expression的两种方式
+
+   <1> func来创建。。
+
+   <2> 通过类的形式创建expression
+
+       方便我们用强类型做条件动态拼接。
+
+
+5：IQueryable 返回Expression的形式
+
+Expression大多是FCL自己操作的一个类。
+
+
+从Expression中的众多方法可以看出，我们平时的语法在Expression中都有对应点类。
+
+
+
+参考资料：https://msdn.microsoft.com/zh-cn/library/system.linq.expressions.expression_methods(v=vs.110).aspx
+
+

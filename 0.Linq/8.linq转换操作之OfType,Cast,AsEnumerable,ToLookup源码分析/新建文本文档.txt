@@ -1,0 +1,67 @@
+
+一：Tolookup
+
+1. 从方法的注解上可以看到，ToLookup也是一个k,v的形式，那么问题来了，它和Dcitionary有什么区别？？？
+
+
+可以看到ToDictionray中的源码是这样的：
+
+	foreach (TSource current in source)
+	{
+		dictionary.Add(keySelector(current), elementSelector(current));
+	}
+   
+大家有没有看到，这个源码有什么不合实际的地方。。。
+
+如果key重复了，那么这个ToDictionary却对是要报错的。。。。
+
+
+现在我的要求来了，如果说key重复了，我希望value中的值类型起来。这个就是我们今天要讲的ToLookup要解决的问题。
+
+
+二：lookup的源码分析
+
+	Lookup<TKey, TElement> lookup = new Lookup<TKey, TElement>(comparer);
+	foreach (TSource current in source)
+	{
+		lookup.GetGrouping(keySelector(current), true).Add(elementSelector(current));
+	}
+
+大家课后可以仔细看一看。
+
+
+三：OfType转换运算符
+
+1. 解释： 根据指定类型筛选 System.Collections.IEnumerable 的元素。
+
+   通过demo，我们可以看到OfType就是筛选指定的类型。
+
+   很可惜，ILSpy看不到。
+
+
+四：Cast运算符 
+
+1. 解释：  将 System.Collections.IEnumerable 的元素强制转换为指定的类型。
+
+
+ 这也告诉我们，ILSpy也不是所有的代码都能看得到。。。
+
+
+五：asEnumerable
+
+如果当前的类型没有继承IEumverable这个接口，那么我们可以强制将这个类型转换为继承子
+
+IEnumverable接口的类。
+
+            var table = new DataTable();
+
+            table.AsEnumerable().Select(i => i.Field<string>(""));
+
+
+
+ 
+
+
+
+
+

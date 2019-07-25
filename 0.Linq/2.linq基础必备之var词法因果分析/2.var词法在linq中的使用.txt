@@ -1,0 +1,91 @@
+
+一：掌握linq，写出超炫的代码
+
+1. var关键字 【隐式类型】
+
+   隐式类型 和 匿名类型的不同叫法。
+
+   特性 和 属性
+
+
+2.隐式类型 就是让编译器来推断的一种语法糖。
+
+
+二：隐式类型的应用场景
+
+1. 简单类型
+
+            int i = 10; string str = "123";
+
+            var j = 10; var str2 = "123";
+
+2. 复杂类型
+    
+   《1》数组：
+
+            //原来
+            int[] nums = new int[] { 10, 20, 30 };
+
+            var num2 = new int[] { 10, 20, 30 };
+
+
+  《2》 类
+
+            Word word = new Word();
+
+            var word2 = new Word();
+
+3. 逻辑语句
+   
+  《1》 for/foreach
+
+            for (int i = 0; i < 10; i++) { }
+            for (var i = 0; i < 10; i++) { }
+
+
+            int[] nums = new int[] { };
+
+            foreach (var num in nums)
+            {
+            }
+   
+   《2》 using
+          using (var sql = new SqlConnection(string.Empty))
+          {
+
+           }        
+ 
+
+三：var的好处是什么呢？
+
+    编译器让我们更加的专注于业务逻辑，不让你在类型的判断上费脑经。
+
+    【匿名类型】  => 因为是匿名，所以我们不知道类型的名字，所以我们只能用var来隐式定义。
+
+     如果你定义的匿名类型，你的var是被迫使用的，而不是你主管愿意这么用。  
+
+     编译器伪装的给你一个‘a的类型，其实这个类名是个虚像，真正的类名是编译器动态+随机生成。 
+
+
+四：var的局限
+
+    它只能在方法的内部使用，不能作为类的属性。
+
+    隐式类型定义的时候就要赋值。【因为编译器需要根据表达式的右侧的值推断出
+                                  正确的类型】
+
+    
+   编译器显示的类名：'<>f__AnonymousType0`2'<'<Name>j__TPar','<Age>j__TPar'>
+
+
+五：ILDASM
+    
+    C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6 Tools 是Microsoft SDK里面自带的。
+
+    这个是微软给我们带的小工具。
+
+    
+
+
+
+   
