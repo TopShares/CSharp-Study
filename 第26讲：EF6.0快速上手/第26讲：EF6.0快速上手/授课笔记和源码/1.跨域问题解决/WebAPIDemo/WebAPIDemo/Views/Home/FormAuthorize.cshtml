@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FormAuthorize</title>
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btn1").click(function () {
+                $.get("/api/School/GetStudentCount", null,
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+
+            //用户登录并返回票据信息，根据需要保存票据
+            var userTicket = "";
+
+            $("#btn2").click(function () {
+                $.post("/api/SysAdmin/AdminLogin", { LoginId: "1001", LoginPwd: "111111" },
+                    function (data, status) {
+                        alert(data);//展示票据的JSON字符串
+                        var result = JSON.parse(data);//转换成JSON对象
+                        alert(result);
+                        if (result.Success) {
+                            //如果登录成功，则保存当前Ticket到变量中，已被下次使用
+                            userTicket = result.Ticket;
+                        } else {
+                            alert("用户登录失败！请坚持用户名或密码！");
+                        }
+                    });
+            });
+
+            //调用具有验证特性的API控制器，并携带Ticket
+            $("#btn3").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/api/School/GetTeacherCount",
+                    data: {},
+                    beforeSend: function (xmlHttpRequest) {
+                        alert(userTicket);//展示一下用户票据
+                        xmlHttpRequest.setRequestHeader("Authorization", "BasicAuthorize " + userTicket);//异步请求之前向Http的head里面加入票据信息
+                    },
+                    success: function (data, status) {
+                        alert(data);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <input type="button" id="btn1" value="调用有验证要求的API控制器" /><br /><br />
+        <input type="button" id="btn2" value="用户登录并保存验证信息" /><br /><br />
+        <input type="button" id="btn3" value="调用具有验证特性的API控制器，并携带Ticket" /><br /><br />
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+
+1.委托+异步实现多任务。
+
+2.Thread
+
+3. ThreadPool
+
+4.Task
+
+5.Paralle并行计算
+
+6. async await 等....
+
+多线程启动窗体：我们也应该基于多种实现形式....

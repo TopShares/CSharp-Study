@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>WebAPI2的学习</title>
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btn1").click(function () {
+                $.get("/Course/QueryCourse", { courseId: 2000 },
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+            $("#btn2").click(function () {
+                $.post("/Course/UpdateCourse", null,
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+            $("#btn3").click(function () {
+                $.post("/Course/DeleteCourse", { "": 2000 },
+                    function (data, status) {
+                        alert(data);
+                    });                
+            });
+            $("#btn4").click(function () {
+                $.post("/Course/AddCourse", { Id:2000,Name:"WebAPI2",Category:2,Price:80 },
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+            $("#btn5").click(function () {
+                $.get("/api/teacher", null,
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+            $("#btn6").click(function () {
+                $.post("/api/teacher/QueryTeacherById", { "":1000},
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+            $("#btn7").click(function () {
+                $.get("/api/teacher/GetCount", { age:35 },
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+
+            $("#btn8").click(function () {
+                $.post("/api/teacher/GetTeacherName", { "": 2000 },
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <a href="/api/Course">【1】简单测试WebAPI2</a><br /><br />
+        <a href="/api/Course/100">【2】简单测试WebAPI2</a><br /><br />
+        <a href="/api/Course/100?courseId=2000">【3】简单测试WebAPI2</a><br /><br />
+        <a href="/myapi/Course/GetCourseByName">【3】简单测试WebAPI2</a><br /><br />
+
+        <input type="button" id="btn1" value="测试特性路由-Get" /><br /><br />
+        <input type="button" id="btn2" value="测试特性路由-Post-无参数" /><br /><br />
+        <input type="button" id="btn3" value="测试特性路由-Post-一个参数" /><br /><br />
+        <input type="button" id="btn4" value="测试特性路由-Post-多个参数（实体对象）" /><br /><br />
+
+        <input type="button" id="btn5" value="路由前缀-1" /><br /><br />
+        <input type="button" id="btn6" value="路由前缀-2" /><br /><br />
+
+        <input type="button" id="btn7" value="路由约束-1" /><br /><br />
+        <input type="button" id="btn8" value="路由约束-2" /><br /><br />
+
+        <a href="/Home/GetRequest">跳转到Get请求详解页面</a><br /><br />
+        <a href="/Home/PostRequest">跳转到Post请求详解页面</a><br /><br />
+        <a href="/Home/OtherRequest">跳转到其他请求页面</a><br /><br />
+        <a href="/Home/ReturnResult">跳转返回结果测试页面</a><br /><br />
+
+    </div>
+</body>
+</html>

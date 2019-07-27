@@ -1,0 +1,25 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            jQuery.support.cors = true;//更好的提高兼容性
+            $("#btn1").click(function () {
+                $.get("http://localhost:12496//Course/QueryCourse", { courseId: 2000 },
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div> 
+        <input type="button" id="btn1"  value="浏览器跨域问题测试"/>
+    </div>
+</body>
+</html>

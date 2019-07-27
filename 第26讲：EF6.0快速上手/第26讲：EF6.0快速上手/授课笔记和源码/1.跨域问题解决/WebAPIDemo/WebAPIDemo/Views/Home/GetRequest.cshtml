@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetRequest</title>
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //【1】Get：无参数的请求
+            $("#btn1").click(function () {
+                $.get("/api/Student/GetStudent", null, function (data, status) {
+                    alert(data);
+                });
+            });
+
+            //【2】Get：2个参数的请求-->基础数据类型
+            $("#btn2").click(function () {
+                $.get("/api/Student/GetStudentInfo", { stuId: 1000, name: "vip高级进阶学员" },
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+
+            //【3】Get：实体作为参数
+            $("#btn3").click(function () {
+                $.get("/api/Student/QueryStudent", { StudentId: 1000, StudentName: "vip高级进阶学员", Age: 20, PhoneNumber: "13002221000" },
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+
+            //【4】Get：传递json字符串（包含多个参数）
+            $("#btn4").click(function () {
+                //包装数据
+                var jsonStudent = { StudentId: 1000, StudentName: "vip高级进阶学员", Age: 20, PhoneNumber: "13002221000" }
+                // var info = JSON.stringify(jsonStudent);
+                // alert(info);
+
+                $.get("/api/Student/GetStudentByJson", { jsonStudent: JSON.stringify(jsonStudent) },
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+
+            //【5】Get：没有写HttpGet特性-1
+            $("#btn5").click(function () {
+                $.get("/api/Student/QueryStudentScore", { studentId:"1000" },
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+            //【5】Get：没有写HttpGet特性-2
+            $("#btn6").click(function () {
+                $.get("/api/Student/GetStudentScore", { studentId: "1000" },
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+
+            //【6】Get：返回对象集合
+            $("#btn7").click(function () {
+                $.get("/api/Student/GetStudentList", { className: "软件1班" },
+                    function (data, status) {
+                        alert(data);
+                        //遍历对象集合
+                        jQuery.each(data, function (i, item) {
+                            alert(item.StudentName + "   " + item.Age);
+                        });
+                    });
+            });
+        });
+
+    </script>
+
+
+</head>
+<body>
+    <div>
+        <input type="button" id="btn1" value="Get：无参数的请求" /><br /><br />
+        <input type="button" id="btn2" value="Get：2个参数的请求-->基础数据类型" /><br /><br />
+        <input type="button" id="btn3" value="Get：实体作为参数" /><br /><br />
+        <input type="button" id="btn4" value="Get：传递json字符串（包含多个参数）" /><br /><br />
+        <input type="button" id="btn5" value="Get：没有写HttpGet特性-1" /><br /><br />
+        <input type="button" id="btn6" value="Get：没有写HttpGet特性-2" /><br /><br />
+        <input type="button" id="btn7" value="Get：返回一个对象集合" /><br /><br />
+    </div>
+</body>
+</html>

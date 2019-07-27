@@ -1,0 +1,122 @@
+EF高级内容学习
+
+一、在EF中，如何使用存储过程。
+
+需要大家明白：我们现在讲的，不是说在EF中，回归ADO.NET方式的存储过程的调用。
+
+就是我们在创建实体对象模型的时候，我们可以选择存储过程。
+
+二、在CodeFirst开发模式中三种模型关系研究
+
+CodeFirst、DataBaseFirst、ModelFirst,其中后面两个都有demx的可视化工具。这个工具，可以显示的给我展示存储模型、实体模型、映射模型。
+
+但是Code First需要我们首先创建Model，然后根据模型生成数据库。这个模式特别适合小型项目的开发。
+
+特别研究模型中的三种关系：（也就是主外建关系）
+
+示例数据库：MyCodeFistDB
+
+Student、StudentCard、StudentClass、Course...
+
+在CodeFirst中没有demx和DBContext，需要我们自己手动添加。
+
+1、一对一：
+
+DBRelationShips.StudentCard: : EntityType 'StudentCard' has no key defined. Define the key for this EntityType.
+
+StudentCards: EntityType: EntitySet 'StudentCards' is based on type 'StudentCard' that has no keys defined.
+
+2、一对多：
+
+3、多对多：（需要中间表，中间表中通常存放着两个表的主键  A -->C--->B）
+
+Course课程：多个学生可以选择一个课程，一个学生也可选多个课程
+
+当我们通过模型创建关系的时候，会帮我们自动生成中间表CourseStudents
+
+重点体会：多对多创建需要的IColections<>
+
+其实我们上面的各种关系和操作，很多都是基于默认方式生成。我们的感觉就是非常不方便。
+
+我们可以通过DataAnotation和Flunet API修改默认约定。
+
+三、通过DataAnotation修改默认协定
+
+引出：实际开发中，我们不可能全部都遵守默认写法，必须有自定义的数据表类特征的方法。（约束）
+
+比如：string 都是string varchar(max)  ....
+
+大家可以参考官网：http://www.entityframeworktutorial.net/code-first/what-is-code-first.aspx
+
+以上我们练习，其实挺简单，但是通过我们自定义添加属性特性，加深大家对Model创建的理解。
+
+使用CodeFirst：首先添加Model，同时添加Attribute（约束），然后添加DBContext。
+
+还有一些问题，我们还得需要Fluent Api方式来修改。
+
+四、实现对实体的属性和关系的修改请大家掌握第一种方式，了解第二种方式
+
+
+DataAnotation：这个主要是用来对实体属性的约束。
+
+Fluent Api：可以修改实体属性约束，也可以修改实体之间的关系，还可以增加实体多映射。
+
+在实际开发中，两者可以配合使用。
+
+五、数据库初始化的相关策略
+
+为什么要研究？DB总会有改变的时候，主要是Model改变。
+
+1. CreateDatabaseIfNotExists: 【Default策略】DB不存在，则创建。如果存在，但是model修改，则抛异常。
+
+2.DropCreateDatabaseIfModelChanges: 【Model修改，则会删除数据库，后果：前面你的所有测试数据将全部消失】
+
+3. DropCreateDatabaseAlways：【每次都是重新创建，适合我们创建数据库的初期使用】
+
+  public MyCodeFistDBEntitis() : base("name=efdbConnString")
+        {
+            Database.SetInitializer(new DropCreateDatabaseAlways< MyCodeFistDBEntitis>());
+        }
+
+4.Custom DB Initializer：【自定义策略】，如果我们想使用前面的某一种策略，同时加上我们自己想初始化的内容，
+
+我们可以添加自定义的策略。通常我们在添加测试数据的时候，非常有用。
+
+实际的应用场景：比如我们开一个通用的软件，总会有一些初始化的数据（基础数据）。这个在给用户部署的时候，通常直接用
+
+总结：如果项目小，大家可以直接使用空Codefist，这种适合与非常爱好编码的开发者。更好的让你“忘记SQL”。
+
+如果项目稍微大写，我们使用空Codefirst，会感觉手写Model很麻烦，这时候，可以配合数据库先行。然后使用来自数据库的CodeFirst，这样的话，模型都帮我们自动生成。但是生成的框架却非常简单。
+
+以上方式，请大家注意，数据库初始化的策略选择。最后一种自定义的策略也非常重要，请大家务必学会。其他的内容，请大家
+
+从官网自学。
+
+其中一个自学内容：数据迁移，也就是我们在生产环境中，如果已经存在了数据，但是还需要改变模型，这时候，我们通常就得要删除数据库，然后再重新创建，这会导致现有数据的丢失，数据迁移，其实就是将现有数据导出，然后再导入到最新的数据库中。
+
+
+后续作业：请把学员管理系统的两个核心模块（学员管理、成绩管理）基于CodeFirst来完成数据持久化部分。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

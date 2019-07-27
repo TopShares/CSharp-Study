@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBFirstDemo", "DBFirstDemo\DBFirstDemo.csproj", "{A95D18DA-9A78-496E-BC41-BF0951A1985B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.DBFirst", "1.DBFirst", "{D488FD8B-E0F2-4672-8022-FC72D8F6AF33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBFirstDemo2", "DBFirstDemo2\DBFirstDemo2.csproj", "{0F6E5697-D9A8-427E-844F-589634C59381}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.空EF设计器模型", "2.空EF设计器模型", "{4E41FD1A-166C-4D9E-A4A9-9AD477B485C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmptyEFModelDesign", "EmptyEFModelDesign\EmptyEFModelDesign.csproj", "{E13E09E1-B2AE-443B-B5A4-9C22DE853793}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.CodeFirst", "3.CodeFirst", "{51A684C0-BC71-47C4-A29F-22B9347A45B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeFistDemo", "CodeFistDemo\CodeFistDemo.csproj", "{C6F892D5-691F-44A9-84CC-CB78B88F9561}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.来自数据库的CodeFirst", "4.来自数据库的CodeFirst", "{D07826AB-583D-4211-9B35-798E750E22E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FromDBCodeFirst", "FromDBCodeFirst\FromDBCodeFirst.csproj", "{C30373C3-8945-467C-9984-0C481A0F7DC1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A95D18DA-9A78-496E-BC41-BF0951A1985B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A95D18DA-9A78-496E-BC41-BF0951A1985B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A95D18DA-9A78-496E-BC41-BF0951A1985B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A95D18DA-9A78-496E-BC41-BF0951A1985B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F6E5697-D9A8-427E-844F-589634C59381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F6E5697-D9A8-427E-844F-589634C59381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F6E5697-D9A8-427E-844F-589634C59381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F6E5697-D9A8-427E-844F-589634C59381}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E13E09E1-B2AE-443B-B5A4-9C22DE853793}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E13E09E1-B2AE-443B-B5A4-9C22DE853793}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E13E09E1-B2AE-443B-B5A4-9C22DE853793}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E13E09E1-B2AE-443B-B5A4-9C22DE853793}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6F892D5-691F-44A9-84CC-CB78B88F9561}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6F892D5-691F-44A9-84CC-CB78B88F9561}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6F892D5-691F-44A9-84CC-CB78B88F9561}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6F892D5-691F-44A9-84CC-CB78B88F9561}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C30373C3-8945-467C-9984-0C481A0F7DC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C30373C3-8945-467C-9984-0C481A0F7DC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C30373C3-8945-467C-9984-0C481A0F7DC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C30373C3-8945-467C-9984-0C481A0F7DC1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A95D18DA-9A78-496E-BC41-BF0951A1985B} = {D488FD8B-E0F2-4672-8022-FC72D8F6AF33}
+		{0F6E5697-D9A8-427E-844F-589634C59381} = {D488FD8B-E0F2-4672-8022-FC72D8F6AF33}
+		{E13E09E1-B2AE-443B-B5A4-9C22DE853793} = {4E41FD1A-166C-4D9E-A4A9-9AD477B485C7}
+		{C6F892D5-691F-44A9-84CC-CB78B88F9561} = {51A684C0-BC71-47C4-A29F-22B9347A45B0}
+		{C30373C3-8945-467C-9984-0C481A0F7DC1} = {D07826AB-583D-4211-9B35-798E750E22E2}
+	EndGlobalSection
+EndGlobal

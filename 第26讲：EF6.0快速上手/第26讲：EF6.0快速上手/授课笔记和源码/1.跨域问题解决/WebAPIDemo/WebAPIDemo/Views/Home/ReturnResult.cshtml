@@ -1,0 +1,80 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ReturnResult</title>
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //【1】没有返回值
+            $("#btn1").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/api/Result/AddStudent",             
+                    data: { StudentId: 1000, StudentName: "vip高级学员", Age: 20 },
+                    success: function (data, status) {
+                        alert(data);
+                    }
+                });
+            });
+            //【2】返回：Json<T>(T content)
+            $("#btn2").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/api/Result/QueryStudent",
+                    data: {  },
+                    success: function (data, status) {
+                        alert(data);
+                    }
+                });
+            });
+            //【3】返回：匿名对象
+            $("#btn3").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/api/Result/QueryScore",
+                    data: {},
+                    success: function (data, status) {
+                        alert(data);
+                    }
+                });
+            });
+            //【4】返回：OK 
+            $("#btn4").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/api/Result/ReturnOK",
+                    data: {},
+                    success: function (data, status) {
+                        alert(data);
+                    }
+                });
+            });
+            //【5】返回：OK 重载的方法
+            $("#btn5").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/api/Result/ReturnOverloadOk",
+                    data: {},
+                    success: function (data, status) {
+                        alert(data);
+                    }
+                });
+            });
+
+        });
+
+    </script>
+</head>
+<body>
+    <div> 
+        <input type="button" id="btn1" value="没有返回值" /><br /><br />
+        <input type="button" id="btn2" value="返回Json<T>(T content)" /><br /><br />
+        <input type="button" id="btn3" value="返回匿名对象" /><br /><br />
+        <input type="button" id="btn4" value="返回OK" /><br /><br />
+        <input type="button" id="btn5" value="返回OK重载的方法" /><br /><br />
+    </div>
+</body>
+</html>

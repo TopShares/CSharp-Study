@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.在DBfirst模式下执行存储过程", "1.在DBfirst模式下执行存储过程", "{DF7AE419-FCF7-4C1D-AFA0-B657DDF03D12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExecuteStoredProcedure", "ExecuteStoredProcedure\ExecuteStoredProcedure.csproj", "{893582BB-B9DA-43DA-9E04-9D57D1B768B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.基于CodeFirst的三种模型关系", "2.基于CodeFirst的三种模型关系", "{29E48212-4D5B-4EED-A574-8457E1D97D5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBRelationShips", "DBRelationShips\DBRelationShips.csproj", "{5822A2B4-72F5-4996-B719-CC7B92C8A1C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{EFD5F703-BF79-41EC-9C8A-1BBFEBAD7B32}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{893582BB-B9DA-43DA-9E04-9D57D1B768B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{893582BB-B9DA-43DA-9E04-9D57D1B768B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{893582BB-B9DA-43DA-9E04-9D57D1B768B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{893582BB-B9DA-43DA-9E04-9D57D1B768B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5822A2B4-72F5-4996-B719-CC7B92C8A1C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5822A2B4-72F5-4996-B719-CC7B92C8A1C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5822A2B4-72F5-4996-B719-CC7B92C8A1C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5822A2B4-72F5-4996-B719-CC7B92C8A1C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFD5F703-BF79-41EC-9C8A-1BBFEBAD7B32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFD5F703-BF79-41EC-9C8A-1BBFEBAD7B32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFD5F703-BF79-41EC-9C8A-1BBFEBAD7B32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFD5F703-BF79-41EC-9C8A-1BBFEBAD7B32}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{893582BB-B9DA-43DA-9E04-9D57D1B768B9} = {DF7AE419-FCF7-4C1D-AFA0-B657DDF03D12}
+		{5822A2B4-72F5-4996-B719-CC7B92C8A1C8} = {29E48212-4D5B-4EED-A574-8457E1D97D5E}
+	EndGlobalSection
+EndGlobal

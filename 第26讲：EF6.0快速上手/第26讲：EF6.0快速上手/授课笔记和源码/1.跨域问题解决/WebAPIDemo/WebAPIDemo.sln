@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPIDemo", "WebAPIDemo\WebAPIDemo.csproj", "{099B2165-3DBA-4F09-87C4-F4BA55F94BAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebAPIFromService", "TestWebAPIFromService\TestWebAPIFromService.csproj", "{18AB2970-A0BB-44BD-A736-3A2D30867140}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test-CORS", "Test-CORS\Test-CORS.csproj", "{57DF8CF6-94A5-4095-9F72-C2D5D684AF4C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{099B2165-3DBA-4F09-87C4-F4BA55F94BAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{099B2165-3DBA-4F09-87C4-F4BA55F94BAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{099B2165-3DBA-4F09-87C4-F4BA55F94BAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{099B2165-3DBA-4F09-87C4-F4BA55F94BAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18AB2970-A0BB-44BD-A736-3A2D30867140}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18AB2970-A0BB-44BD-A736-3A2D30867140}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18AB2970-A0BB-44BD-A736-3A2D30867140}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18AB2970-A0BB-44BD-A736-3A2D30867140}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57DF8CF6-94A5-4095-9F72-C2D5D684AF4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57DF8CF6-94A5-4095-9F72-C2D5D684AF4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57DF8CF6-94A5-4095-9F72-C2D5D684AF4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57DF8CF6-94A5-4095-9F72-C2D5D684AF4C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

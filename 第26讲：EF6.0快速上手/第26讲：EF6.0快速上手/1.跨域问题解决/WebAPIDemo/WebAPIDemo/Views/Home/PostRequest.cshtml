@@ -1,0 +1,117 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PostRequest</title>
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //【1】Post：1个参数的请求，请不要给key赋值
+            $("#btn1").click(function () {
+                $.post("/api/Score/GetScoreById", { "": 3000 }, function (data, status) {
+                    alert(data);
+                });
+            });
+
+            //【2】Post：多个参数的请求-->基础数据类型
+            $("#btn2").click(function () {
+                $.post("/api/Score/GetScoreByIdAndName", { scoreId: 1000, studentId: 2000 },
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+            //【3】Post：基于dynamic实现多个参数的请求
+            $("#btn3").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/api/Score/GetScoreByDynamic",
+                    contentType: 'application/json',//注意json里面的key要和后面获取属性的大小写一致，否则获取不到
+                    data: JSON.stringify({ StudentId: 1000, StudentName: "vip高级学员", Age: 20 }),
+                    success: function (data, status) {
+                        alert(data);
+                    }
+                });
+            });
+            //【4】Post：基于JSON传递实体对象-1
+            $("#btn4").click(function () {
+                $.post("/api/Score/QueryStudent", { StudentId: 1000, StudentName: "vip高级学员", Age: 20, PhoneNumber: "1370000000" },
+                    function (data, status) {
+                        alert(data);
+                    });
+            });
+
+            //【6】POST：基础数据类型参数+一个实体参数传递
+            $("#btn6").click(function () {
+                var data = {
+                    "Teacher": "常老师",
+                    "Course": {
+                        "Id": 248962,
+                        "Name": ".NET高级进阶VIP",
+                        "Category": "编程语言"
+                    }
+                }
+                $.ajax({
+                    type: "post",
+                    url: "/api/Score/MultiParam",
+                    contentType: 'application/json',//如果使用内容类型为json的时候，传递的数据要先序列化
+                    data: JSON.stringify(data),
+                    success: function (data, status) {
+                        alert(data);
+                    }
+                });
+            });
+
+            //【7】数组作为参数
+            $("#btn7").click(function () {
+                var score = ["90", "89", "60"];
+                $.ajax({
+                    type: "post",
+                    url: "/api/Score/ArrayParam",
+                    contentType: 'application/json',//如果使用内容类型为json的时候，传递的数据要先序列化
+                    data: JSON.stringify(score),
+                    success: function (data, status) {
+                        alert(data);
+                    }
+                });
+            });
+
+            //【8】对象集合作为参数
+            $("#btn8").click(function () {
+                var stuList = [
+                                       { StudentId: "100", StudentName: "tom", Age: "20", PhoneNumber: "13600000000" },
+                                       { StudentId: "101", StudentName: "kid", Age: "21", PhoneNumber: "13600000001" },
+                                       { StudentId: "102", StudentName: "bub", Age: "22", PhoneNumber: "13600000002" },
+                ];
+                $.ajax({
+                    type: "post",
+                    url: "/api/Score/ListParam",
+                    contentType: 'application/json',//如果使用内容类型为json的时候，传递的数据要先序列化
+                    data: JSON.stringify(stuList),
+                    success: function (data, status) {
+                        alert(data);
+                    }
+                });
+            });
+
+        });
+
+    </script>
+</head>
+<body>
+    <div>
+        <input type="button" id="btn1" value="Post：1个参数的请求（请不要写key的值）" /><br /><br />
+        <input type="button" id="btn2" value="Post：2个参数的请求-->基础数据类型" /><br /><br />
+        <input type="button" id="btn3" value="Post：基于dynamic实现多个参数的请求" /><br /><br />
+        <input type="button" id="btn4" value="Post：基于JSON传递实体对象-1" /><br /><br />
+
+        <input type="button" id="btn6" value="Post：传递基础类型参数+实体参数" /><br /><br />
+        <input type="button" id="btn7" value="Post：简单数组作为参数" /><br /><br />
+
+        <input type="button" id="btn8" value="Post：对象集合作为参数" /><br /><br />
+
+
+    </div>
+</body>
+</html>

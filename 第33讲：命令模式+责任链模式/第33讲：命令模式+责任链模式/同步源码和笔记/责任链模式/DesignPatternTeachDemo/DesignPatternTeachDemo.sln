@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "没有使用命令模式", "没有使用命令模式", "{7B35A71B-81DD-4D4B-84C4-933FF77D54B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NonCommandPattern", "NonCommandPattern\NonCommandPattern.csproj", "{7B9EFD7E-6922-4C44-9500-EA5165633D32}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "命令模式的应用", "命令模式的应用", "{4103A642-10D1-42D4-ACE8-E56B79637C7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandPattern", "CommandPattern\CommandPattern.csproj", "{CAFFD4E2-EEE9-40FC-B643-A53D6934ADBA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "没有使用责任链模式", "没有使用责任链模式", "{8852A2EE-3441-42A4-9C91-9EB81293376D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NonChainOfResponsibility", "NonChainOfResponsibility\NonChainOfResponsibility.csproj", "{07E043E9-43DD-4616-9A10-7730731082C3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "责任链模式", "责任链模式", "{A74F8A99-D9EB-4289-87B6-EBD4263F49C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChainOfResponsibility", "ChainOfResponsibility\ChainOfResponsibility.csproj", "{9B9F0CAA-CBE7-424D-81A5-34D7677A4E13}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B9EFD7E-6922-4C44-9500-EA5165633D32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B9EFD7E-6922-4C44-9500-EA5165633D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B9EFD7E-6922-4C44-9500-EA5165633D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B9EFD7E-6922-4C44-9500-EA5165633D32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAFFD4E2-EEE9-40FC-B643-A53D6934ADBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAFFD4E2-EEE9-40FC-B643-A53D6934ADBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAFFD4E2-EEE9-40FC-B643-A53D6934ADBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAFFD4E2-EEE9-40FC-B643-A53D6934ADBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07E043E9-43DD-4616-9A10-7730731082C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07E043E9-43DD-4616-9A10-7730731082C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07E043E9-43DD-4616-9A10-7730731082C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07E043E9-43DD-4616-9A10-7730731082C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B9F0CAA-CBE7-424D-81A5-34D7677A4E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B9F0CAA-CBE7-424D-81A5-34D7677A4E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B9F0CAA-CBE7-424D-81A5-34D7677A4E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B9F0CAA-CBE7-424D-81A5-34D7677A4E13}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7B9EFD7E-6922-4C44-9500-EA5165633D32} = {7B35A71B-81DD-4D4B-84C4-933FF77D54B1}
+		{CAFFD4E2-EEE9-40FC-B643-A53D6934ADBA} = {4103A642-10D1-42D4-ACE8-E56B79637C7A}
+		{07E043E9-43DD-4616-9A10-7730731082C3} = {8852A2EE-3441-42A4-9C91-9EB81293376D}
+		{9B9F0CAA-CBE7-424D-81A5-34D7677A4E13} = {A74F8A99-D9EB-4289-87B6-EBD4263F49C8}
+	EndGlobalSection
+EndGlobal

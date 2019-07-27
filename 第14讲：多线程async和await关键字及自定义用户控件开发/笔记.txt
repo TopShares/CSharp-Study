@@ -1,0 +1,21 @@
+新的主题：自定义用户控件（C/S  B/S）
+
+委托+事件
+
+基于用户控件，实现分页查询
+
+用户自定义控件：用现有的不同控件，进行组合，完成一个任务。
+
+两个作业：
+
+【1】多线程启动窗体
+
+【2】把分页控件做成分层结构。
+
+
+select * from Books
+
+select Top 5 BookId,BarCode  from Books
+where BookId not in(select top 10  BookId from Books where BookId>=1000000   order by bookId ASC )
+and  BookId>=1000000  
+

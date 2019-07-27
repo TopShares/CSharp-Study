@@ -1,0 +1,107 @@
+授课主题：Entity Framework 6.0
+
+学习网站：http://www.entityframeworktutorial.net/what-is-entityframework.aspx
+
+ORM:（实体关系模型）在我们现在的企业开发中，ORM相关的框架，应用还是比较多的。通常企业会选择EF6.0、还有就是自己开发ORM，更加轻量级，并且使用方便。
+
+O：领域模型
+
+R：关系型数据库
+
+M：映射关系
+
+基于.NET平台ORM框架最成熟的官方的，当然是EF6.0
+
+一、DBFirst
+
+1.创建项目。后面所见到的EDM是一个可视化的编辑工具。用来生成ORM
+
+2.项目结构分析：
+
+【1】配置文件：App.config里面包括了链接数据库的字符串还有配置信息。
+
+【2】edmx文件：是ORM的核心
+
+2.1.EFDBEntities数据库上下文文件：
+
+        public virtual DbSet<Admins> Admins { get; set; }
+        public virtual DbSet<ScoreList> ScoreList { get; set; }
+        public virtual DbSet<Student> Student { get; set; }
+        public virtual DbSet<StudentClass> StudentClass { get; set; }
+        public virtual DbSet<Students> Students { get; set; }
+
+也就是说ORM框最核心的就是把数据库中各个数据表映射成集合对象的操作。
+
+
+【3】自动生成了对应数据表的实体类（partial）
+
+【4】ORM的映射中心文件，以xml文件格式展示的内容：
+
+4.1 SSDL-->存储模型：这个xml部分主要是对数据库数据表的一个描述。
+
+     作用：通过这部分，ORM就能知道你的数据库数据表是什么样的。
+
+4.2 CSDL-->实体模型：这个xml部分主要是对自动生成的实体类做的一个描述。
+ 
+     作用：通过这部分，ORM就清楚的知道，我们要操作的对象是什么样子。
+
+4.3 Mapping-->映射模型：将实体模型中实体属性、关系和存储模型中的列名称和关系做对用。
+
+     生活中的例子：电报有密码，接收的内容是加密的，报务员根据密码表，解析。
+
+    作用：通过这部分，ORM就清楚的知道，我们操作完对象后，如果转换成对数据表的操作。
+
+
+3. DBFirst举例
+
+【1】会使用SQLProfiler工具观察SQL语句的执行时机，体会LINQ的延迟执行的好处。
+
+【2】对EF的使用，有一个基本的认识。
+
+
+二、空EF设计器模型
+
+场景：一般喜欢一体化的，可以使用。（这种方式，不适合初学者，也不适合对象关系特别复杂的场景）
+
+基本步骤演示。
+
+
+三、CodeFist
+
+【1】创建项目，添加CodeFirst实体数据模型
+
+【2】自己在Contex文件中添加实体模型和集合属性。
+
+【3】添加一条数据，执行。然后观察生成的数据库和数据表，及其数据。
+
+适合：小项目，一般说，那些基于DDD开发的，用的相对较多。
+
+四、来自数据库的CodeFirst
+
+我们可以提前设计好数据库，然后再使用这种方式。
+
+如果我们自己熟练数据库，建议可以使用这种方式，对于数据库移植的情况，还是比较方便的。
+
+
+
+
+
+
+
+
+
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+

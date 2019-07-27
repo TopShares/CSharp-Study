@@ -1,0 +1,13 @@
+1.如何理解Attribute，其实翻译并不准确。
+
+2.看一下元数据中的Attribute
+
+3.编写注意事项：
+（1）必须以Attribute结尾。
+（3）使用中可以省略。
+（3）Attribute使用的范围。
+
+AllowMultiple=true; 表明允许给代码附加多个Attribute的实例。
+inherit=true：表示是否运行子类自动基础父类的此Attribute的值。也就是说。如果父类有几个Attribute，则子类会自动继承下去。
+
+4.实现条件编译
