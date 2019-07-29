@@ -1,0 +1,84 @@
+
+一：信道
+
+ 1. 一个协议。。。   【传输层，安全，单向，事务】
+
+ 2. 多个协议就形成了一个信道栈。
+
+ 3. 画图理解
+
+   1. 传输层
+
+    当我们的信道有了“传输层”，那么我们的传输就有了方式，常见的方式有那些呢？？？ http，tcp。。。。
+
+
+  2. 安全层
+
+    如果没有安全，我们的传输层没有保障，可以被任何人截取。
+
+  3. 事务层
+   
+    让我们的信道有了一个事务保障，在wcf上加上事务，严重影响性能。
+
+  4. 信道栈就构成了我们client到service的传输。
+
+二：信道栈又叫什么呢，Binding。。。
+
+    Binding： basicHttpbinding，nettcpbinding，netmsmqbinging。
+
+    每一种binding都是一个默认的信道栈配置。
+
+
+三：查看BasicHttpBinding的绑定元素
+
+    1. CreateBindingElements： 用于获取绑定元素
+
+	[0]: {System.ServiceModel.Channels.TextMessageEncodingBindingElement}
+	[1]: {System.ServiceModel.Channels.HttpTransportBindingElement}
+
+
+        TextMessageEncoding: 叫做文本编码。
+
+        HttpTransportBinding：Http传输。
+
+
+	BasicHttpBinding它的默认配置有两个，一个编码器，一个httptransport。。。
+
+
+	那么这个也是最基本，也是必须的两个elements.
+   
+    [0]: {System.ServiceModel.Channels.TransactionFlowBindingElement}
+    [1]: {System.ServiceModel.Channels.BinaryMessageEncodingBindingElement}
+    [2]: {System.ServiceModel.Channels.WindowsStreamSecurityBindingElement}
+    [3]: {System.ServiceModel.Channels.TcpTransportBindingElement}
+
+
+    通过查看tcp的binding元素，我们发现tcpbinding默认的elements还是蛮多的。
+
+
+    《1》TransactionFlowBinding：	支持事务。
+
+    《2》BinaryMessageEncodingBinding：  二进制的编码。
+
+    《3》WindowsStreamSecurityBinding：  安全
+
+    《4》 TcpTransportBinding：         tcp传输
+
+
+看到这四个elements，我们就知道了ncp这个bingidng可以支持哪些功能。
+
+
+四：可以任意组合elements。。。
+
+
+    当你自己组合了，这就自定义的binding。。。
+
+
+五：我们开始自定义一个binding
+
+    采用http传输，编码方式采用， BinaryMessageEncodingBinding 这种方式。
+    
+
+
+
+    

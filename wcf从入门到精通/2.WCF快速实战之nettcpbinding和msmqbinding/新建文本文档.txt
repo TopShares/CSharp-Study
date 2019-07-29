@@ -1,0 +1,36 @@
+
+一：NetTcpBinding....
+
+    是对Remoting的一个高级使用。
+
+
+修改配置文件：只需要简单的两步。
+
+   1. 修改biding： binding="netTcpBinding"
+
+   2. 添加一个nettcp的地址： net.tcp://localhost/myservice
+
+                             也可以自定义一个端口，有了这个地址之后，我们就可以跨机器访问，跨进程访问。
+
+   3. 它的场景： 两个.net程序搭建的一个跨机器访问。  tcp 远比 http [BasicHttpBinding] 快的多。
+
+
+二：NetMSMQBinding...
+
+    封装以前的MSMQ的一个专用类。
+
+    由于构建离线访问，MSMQ就像一个蓄水池。
+
+    MSMQ它是一个基于硬盘的形式。
+
+
+三：搭建
+  
+   1. 如果没有安装 消息队列的同学，首先要安装一下。   控制面板 -> windows 功能 -> MSMQ服务器
+
+   2. 去找MSMQ： 在计算机管理面板中找到MSMQ，在MSMQ中新建一个队列。
+
+   3. 修改配置文件： 修改binding，修改address
+
+   4. 一定要单向.
+

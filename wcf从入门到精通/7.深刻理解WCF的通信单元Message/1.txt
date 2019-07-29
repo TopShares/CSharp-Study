@@ -1,0 +1,83 @@
+
+一：Fillder 
+
+    一个http代理，用于监视http请求。【修改，删除，添加】
+
+    这里我们用Fillder来监视我们的wcf的请求，这样我们就方便查看请求的数据。
+
+
+二：我们传递的消息果然是 soap。。。
+
+    Envelope 【信封】
+
+      -> s:Header    信封头
+
+      -> s:Body      信封的内容
+
+               -> Fly   这个fly就是一个inputmessage。
+
+	                -> parameter:  就是一个student的参数。
+
+
+
+       从fly的inputmessage中，记录了路由地址，方便我们被服务端监听到之后做路由转向。
+
+
+   
+    我们传递的内容是一个Xml的形式，有什么好处呢，可以表示复杂的类型，结构完整，坏处增加网络带宽。
+
+
+三：重载方法能被wcf接受吗？
+
+
+   刚才也说到了，一个Fly方法对应着一个路由地址： xxxx/Fly 这个地址： http://tempuri.org/IFlyService/Fly
+
+
+   如果说你做了Fly方法的重载，那么这个地址就无法映射了。
+
+
+四：不止重载，你还可以改变其他的一些特性值【命名空间，服务名，接口名】
+
+
+
+五：Soap结构在wcf中有一个专门的类与之对应 【Message => Soap】
+
+    1. soap是有header和body的。
+
+    2. Message也有与之对应的   => System.ServiceModel.Channels
+
+    3. 我们普通的形式，是方法中定义几个参数就搞定了，这时候我们是拿不到header。
+
+       为了更灵活的运用，我们希望可以拿到header。
+
+
+       我们在header中塞入一些验证信息，【token，ip，datetime】 我们都可以塞入到message中。
+
+
+       那么这几个就可以认为是系统参数，业务参数我们就是具体的方法的入参和出参。
+
+
+六：如何创建Message
+
+    public static Message CreateMessage(MessageVersion version, string action, object body);
+
+    第一个参数：version的版本。
+
+    第二个参数：action，input/output的action  是一个路由，有了路由之后，wcf框架就可以找到正确的入口方法。
+   
+
+   如何获取Message中的内容：
+
+            //构造msg
+            var msg = Message.CreateMessage(MessageVersion.Soap11, "http://tempuri.org/IFlyService/Inovke", "我给服务器发送信息");
+
+            var rsp = channel.Inovke(msg);
+
+            var result = rsp.GetBody<string>();
+
+    
+  默认情况下，我们只是用了一个body，这个时候，我们把一些系统参数塞入到header中。
+
+
+  获取数据的第二种方式，Message比较底层，比较深入，更加灵活。
+

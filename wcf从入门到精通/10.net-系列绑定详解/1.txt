@@ -1,0 +1,120 @@
+
+一：ws开头的binding
+
+   ws => web service
+
+         用于异构系统操作。
+
+  
+二：ws开头的binding有哪些呢？？？
+
+    binding 就是有默认配置元素信道栈。
+
+
+    wsHttpBinding：  实在 basichttpbinding上面增加了安全性。
+
+
+		System.ServiceModel.Channels.TransactionFlowBindingElement   支持事务
+
+		System.ServiceModel.Channels.SymmetricSecurityBindingElement  支持安全
+
+											DefaultAlgorithmSuite: Basic256
+
+		
+		System.ServiceModel.Channels.TextMessageEncodingBindingElement 文本编码
+
+		System.ServiceModel.Channels.HttpTransportBindingElement       http传输
+
+  
+   ws2007HttpBinding： 是wshttpBinding的升级版
+
+
+   WS2007HttpBinding： System.ServiceModel.Channels.TransactionFlowBindingElement
+
+                       System.ServiceModel.Channels.SymmetricSecurityBindingElement
+
+		       System.ServiceModel.Channels.TextMessageEncodingBindingElement
+
+        	       System.ServiceModel.Channels.HttpTransportBindingElement
+
+   
+   WSDualHttpBinding：    [0]: {System.ServiceModel.Channels.TransactionFlowBindingElement}
+			  [1]: {System.ServiceModel.Channels.ReliableSessionBindingElement}
+			  [2]: {System.ServiceModel.Channels.SymmetricSecurityBindingElement
+			  [3]: {System.ServiceModel.Channels.CompositeDuplexBindingElement}
+		          [4]: {System.ServiceModel.Channels.OneWayBindingElement}
+		          [5]: {System.ServiceModel.Channels.TextMessageEncodingBindingElement}
+                          [6]: {System.ServiceModel.Channels.HttpTransportBindingElement}
+
+  basichttpbinding：      [0]: {System.ServiceModel.Channels.TextMessageEncodingBindingElement}
+	                  [1]: {System.ServiceModel.Channels.HttpTransportBindingElement}
+
+
+
+四：net-* binding
+
+         用于同构系统的互通， net -> net   这样的话，我们就可以优先使用net-* 这样的binding，因为这样可以达到最高的性能。
+
+	 而且呢，它的底层是remoting形式，也就是 tcp的方式进行通信。
+
+
+    1. netTcpBinding        跨进程，跨机器，应该最广泛的一个同构系统的互通。
+
+
+    2. udpBinding：         跨进程，跨机器，【足球赛事直播】  缺少可靠性，这是一种新增的binding。
+
+			    只要在一个容忍范围之内都是可以采用udpbinding，比如技术长的场景：【记log】
+
+    3. netNamedPipeBinding：跨进程，限本机 的一种binding。
+
+    4. netMsmqBiding:       离线式，断层访问。 最大的限制也就是在msmq中，因为我们只能使用msmq，，，，
+
+			    既然是文件式的存储，那就达不到专门级别的msmq产品，比方说将mq做成分布式部署。
+
+                            这样就导致了，我们真实的环境下，用msmqbinding比较少见，会给你带来很多的坑。。
+
+			    所以：简单一点的消息队列：redis
+				  复杂一点的消息队列：rabbitmq   => rabbitmq action
+
+			    消息队列的产品有很多： activeMQ  =》 java
+
+			                           rabbitmq  =>  第三方的产品
+
+						   zeromq 。。。。
+
+						   msmq => 简单的文件式的消息队列。
+
+      
+       我们既然用wcf，肯定是想要分布式部署，复杂均衡。
+
+
+  <1> netTcpBinding
+
+    [0]: {System.ServiceModel.Channels.TransactionFlowBindingElement}
+    [1]: {System.ServiceModel.Channels.BinaryMessageEncodingBindingElement}
+    [2]: {System.ServiceModel.Channels.WindowsStreamSecurityBindingElement}
+    [3]: {System.ServiceModel.Channels.TcpTransportBindingElement}
+
+
+ <2> NetMsmqBinding     
+    [0]: {System.ServiceModel.Channels.BinaryMessageEncodingBindingElement}
+    [1]: {System.ServiceModel.Channels.MsmqTransportBindingElement}          
+
+
+    我们见过的协议有：httptransport，tcptransport，msmqtransport, NamedPipeTransport
+
+
+<3> NetNamedPipeBinding
+    [0]: {System.ServiceModel.Channels.TransactionFlowBindingElement}
+    [1]: {System.ServiceModel.Channels.BinaryMessageEncodingBindingElement}
+    [2]: {System.ServiceModel.Channels.WindowsStreamSecurityBindingElement}
+    [3]: {System.ServiceModel.Channels.NamedPipeTransportBindingElement}
+
+
+五：性能比较，以及使用方式
+
+  
+    对等网络，p2p  => 快播   你从机器是client，又是server  技术无罪
+
+
+

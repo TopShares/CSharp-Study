@@ -1,0 +1,137 @@
+
+
+一：WCF的无配置
+
+1. 我们在开启ServiceHost的时候,启用了一些配置文件.
+
+   也就是说这些config信息最终会被C#代码读取,然后C#代码会动态的去读取config,那何不我们自己去写呢??
+
+   这样的话,我们就可以最小化配置.
+
+
+2. ServiceHost上面 【开启了一个监听器】
+
+   this.ApplyConfiguration();  这个方法就是我们要读取的配置文件
+
+
+   =>  ConfigLoader configLoader = new ConfigLoader(this.GetContractResolver(this.implementedContracts));
+
+
+3. 我们自己来写用代码来实现配置文件
+
+  
+   ServiceHost host = new ServiceHost(typeof(FlyService), new Uri("http://localhost:8733/MyService"));
+
+   =>
+
+         <host>
+          <baseAddresses>
+            <add baseAddress="http://localhost:8733/MyService" />
+          </baseAddresses>
+        </host>
+
+    
+        //这是我们服务的地址
+        host.AddServiceEndpoint(typeof(IFlyService), new BasicHttpBinding(), string.Empty);
+
+        //mex元数据的地址
+        host.AddServiceEndpoint(typeof(IMetadataExchange), MetadataExchangeBindings.CreateMexHttpBinding(), "mex");
+
+=>
+
+        <endpoint address="" binding="basicHttpBinding"
+          contract="Mytest.IFlyService">
+          <identity>
+            <dns value="localhost" />
+          </identity>
+        </endpoint>
+        
+       <!-- 公布元数据的【endpoint】 -->
+        <endpoint address="mex" binding="mexHttpBinding" contract="IMetadataExchange" />
+
+
+        host.Description.Behaviors.Add(new ServiceMetadataBehavior() { HttpGetEnabled = true, HttpsGetEnabled = true });
+        host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = false });
+
+
+=> 
+
+     <behaviors>
+      <serviceBehaviors>
+        <behavior name="">
+          <serviceMetadata httpGetEnabled="true" httpsGetEnabled="true" />
+          <serviceDebug includeExceptionDetailInFaults="false" />
+        </behavior>
+      </serviceBehaviors>
+    </behaviors>
+    <services>
+
+
+
+第一点： config配置的东西，我们都可以用C#代码来实现。。。
+
+         config的配置节点 和 C#中的类名差不多一样。。。
+
+	 一些常见的behaviors在服务启动的时候就已经存在了，这个时候我们update一下就可以了。
+
+
+二：client的无配置使用
+
+  
+1. 我们发现，Client都是继承自System.ServiceModel.ClientBase这个类，而且各个操作都是用由ClientBase实现。
+
+// System.ServiceModel.ClientBase<TChannel>
+private static ChannelFactoryRef<TChannel> CreateChannelFactoryRef(EndpointTrait<TChannel> endpointTrait)
+{
+	ChannelFactory<TChannel> expr_06 = endpointTrait.CreateChannelFactory();
+	expr_06.TraceOpenAndClose = false;
+	return new ChannelFactoryRef<TChannel>(expr_06);
+}
+
+从上面的代码，我们看到了一个核心的函数，是什么？？？ channelFactory【信道工厂】
+
+
+           ChannelFactory<IFlyService> factory = new ChannelFactory<IFlyService>(new BasicHttpBinding(), "http://localhost:8733/MyService/");
+
+           var channel= factory.CreateChannel();
+
+            channel.Fly("hello world");
+
+            Console.WriteLine("调用成功");
+
+            factory.Close();
+            
+            Console.Read();
+
+
+从源代码中，我们发现了有一个好玩的地方，那就是ClientBase里面有一个 cache。。。
+
+然而 ChannelFactory是没有的。。。所以我们尽量用ClientBase这个FCL给我们提供的类。
+
+object obj = ClientBase<TChannel>.staticLock;
+	lock (obj)
+	{
+		ChannelFactoryRef<TChannel> channelFactoryRef;
+		if (ClientBase<TChannel>.factoryRefCache.TryGetValue(this.endpointTrait, out channelFactoryRef))
+		{
+			if (channelFactoryRef.ChannelFactory.State == CommunicationState.Opened)
+			{
+				this.channelFactoryRef = channelFactoryRef;
+				this.channelFactoryRef.AddRef();
+				this.useCachedFactory = true;
+				if (TD.ClientBaseChannelFactoryCacheHitIsEnabled())
+				{
+					TD.ClientBaseChannelFactoryCacheHit(this);
+				}
+				return;
+			}
+			ClientBase<TChannel>.factoryRefCache.Remove(this.endpointTrait);
+		}
+	}
+	if (this.channelFactoryRef == null)
+	{
+		this.channelFactoryRef = ClientBase<TChannel>.CreateChannelFactoryRef(this.endpointTrait);
+	}
+
+这个看得到，这个是一个性能优化的措施。
+

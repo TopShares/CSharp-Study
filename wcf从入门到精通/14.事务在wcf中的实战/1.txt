@@ -1,0 +1,184 @@
+
+一；事务　【sqlserver,mongodb,redis.... 】
+
+1. TransactionScope  一个.net中内置的事务类。
+
+2. WCF中的事务 和 TransactionScope进行了集成。。
+
+
+二：TransactionScope 的原理   System.Transaction
+  
+1. 做一个数据库连接：Linq To Sql 
+
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    //开了线程去调用
+                    //Parallel.Invoke(Insert1, Insert2);
+
+                    //scope.Complete();
+
+                    Insert1();
+
+                    Insert2();
+
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+
+
+                throw;
+            }
+        }
+
+        static void Insert1()
+        {
+            DataClasses1DataContext context = new DataClasses1DataContext();
+
+            context.Student.InsertOnSubmit(new Student()
+            {
+                Name = "jack"
+            });
+
+            context.SubmitChanges();
+        }
+
+        static void Insert2()
+        {
+            DataClasses1DataContext context = new DataClasses1DataContext();
+
+            context.Student.InsertOnSubmit(new Student()
+            {
+                Name = "jackson"
+            });
+
+            context.SubmitChanges();
+        }
+    }
+
+通过我这个例子的演示，你会发现哪些问题？？？
+
+《1》 如果是跨数据库的事务，【new了两次】，这时候会调用windows自带的DTC。 C:\WINDOWS\System32\msdtc.exe
+
+      协调跨多个数据库、消息队列、文件系统等资源管理器的事务。如果停止此服务，这些事务将会失败。如果禁用此服务，显式依赖此服务的其他服务将无法启动。
+
+ 《2》在insert之后，一定要complete。。。
+
+ 《3》TransactionScope为什么有这么一个机制。
+
+      ThreadStaticAtrribute		 //线程静态
+
+
+        [ThreadStatic]
+        public static int count;
+
+        static void Run()
+        {
+            ++count;
+
+            Thread.Sleep(1000);
+
+            Console.WriteLine("tid={0}, count={1}", Thread.CurrentThread.ManagedThreadId, count);
+        }
+
+      你这个静态变量只有当前线程可以看到， 默认的情况下它是对所有线程可见。
+
+
+      Transaction.Current...
+
+
+三：如何在WCF中使用TransactionScope
+
+1. wcf中的事务已经被做成特性了， behavior专门就是用来在读取或者flow中去读取atrribute的值。
+   
+   这样的话，我们就可以动态的拦截和修改。
+
+
+       //
+    // 摘要:
+    //     提供用于创建事务范围的附加选项。
+    public enum TransactionScopeOption
+    {
+        //
+        // 摘要:
+        //     该范围需要一个事务。如果已经存在环境事务，则使用该环境事务。否则，在进入范围之前创建新的事务。这是默认值。
+        Required = 0,
+        //
+        // 摘要:
+        //     总是为该范围创建新事务。
+        RequiresNew = 1,
+        //
+        // 摘要:
+        //     环境事务上下文在创建范围时被取消。范围中的所有操作都在无环境事务上下文的情况下完成。
+        Suppress = 2
+    }
+
+
+       [OperationBehavior(TransactionScopeRequired = true, TransactionAutoComplete = true)]
+        public void Inovke(string msg)
+        {
+            DataClasses1DataContext context1 = new DataClasses1DataContext();
+
+            context1.Student.InsertOnSubmit(new Student()
+            {
+                Name = "jack"
+            });
+
+            context1.SubmitChanges();
+
+
+            DataClasses1DataContext context2 = new DataClasses1DataContext();
+
+            context2.Student.InsertOnSubmit(new Student()
+            {
+                Name = "jackson"
+            });
+
+            context2.SubmitChanges();
+
+            Console.WriteLine("服务器方法执行成功");
+
+        }
+
+
+2. 如果上面的Invoke方法体中抛出了异常，会怎么样？？？
+
+   sumbitchanges不会提交
+
+
+    OperationContext.Current.SetTransactionComplete()，相当于手工去提交。
+
+
+3. 分布式的事务。跨越wcf的边界，也就是说一个事务可以包含几个wcf。。。事务信息通过soap中的header
+
+   进行传递，同时还需要dtc来支持。我们是极度不提倡的。
+
+
+   事务 =》 阻塞 =》 性能低下  =》项目不给客户接受 =》我们就要下岗  =》 公司倒闭
+
+   
+   事务粒度不能太大，粒度越大，性能越低，能不这么用就千万不要这么用。
+
+
+4. 怎么用事务呢，我们可以看一些开源的资料。。。
+
+  《1》 支付宝怎么使用事务。
+
+        http://www.zhihu.com/question/31813039
+
+  《2》 http://www.woshipm.com/pmd/160822.html
+
+
+怎么实现在分布式架构中使用事务。
+
+
+
+

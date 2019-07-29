@@ -1,0 +1,95 @@
+
+一；事务　【sqlserver,mongodb,redis.... 】
+
+1. TransactionScope  一个.net中内置的事务类。
+
+2. WCF中的事务 和 TransactionScope进行了集成。。
+
+
+二：TransactionScope 的原理   System.Transaction
+  
+1. 做一个数据库连接：Linq To Sql 
+
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    //开了线程去调用
+                    //Parallel.Invoke(Insert1, Insert2);
+
+                    //scope.Complete();
+
+                    Insert1();
+
+                    Insert2();
+
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+
+
+                throw;
+            }
+        }
+
+        static void Insert1()
+        {
+            DataClasses1DataContext context = new DataClasses1DataContext();
+
+            context.Student.InsertOnSubmit(new Student()
+            {
+                Name = "jack"
+            });
+
+            context.SubmitChanges();
+        }
+
+        static void Insert2()
+        {
+            DataClasses1DataContext context = new DataClasses1DataContext();
+
+            context.Student.InsertOnSubmit(new Student()
+            {
+                Name = "jackson"
+            });
+
+            context.SubmitChanges();
+        }
+    }
+
+通过我这个例子的演示，你会发现哪些问题？？？
+
+《1》 如果是跨数据库的事务，【new了两次】，这时候会调用windows自带的DTC。 C:\WINDOWS\System32\msdtc.exe
+
+      协调跨多个数据库、消息队列、文件系统等资源管理器的事务。如果停止此服务，这些事务将会失败。如果禁用此服务，显式依赖此服务的其他服务将无法启动。
+
+ 《2》在insert之后，一定要complete。。。
+
+ 《3》TransactionScope为什么有这么一个机制。
+
+      ThreadStaticAtrribute		 //线程静态
+
+
+        [ThreadStatic]
+        public static int count;
+
+        static void Run()
+        {
+            ++count;
+
+            Thread.Sleep(1000);
+
+            Console.WriteLine("tid={0}, count={1}", Thread.CurrentThread.ManagedThreadId, count);
+        }
+
+      你这个静态变量只有当前线程可以看到， 默认的情况下它是对所有线程可见。
+
+
+      Transaction.Current...

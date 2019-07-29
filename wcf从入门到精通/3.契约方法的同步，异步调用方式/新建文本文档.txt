@@ -1,0 +1,35 @@
+
+一：WCF中常见的三种方式
+
+1. basichttpbinding...
+
+2. nettcpbinding...
+
+3. netmsmqbinding...  
+
+
+net程序互通的binding，    一般都是netxxxxxbinding...
+
+非net程序互通的binding.   一般都是wsxxxxbinding...
+
+
+二：契约中的调用方式。 client和servcie之间的调用方式。
+
+1. 同步方式： 阻塞式方式【默认的调用方式】
+
+2. 异步方式： 第一种异步方式：自己使用Task开一个线程来访问 WCF。
+
+	      第二种异步方式：我们在控制面板中使用生成异步操作。
+	                      
+			       beginxxx / endxxx
+
+
+			       事件的方式
+
+			       xxxFlyAsync
+			       FlyCompleted
+
+      
+
+
+

@@ -1,0 +1,75 @@
+
+一：WSDL
+
+  1. 服务的自描述清单。。。
+
+     也就是在清单中完完整整的描述了自己的信息。。
+
+     好处就是调用方知道自己该如何生成“代理类”。生成了代理类之后，我们就可以如何调用服务的方法。。。
+
+ 
+ 2. wsdl文件  http://localhost:8733/MyService/?singleWsdl
+
+    1. types
+
+       <xs:element name="Fly">   这里面就是入参： type="q1:Student"
+
+       <xs:element name="FlyResponse">  => q2:ResponseMessage
+
+
+<xs:complexType name="Student">
+<xs:sequence>
+<xs:element minOccurs="0" name="ID" type="xs:int"/>
+<xs:element minOccurs="0" name="Name" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="Student" nillable="true" type="tns:Student"/>
+<xs:complexType name="ResponseMessage">
+<xs:sequence>
+<xs:element minOccurs="0" name="Code" type="xs:int"/>
+<xs:element minOccurs="0" name="Message" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ResponseMessage" nillable="true" type="tns:ResponseMessage"/>
+</xs:schema>
+
+
+
+    2. message
+
+       IFlyService_Fly_InputMessage  它的参数就是  tns:Fly   => element="tns:Fly
+
+       IFlyService_Fly_OutputMessage 它的参数就是  tns:FlyResponse   => element="tns:FlyResponse
+
+
+    3. portType
+
+       operation: 也就是我们定义的一个方法。
+       message：  input方法和oput方法。
+
+       一个方法默认情况下有两个Message，一个inputxxxxMessage，一个ouputxxxMessage
+
+    4. binding
+
+       
+
+    5. service
+
+       服务地址：<soap:address location="http://localhost:8733/MyService/"/>
+
+    
+    这几个节点是给调用方看的。。。在C#中叫做svcutil.exe 程序观看的。
+
+
+
+这个wsdl就是一个完整的服务自描述。
+
+
+二：svcutil.exe 如何去解析
+
+
+    那么控制台去解析，我想大家应该明白了，这个“服务引用”的原理。
+
+    它的本质就是调用 svcutil.exe 这个程序去生成的。。。
+
+    “服务引用”就是一个可视化的界面，帮助我们快捷操作。

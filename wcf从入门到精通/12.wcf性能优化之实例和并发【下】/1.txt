@@ -1,0 +1,244 @@
+
+
+一：行为 【非常重要的一章】
+
+
+1. 可以在 client => Server 之间的传输上做一些代码插入。
+ 
+
+   作用有两个： 第一： 在client和service之间的flow上面插入一些拦截的代码，这样的话，我们就可以截获
+                       
+		       或者修改一些flow中的数据。
+
+                第二： 在service启动的时候，插入一些代码做修改，或者做定制。
+
+   那么这样的话，我们就可以达到高度定制。
+
+  
+二：并发和实例化
+
+1. 我们的Service在启动的时候，FlyService到底是singleinstance 还是一个线程来了就是一个实例化。
+
+
+测试1：  basichttpbinding
+       
+        
+	client：
+
+	  FlyServiceClient client = new FlyServiceClient();
+
+            for (int i = 0; i < 10; i++)
+            {
+                client.Inovke("test");
+            }
+
+            Console.Read();
+
+	  
+	 我们发现每次都实例化了。。。 说明每次调用，都是new了一个FlyService，对吧。
+
+
+测试2：  wsHttpBinding
+
+          FlyServiceClient client = new FlyServiceClient();
+
+            for (int i = 0; i < 10; i++)
+            {
+                client.Inovke("test");
+            }
+
+            Console.Read();
+    
+         
+	 最终的结果，我们发现，好像只new了一次FlyService。
+
+
+感官总结一下：在默认情况下，如果binding不支持会话，那么每一次调用都是new一个service。。
+
+          如果binding支持会话，那么每一次new的时候貌似就是单例。
+
+
+测试三：  wshttpbinding
+
+
+      static void Main(string[] args)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                FlyServiceClient client = new FlyServiceClient();
+                client.Inovke("test");
+            }
+
+            Console.Read();
+        }
+
+	这个时候，代码就和bascihttpbinding差不多。。。都是new了一次。
+
+
+结论： wshttpbinding 不等于 单例(SingleInstance)， 但是也不是来一次就new一次（PerCall)。 而是两者之间。。。。
+
+       这个是会话。 Session【Web】。
+
+       只要Session过期，那么客户端的每次SessionID都是不一样的。
+
+
+       SingleInstance
+
+       PerCall
+
+       SessionInstance
+
+             
+Behavior 是wcf中的一个难点，这个我也会详细的讲述。
+
+
+三：如何自己指定
+
+1.  xxxxBehavior
+
+
+   ServiceBehaviorAttribute  =>  
+
+
+				        [DefaultValue(InstanceContextMode.PerSession)]
+				        public InstanceContextMode InstanceContextMode { get; set; }
+   
+    //
+    // 摘要:
+    //     指定可用来处理包含在传入消息中的调用的服务实例数。
+    public enum InstanceContextMode
+    {
+        //
+        // 摘要:
+        //     为每个会话创建一个新的 System.ServiceModel.InstanceContext 对象。
+        PerSession = 0,
+        //
+        // 摘要:
+        //     新的 System.ServiceModel.InstanceContext 对象在每次调用前创建，在调用后回收。如果信道未创建会话，则该值的行为就如同
+        //     System.ServiceModel.InstanceContextMode.PerCall 一样。
+        PerCall = 1,
+        //
+        // 摘要:
+        //     只有一个 System.ServiceModel.InstanceContext 对象用于所有传入呼叫，并且在调用后不回收。如果服务对象不存在，则创建一个。
+        Single = 2
+    }
+
+
+InstanceContextMode => 常和  ConcurrencyMode  
+
+
+
+2.  ConcurrencyMode  默认是单线程
+
+
+        //
+        // 摘要:
+        //     获取或设置一个值，该值指示服务是支持单线程、多线程还是支持可重入调用。
+        //
+        // 返回结果:
+        //     System.ServiceModel.ConcurrencyMode 值之一，默认值为 System.ServiceModel.ConcurrencyMode.Single。
+        //
+        // 异常:
+        //   T:System.ArgumentOutOfRangeException:
+        //     该值不是 System.ServiceModel.ConcurrencyMode 值之一。
+        [DefaultValue(ConcurrencyMode.Single)]
+        public ConcurrencyMode ConcurrencyMode { get; set; }
+
+
+3. InstanceContextMode 和 ConcurrencyMode  的组合
+
+    InstanceContextMode  ConcurrencyMode
+
+   《1》  single        +   single     => 单例  + 单线程     默认情况下的我们code代码
+
+
+    [ServiceBehavior(InstanceContextMode=InstanceContextMode.Single,ConcurrencyMode =ConcurrencyMode.Single)]
+    public class FlyService : IFlyService
+    {
+        public int nums = 0;
+
+        public string Inovke(string msg)
+        {
+            Console.WriteLine("当前的nums={0},threading={1},time={2}", ++nums,Thread.CurrentThread.ManagedThreadId,DateTime.Now);
+
+            Thread.Sleep(1000 * 5);   // 5s
+
+            return string.Empty;
+        }
+    }
+
+    好处： 线程安全，因为这个service只有一个线程。
+
+    坏处： 性能的极度降低，因为只有一个人可能帮你做事情。
+
+ 
+   《2》  single        +   Multiple     => 单例  + 单线程     默认情况下的我们code代码
+
+    [ServiceBehavior(InstanceContextMode=InstanceContextMode.Single,ConcurrencyMode =ConcurrencyMode.Multiple)]
+    public class FlyService : IFlyService
+    {
+        public int nums = 0;
+
+        public string Inovke(string msg)
+        {
+            Console.WriteLine("当前的nums={0},threading={1},time={2}", ++nums,Thread.CurrentThread.ManagedThreadId,DateTime.Now);
+
+            Thread.Sleep(1000 * 5);   // 5s
+
+            return string.Empty;
+        }
+    }
+
+   好处： 这个时候我们发现请求时一起过来的，这样的话，我们的吞吐量极大的增加。
+
+   坏处： 需要自己去控制线程安全。
+
+
+
+  《3》 PerSession   +  Single        => 在每个会话上面，做到了单例
+
+
+       这时候，我们就可以用构造函数的执行次数来判断，会话和整体的单例的区别。
+
+
+    [ServiceBehavior(InstanceContextMode=InstanceContextMode.PerSession,ConcurrencyMode =ConcurrencyMode.Single)]
+    public class FlyService : IFlyService
+    {
+        public int nums = 0;
+
+        public FlyService()
+        {
+            Console.WriteLine("我是构造函数, threading={0},time={1} ", Thread.CurrentThread.ManagedThreadId, DateTime.Now);
+        }
+
+        public string Inovke(string msg)
+        {
+            Console.WriteLine("当前的nums={0},threading={1},time={2}", ++nums,Thread.CurrentThread.ManagedThreadId,DateTime.Now);
+
+            Thread.Sleep(1000 * 5);   // 5s
+
+            return string.Empty;
+        }
+    }
+
+
+从三次构造函数中，可以清楚的看到，执行了三次构造函数，说明每次执行的时候都new了一下构造函数。
+
+
+《4》 注意的地方
+
+
+ 还记得我们使用的是basichttpbinding，这个binding是不支持会话的，所以PerSession会退化到Percall。
+
+ 除非你使用带有会话的，比如说nettcpbinding，wshttpbinding。 PerSession的默认值则会保留。
+
+
+
+
+最后，一定要尝试各种组合，来构建高性能的代码，因为优化代码，大概有两种方式：
+
+
+1. 使用算法，降低复杂度。。。
+
+2. 使用多线程，提高request的吞吐量。。。
+

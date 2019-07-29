@@ -1,0 +1,52 @@
+
+一：ws开头的binding
+
+   ws => web service
+
+         用于异构系统操作。
+
+  
+二：ws开头的binding有哪些呢？？？
+
+    binding 就是有默认配置元素信道栈。
+
+
+    wsHttpBinding：  实在 basichttpbinding上面增加了安全性。
+
+
+		System.ServiceModel.Channels.TransactionFlowBindingElement   支持事务
+
+		System.ServiceModel.Channels.SymmetricSecurityBindingElement  支持安全
+
+											DefaultAlgorithmSuite: Basic256
+
+		
+		System.ServiceModel.Channels.TextMessageEncodingBindingElement 文本编码
+
+		System.ServiceModel.Channels.HttpTransportBindingElement       http传输
+
+  
+   ws2007HttpBinding： 是wshttpBinding的升级版
+
+
+   WS2007HttpBinding： System.ServiceModel.Channels.TransactionFlowBindingElement
+
+                       System.ServiceModel.Channels.SymmetricSecurityBindingElement
+
+		       System.ServiceModel.Channels.TextMessageEncodingBindingElement
+
+        	       System.ServiceModel.Channels.HttpTransportBindingElement
+
+   
+   WSDualHttpBinding：    [0]: {System.ServiceModel.Channels.TransactionFlowBindingElement}
+			  [1]: {System.ServiceModel.Channels.ReliableSessionBindingElement}
+			  [2]: {System.ServiceModel.Channels.SymmetricSecurityBindingElement
+			  [3]: {System.ServiceModel.Channels.CompositeDuplexBindingElement}
+		          [4]: {System.ServiceModel.Channels.OneWayBindingElement}
+		          [5]: {System.ServiceModel.Channels.TextMessageEncodingBindingElement}
+                          [6]: {System.ServiceModel.Channels.HttpTransportBindingElement}
+
+  basichttpbinding：      [0]: {System.ServiceModel.Channels.TextMessageEncodingBindingElement}
+	                  [1]: {System.ServiceModel.Channels.HttpTransportBindingElement}
+
+

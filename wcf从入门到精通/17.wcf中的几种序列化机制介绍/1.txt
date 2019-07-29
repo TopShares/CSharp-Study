@@ -1,0 +1,124 @@
+
+
+一：WCF中的序列化有哪几种？？？
+
+1. DataContractSerializer
+
+   作为wcf中默认的序列化机制，复杂类型的序列化采用 DataContractSerializer。
+
+
+2. 我们简单的来看一下这种序列化的内容。。。
+
+
+它的序列化方式就是一定要给 Model 定义DataContract，DataMember
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<Student xmlns="http://schemas.datacontract.org/2004/07/ConsoleApplication1" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <Age>20</Age>
+  <Name>jack</Name>
+</Student>
+
+
+namespace ConsoleApplication1
+{
+    public class Program
+    {
+        static void Main(string[] args)
+        {
+            var student = new Student() { Name = "jack", Age = 20 };
+
+            DataContractSerializer serializer = new DataContractSerializer(typeof(Student));
+
+            FileStream fs = new FileStream("test.xml", FileMode.Create);
+
+            serializer.WriteObject(fs, student);
+
+            fs.Close();
+        }
+    }
+
+    [DataContract]
+    public class Student
+    {
+        [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
+        public int Age { get; set; }
+    }
+}
+
+
+二： NetDataContractSerializer
+
+
+      var student = new Student() { Name = "jack", Age = 20 };
+
+            //DataContractSerializer serializer = new DataContractSerializer(typeof(Student));
+
+            NetDataContractSerializer serializer = new NetDataContractSerializer();
+
+            FileStream fs = new FileStream("test.xml", FileMode.Create);
+
+            serializer.WriteObject(fs, student);
+
+            fs.Close();
+
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<Student xmlns="http://schemas.datacontract.org/2004/07/ConsoleApplication1" 
+         xmlns:i="http://www.w3.org/2001/XMLSchema-instance" 
+	 xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/" z:Id="1"
+	          z:Type="ConsoleApplication1.Student" z:Assembly="ConsoleApplication1, 
+		  Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+  <Age>20</Age>
+  <Name z:Id="2">jack</Name>
+</Student>
+
+
+从上面这种序列化，我们发现，它的应用范围应该来说非常之小，因为它把程序集的信息带进去了。
+
+同时它不要求Student有DataMember标记。
+
+
+三：DataContractJsonSerializer
+
+1. 它给我们序列化成Json提供了另一个类
+
+这个就是wcf中使用Rest架构方式的一种Web端传输方式：
+
+
+{"Age":20,"Name":"jack"}
+
+
+
+当然除了这些序列化方式，还有很多， XMlSerializer。。。。
+
+
+而且WCF对XMLSerializer 支持非常好。。。
+
+
+四：在WCF中使用Serializer。。
+
+1. WCF默认使用DataContractSerializer，并没有给Model赋值，却可以序列化。。。
+
+2. 我们检查一下到底是不是 DataContractSerializer 呢？
+
+   通过“快速监视”，我们发现在Invoke上面的OperationBehavior上面有一个DataContractSerializer定义了。
+
+五：我们使用XmlSerializer实现WCF中的另一种序列化方式
+
+    也就是在Contract上面打一个标记
+
+    [XmlSerializerFormat]
+    [ServiceContract]
+    public interface IFlyService
+    {
+        [OperationContract]
+        Student Invoke(Student student);
+    }
+
+六：XmlSerializer 和 DataContractSerializer 的异同点。
+

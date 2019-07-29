@@ -1,0 +1,92 @@
+
+
+一：行为 【非常重要的一章】
+
+
+1. 可以在 client => Server 之间的传输上做一些代码插入。
+ 
+
+   作用有两个： 第一： 在client和service之间的flow上面插入一些拦截的代码，这样的话，我们就可以截获
+                       
+		       或者修改一些flow中的数据。
+
+                第二： 在service启动的时候，插入一些代码做修改，或者做定制。
+
+   那么这样的话，我们就可以达到高度定制。
+
+  
+二：并发和实例化
+
+1. 我们的Service在启动的时候，FlyService到底是singleinstance 还是一个线程来了就是一个实例化。
+
+
+测试1：  basichttpbinding
+       
+        
+	client：
+
+	  FlyServiceClient client = new FlyServiceClient();
+
+            for (int i = 0; i < 10; i++)
+            {
+                client.Inovke("test");
+            }
+
+            Console.Read();
+
+	  
+	 我们发现每次都实例化了。。。 说明每次调用，都是new了一个FlyService，对吧。
+
+
+测试2：  wsHttpBinding
+
+          FlyServiceClient client = new FlyServiceClient();
+
+            for (int i = 0; i < 10; i++)
+            {
+                client.Inovke("test");
+            }
+
+            Console.Read();
+    
+         
+	 最终的结果，我们发现，好像只new了一次FlyService。
+
+
+感官总结一下：在默认情况下，如果binding不支持会话，那么每一次调用都是new一个service。。
+
+          如果binding支持会话，那么每一次new的时候貌似就是单例。
+
+
+测试三：  wshttpbinding
+
+
+      static void Main(string[] args)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                FlyServiceClient client = new FlyServiceClient();
+                client.Inovke("test");
+            }
+
+            Console.Read();
+        }
+
+	这个时候，代码就和bascihttpbinding差不多。。。都是new了一次。
+
+
+结论： wshttpbinding 不等于 单例(SingleInstance)， 但是也不是来一次就new一次（PerCall)。 而是两者之间。。。。
+
+       这个是会话。 Session【Web】。
+
+       只要Session过期，那么客户端的每次SessionID都是不一样的。
+
+
+       SingleInstance
+
+       PerCall
+
+       SessionInstance
+
+             
+Behavior 是wcf中的一个难点，这个我也会详细的讲述。

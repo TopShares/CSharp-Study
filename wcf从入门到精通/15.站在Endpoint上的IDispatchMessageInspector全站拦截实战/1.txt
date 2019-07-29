@@ -1,0 +1,110 @@
+
+一：behavior 【传输流中截获】
+
+1. wcf的一个扩展点。
+
+
+二：自定义行为
+
+
+1. Client中自定义代码来截获 
+
+    我们的wcf可能都不是一个公司去开发的，那么如果非要让对方对自定义一些代码，这样是非常不合适的。
+
+    IEndpointBehavior 在传输流的最低端。
+
+
+
+2. Serivce中自定义代码来截获
+
+    
+   Service的话，因为服务部署在我们自己服务器上，所以我们就可以在底层截获一些必要参数，然后呢可以转发给上层。
+
+  《1》IEndpointBehavior   
+
+       
+
+       在Endpoint上面，我们可以添加一些自定义的代码。
+
+  《2》IDispatchMessageInspector 【分发消息检查器】   
+
+       定义一些方法，通过这些方法，可以在服务应用程序中对入站和出站应用程序消息进行自定义检查或修改。
+
+
+
+3. 定义截获的步骤
+
+
+ 第一步：自定义一个MessageInspector
+
+     public class MyDispatchMessageInspector : IDispatchMessageInspector
+    {
+        public object AfterReceiveRequest(ref Message request, IClientChannel channel, InstanceContext instanceContext)
+        {
+            //request：   在这里面，我们可以实现自定义的代码。
+
+            return request;
+        }
+
+        public void BeforeSendReply(ref Message reply, object correlationState)
+        {
+            //response：
+        }
+    }
+
+
+第二步： 自定义一个EndpointBehavior
+
+    public class MyEndpoint : IEndpointBehavior
+    {
+        public void AddBindingParameters(ServiceEndpoint endpoint, BindingParameterCollection bindingParameters)
+        {
+        }
+
+        public void ApplyClientBehavior(ServiceEndpoint endpoint, ClientRuntime clientRuntime)
+        {
+
+        }
+
+        public void ApplyDispatchBehavior(ServiceEndpoint endpoint, EndpointDispatcher endpointDispatcher)
+        {
+            endpointDispatcher.DispatchRuntime.MessageInspectors.Add(new MyDispatchMessageInspector());
+        }
+
+        public void Validate(ServiceEndpoint endpoint)
+        {
+
+        }
+    }
+
+
+第三步：将自定义的IEndpointBehavior加入到正确的Endpoint节点中。
+
+host.Description.Endpoints[0].EndpointBehaviors.Add(new MyEndpoint());
+
+
+	这里ndpoints[0] 为0的原因，是因为默认有两个endpoint，一个是我们的服务，一个是mex。
+
+
+
+
+4. 结论
+
+在执行Invoke方法的前后，我们发现执行了以下两个方法：
+
+AfterReceiveRequest：方法执行之前执行。
+
+《1》 统计站点的访问量。。
+
+《2》 获取message中的一些系统变量，【ip，datetime，token】
+
+BeforeSendReply： 方法执行之后执行
+
+
+当然，这里粒度比较大。
+
+
+
+       
+
+

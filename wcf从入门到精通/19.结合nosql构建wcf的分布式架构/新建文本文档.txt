@@ -1,0 +1,23 @@
+
+一：分布式架构
+
+1. 我们在实际应用中，肯定不止一个wcf。。。3...5... 
+
+2. 首先的话，我们的地址一定要塞到 db中去， db=> sqlserver, mysql, mongodb, redis....
+
+3. 客户端可以通过通过随机的拿到 db中的url，去链接任意一个wcf集群中的一个服务。。。
+
+4. 我们有一个监视程序，用于查看db中的链接的可用性。
+
+
+二：然后我们画图
+
+
+1. redis   有驱动，并且要用centos /linux 环境。。
+
+2. wcf启动的时候，我们可以通过 host.Description.Endpoints[0].Address.ToString() 代码获取当前的endpoint的地址，
+
+	          将其塞入到redis。
+
+3. 通过channelfactory来获取远程地址。
+

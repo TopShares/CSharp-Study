@@ -1,0 +1,34 @@
+
+
+一：Behavior
+
+上一节课，我们是站在Ｅｎｄｐｏｉｎｔ上面去讲解怎么去拦截。。
+
+本节课，我们站在Ｏｐｅｒａｔｉｏｎ上面去讲解如何去拦截。。。
+
+
+二：自定义behavior放在operation上面
+
+
+1. 给入参做验证，对Invoke方法的【msg】做一个长度验证。
+
+   如果length>3.对不起，我需要抛出异常。。。
+
+2. 怎么实现：
+
+第一步：继承一个IParameterInspector的检查器。。。
+
+
+第二步：集成一个IOperationBehavior，Attribute的接口，这样的话，我们就可以把它放到方法上面去。
+
+
+第三步：将Atrribute放到Operation之上。。。
+
+
+3. 还有另一种实现方法，直接在Contract中添加。
+
+host.Description.Endpoints[0].Contract.Operations[0].OperationBehaviors.Add(new MyOperationBehaviorAttribute() { Length = 3 });
+
+
+
+

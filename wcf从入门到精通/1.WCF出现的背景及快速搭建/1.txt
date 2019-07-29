@@ -1,0 +1,84 @@
+
+一：WCF
+
+.net平台下，有很多的分布式技术。。。。
+
+1. webservice  基于http协议的soap模式。。。
+
+2. remoting   也是一种分布式架构技术，常常用于tcp模式的二进制传输。。。
+
+3. MSMQ	      这是一种分布式的离线式技术，用于业务解耦。
+
+
+这个就是现如今存在的大概三种分布式技术，分布式技术太多，我们是不是要整合一下。
+
+
+我的具体需求，就要找到具体的相关技术，面对上面三个需求，我只需要一种技术就可以了了。
+
+这个时候wcf就应运而生了。
+
+wcf可以认为是对 上面这三种技术的再次封装。
+
+二：我们来看一下为什么要学习WCF。
+
+    本系列课程采用【WCF核心技术】
+
+
+    WCF REST =>  Web Api
+   
+ 
+ 三：快速搭建一个WCF程序
+
+ 1. ABC的概念
+
+    A： address 
+         
+	服务的地址，就像我们访问web的时候，是不是有一个地址。
+
+    B：Binding
+       
+        就是我们Client和Service的通道，比如说我们访问web，我们使用http通道。
+
+        那么wcf支持哪些通道， BasicHttpBinding [WSHttpBinding], NetTcpBinding,netMSMQBinding.
+
+    C: Contract
+       
+        我们定义的接口是什么样的，参数，返回值，方法名。。
+
+四：如何定义WCF项目
+
+    1. 我们在新建项中找到 "WCF服务“这个模板。
+	
+
+    2. 步骤
+
+       Service：
+
+        《1》 要定义一个接口：
+
+	      在IFlyService上面加一个 ServiceContract 特性。
+
+			     在 Fly方法上加一个OperationContract 特性。
+        
+	《2》 定义一个实现类，继承于我们定义的接口就可以了
+
+	
+	《3》 定义配置文件
+
+	      app.config中所有的定义都应该在 system.serviceModel这个配置节点下面。
+	      
+
+        《4》 承载WCF服务，用谁来承载？？？ 也就是说宿主是谁，IIS，Console，winform他们都是宿主。。
+
+	 
+      Client：
+
+         《1》 建立一个可执行程序。
+
+	 《2》 添加服务引用，然后直接下一步。
+
+
+ 步骤还是有一点多的，最起码我们把程序跑起来了。
+
+
+ 一定要记住，获取管理员权限。
