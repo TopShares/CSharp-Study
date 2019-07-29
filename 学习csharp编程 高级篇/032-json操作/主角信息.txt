@@ -1,0 +1,10 @@
+﻿{
+	"Name":"siki",
+	"Level":99,
+	"Age":18,
+	"SkillList":[
+		{"id":2,"name":"天下无双","damage":123 },
+		{"id":3,"name":"天下无贼","damage":21 },
+		{"id":4,"name":"咫尺天涯","damage":900 }
+	]
+}
