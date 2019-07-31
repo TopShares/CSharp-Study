@@ -8,6 +8,20 @@ namespace _007_冒泡排序拓展 {
     class Program {
         static void Sort(int[] sortArray)
         {
+            for (int i = 0; i < sortArray.Length - 1; i++)
+            {
+                for (int j = 0; j < sortArray.Length - 1 - i; j++)
+                {
+                    if (sortArray[j] > sortArray[j + 1])
+                    {
+                        int tmp = sortArray[j + 1];
+                        sortArray[j + 1] = sortArray[j];
+                        sortArray[j] = tmp;
+                    }
+                }
+
+            }
+            /*
             bool swapped = true;
             do
             {
@@ -23,6 +37,7 @@ namespace _007_冒泡排序拓展 {
                     }
                 }
             } while (swapped);
+        */
         }
 
         static void CommonSort<T>(T[] sortArray, Func<T,T,bool>  compareMethod)
@@ -41,21 +56,22 @@ namespace _007_冒泡排序拓展 {
             } while (swapped);
         }
         static void Main(string[] args) {
-            //int[] sortArray = new int[]{123,23,12,3,345,43,53,4};
+            //int[] sortArray = new int[] { 123, 23, 12, 3, 345, 43, 53, 4 };
             //Sort(sortArray);
             //foreach (var temp in sortArray)
             //{
-            //    Console.Write(temp+" ");
+            //    Console.Write(temp + " ");
             //}
+
             Employee[] employees = new Employee[]
             {
-                new Employee("dsf",12), 
-                new Employee("435dsf",234), 
-                new Employee("234dsf",14), 
-                new Employee("ds234f",234), 
+                new Employee("dsf",12),
+                new Employee("435dsf",234),
+                new Employee("234dsf",14),
+                new Employee("ds234f",234),
                 new Employee("dssfdf",90)
             };
-            CommonSort<Employee>(employees,Employee.Compare);
+            CommonSort<Employee>(employees, Employee.Compare);
             foreach (Employee em in employees)
             {
                 Console.WriteLine(em);

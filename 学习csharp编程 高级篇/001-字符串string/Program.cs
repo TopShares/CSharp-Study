@@ -8,10 +8,10 @@ namespace _001_字符串string {
     class Program {
         static void Main(string[] args)
         {
-            //string s = "www.devsiki.com";//我们使用string类型去存储字符串类型  字符串需要使用双引号引起来
+            //string s = "This is strings";//我们使用string类型去存储字符串类型  字符串需要使用双引号引起来
             //int length = s.Length;
 
-            //if (s == "www.devsiki.com") {
+            //if (s == "This is strings") {
             //    Console.Write("相同");
             //}
             //else
@@ -28,7 +28,7 @@ namespace _001_字符串string {
             //    Console.WriteLine(s[i]);
             //}
 
-            string s = "www.devsiki.com";//string 是System.String的别名
+            System.String s = "This. .is. .strings";//string 是System.String的别名
             //int res = s.CompareTo("saki");//当两个字符串相等的时候，返回0  当s在字母表中的排序靠前的时候，返回-1， 否则返回1
             //Console.Write(res);
             //string newStr = s.Replace('.', '-');
