@@ -1,0 +1,91 @@
+
+
+一： 从IL的角度去看 const 和 readonly 的区别
+
+
+1.  const 的概念就是一个包含不能修改的值的变量。
+
+2.  常数表达式是在编译时可被完全计算的表达式。因此不能从一个变量中提取的值来初始化常量。
+
+3.  readonly 是在计算时执行的，当然它可以用某些变量初始化。
+
+4. readonly 是实例成员，所以不同的实例可以有不同的常量值，这使readonly更灵活。
+
+
+
+二： const和readonly的相同点
+
+1. const 字段只能在该字段的声明中初始化。
+
+    public class Person
+    {
+        public const int NUM = 392;   =>   .field public static literal int32 NUM = int32(0x00000188)
+    }
+
+    编译器看到的const  ，对CLR来说其实就是一个 static literal 【静态字面量】
+
+
+2.readonly 字段可以在声明或构造函数中初始化。因此，根据所使用的构造函数，readonly 字段可能具有不同的值。
+    
+   public class Person
+    {
+        public const int NUM = 392;
+
+        public readonly int only = 982;   => .field public initonly int32 only
+    }
+
+    => 其实所谓的“声明”或者“构造函数”初始化，对CLR来说，只有一种，那就是“构造函数初始化”。。。。
+
+
+    public partial class Person
+    {
+        public const int NUM = 392;
+
+        public readonly int only;
+
+        public Person()
+        {
+            this.only = 0x3d6;
+        }
+    }
+
+
+3. const 字段是编译时常数，而 readonly 字段可用于运行时常数。
+
+    => const实在编译生成dll之后就已经确认好了。。。  【dll之前】
+
+       就是所谓的NUM=0x00000188就应该已经编译在dll中了。 
+
+       下面我们在dll的程序集清单里面去找一下 所谓的00000188值。
+
+-------------------------------------------------------
+	TypDefName: ConsoleApplication2.Person  (02000003)
+	Flags     : [Public] [AutoLayout] [Class] [AnsiClass] [BeforeFieldInit]  (00100001)
+	Extends   : 01000001 [TypeRef] System.Object
+	Field #1 (04000001)
+	-------------------------------------------------------
+		Field Name: NUM (04000001)
+		Flags     : [Public] [Static] [Literal] [HasDefault]  (00008056)
+	DefltValue: (I4) 392
+		CallCnvntn: [FIELD]
+		Field type:  I4
+
+
+ 
+    => readonly就是CLR运行dll的时候才能确认值。。。   【dll之后】
+
+
+
+
+4. const 默认就是静态的，而 readonly 如果设置成静态的就必须显示声明。
+
+   在IL中就看到了static  literal
+
+
+5．const 对于引用类型的常数，可能的值只能是 string 和 null。
+   readonly可以是任何类型
+
+
+
+
+

@@ -1,0 +1,119 @@
+一：介绍一个小技巧，Trim方法。。。
+
+   1. 我们常规里面，Trim只用于提出“字符串“前后的空格。。。
+
+   2. 那么经常，我们会遇到这么个场景。。。。 sql拼接。。。
+
+   3. 字符串拼接的一个场景。。。去掉最后的一个”，"
+
+               var list = new List<int> { 1, 2, 3, 4 };
+
+            var str = string.Empty;
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                str += list[i] + ",";
+            }
+
+            str = str.Trim(',');
+
+            Console.WriteLine(str);
+
+	    String.Join(',',list);
+
+
+记住，Trim可用于踢掉“一些特殊字符”，只要符合 char 类型。。
+static void Main(string[] args)
+        {
+            var body = "select * from person";
+
+            var where = string.Empty;
+
+            var cond1 = "1";
+
+            var cond2 = string.Empty;
+
+            var cond3 = string.Empty;
+
+            if (!string.IsNullOrEmpty(cond1))
+            {
+                where += " and cond1=" + cond1;
+            }
+
+            if (!string.IsNullOrEmpty(cond2))
+            {
+                where += " and cond1=" + cond2;
+            }
+
+            if (!string.IsNullOrEmpty(cond3))
+            {
+                where += " and cond1=" + cond3;
+            }
+
+            //我们要做的事情就是把and替换成where
+            if (!string.IsNullOrEmpty(where))
+            {
+                where = where.TrimStart(' ', 'a', 'n', 'd');
+
+                where = " where " + where;
+            }
+            var result = body + where;
+        }
+
+二：接下来，我们用ILSpy去剖析一下Trim源码。。。
+
+public string Trim(params char[] trimChars)
+
+=>
+
+所谓的trim就是遍历String，来找一下共同的字符，如果是的，就踢掉。。。 O（N）
+
+int i = this.Length - 1;
+	int j = 0;
+	if (trimType != 1)
+	{
+		for (j = 0; j < this.Length; j++)
+		{
+			char c = this[j];
+			int num = 0;
+			while (num < trimChars.Length && trimChars[num] != c)
+			{
+				num++;
+			}
+			if (num == trimChars.Length)
+			{
+				break;
+			}
+		}
+	}
+	if (trimType != 0)
+	{
+		for (i = this.Length - 1; i >= j; i--)
+		{
+			char c2 = this[i];
+			int num2 = 0;
+			while (num2 < trimChars.Length && trimChars[num2] != c2)
+			{
+				num2++;
+			}
+			if (num2 == trimChars.Length)
+			{
+				break;
+			}
+		}
+	}
+	return this.CreateTrimmedString(j, i);
+
+
+
+String.Join(",",list);
+
+最后我要分配一个字符串，字符串长度我要先计算出来。。
+
+',' => 1,2,33
+
+len=6..
+
+然后通过分配字符串的方法分配一个：  string text = string.FastAllocateString(num);
+
+

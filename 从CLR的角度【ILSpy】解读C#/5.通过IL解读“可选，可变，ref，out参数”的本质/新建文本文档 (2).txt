@@ -1,0 +1,159 @@
+
+
+一：用IL去看“可选参数”，“可变参数”，“ref参数”，“out参数”
+
+    我们看看这些参数在CLR面前会是什么样的？？？
+
+
+二：“可选参数”
+
+    1. 这个参数就是一个语法糖
+
+    public class Test
+    {
+        public static void Run(int num = 10)
+        {
+            Console.WriteLine(num);
+        }
+    }
+
+
+.method public hidebysig static void  Run([opt] int32 num) cil managed
+{
+  .param [1] = int32(0x0000000A)
+  // Code size       9 (0x9)
+  .maxstack  8
+  IL_0000:  nop
+  IL_0001:  ldarg.0
+  IL_0002:  call       void [mscorlib]System.Console::WriteLine(int32)
+  IL_0007:  nop
+  IL_0008:  ret
+} // end of method Test::Run
+
+
+2. 我们发现的现象
+
+   1. Run方法被打上了OptionalAttribute 这个标记
+
+   2. .param [1] = int32(0x0000000A)
+
+
+   3. 真实的还原是下面这样
+
+        public static void Run(int num)
+        {
+            num = 10;
+        }
+
+
+二：可变参数
+
+namespace ConsoleApplication2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Test.Run(1);
+
+            Test.Run(1, 2, 3, 4);
+
+            Test.Run();
+
+        }
+    }
+
+    public class Test
+    {
+        public static void Run(params int[] nums)
+        {
+        }
+    }
+}
+
+newarr： 实例化一个数组
+
+
+看出来的本质就是，将一个数组提前定义好，然后将数组作为参数传递下去。
+
+即使你没有传递参数，其实还是传递了一个数组下去。
+
+
+三：ref参数，out参数
+
+1.  
+
+namespace ConsoleApplication2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int num1 = 10;
+
+            int num2 = 20;
+
+            Test.Run(ref num1);
+
+            Test.Run2(out num2);
+        }
+    }
+
+    public class Test
+    {
+        public static void Run(ref int num1)
+        {
+
+        }
+
+        public static void Run2(out int num2)
+        {
+            num2 = 200;
+        }
+    }
+}
+
+
+Ref的IL代码：
+
+
+.method public hidebysig static void  Run(int32& num1) cil managed
+{
+  // Code size       2 (0x2)
+  .maxstack  8
+  IL_0000:  nop
+  IL_0001:  ret
+} // end of method Test::Run
+
+
+=> int32&  取址运算符，所以这个就是所谓的“引用传递”。
+
+
+
+Out的IL代码：
+
+.method public hidebysig static void  Run2([out] int32& num2) cil managed
+{
+  // Code size       9 (0x9)
+  .maxstack  8
+  IL_0000:  nop
+  IL_0001:  ldarg.0
+  IL_0002:  ldc.i4     0xc8
+  IL_0007:  stind.i4
+  IL_0008:  ret
+} // end of method Test::Run2
+
+
+out：	   OutAttribute   指示应将数据从被调用方封送回调用方
+
+stind.i4： 在所提供的地址存储 int32 类型的值。 
+
+
+ref 和 out的区别
+
+<1> 方法参数 有取址运算符
+
+<2> out参数比ref参数多一个 【标记】=>outAtrribute。
+
+
+

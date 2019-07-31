@@ -1,0 +1,99 @@
+
+一：  三年以上工作经验的程序员观看。。。
+
+二：  既然是专家级课程，我们不会去讲语法上的东西，而是穿透语法，去看本质。。。
+
+
+三：工具简介
+
+    1. ILDasm   专门去看IL的。。。。
+
+       C# 语法给谁看的？？？   => 编译器
+
+       IL 语言给谁看的？？？   => CLR
+
+
+       C# => 由编译器解析  => IL => CLR【JIT】 => 机器语言
+
+       
+       IL的语言 不见得在C#中可以行得通。。。
+
+       比如说，IL的变量命令 和 C#中的变量命令 不一样。
+
+
+    2. ILSpy 专门去看.net framework 中的方法源码，BCL中的代码。
+        
+	      如果不去看其中的源代码，这样无法做到心中有底。。。  【看C#代码】
+
+    
+  
+四：简单实践
+
+
+1. 字符串拼接: "+"  最容易让我们去理解IL的兴趣和C#的兴趣。。。
+
+var result="hello" + "world"。
+
+console.write(result);
+
+
+2. 万事万物皆对象，，,	 “+” 算什么？？？  =>   其实就是C#中的一个语法糖。。。
+
+
+3. 源码
+
+namespace ConsoleApplication2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var result = "hello" + "world";
+
+            Console.WriteLine(result);
+        }
+    }
+}
+
+4. 用ILDasm看一下IL代码
+
+   H:\xxxxx			=> 文件路径
+
+   MANIFEST			=> 程序集清单
+
+   ConsoleApplication2          => 程序集的名称
+
+   Program			=> 类名
+
+   .ctor			=> 构造函数   【子类构造函数是需要调用父类的构造函数，父类类推 ,直到Object】
+
+    Main				=> 入口函数
+    
+
+
+5.我们去找一下IL指令表  http://www.cnblogs.com/flyingbirds123/archive/2011/01/29/1947626.html
+
+  不要求我们去记录，而是呢，在用的时候找一下即可
+
+
+  ldstr：  “hello world”   我定了一个变量叫“hello world”
+ 
+  stloc.0  将 helloworld 存储到索引 0 处的局部变量列表中。
+
+  ldloc.0  将索引 0 处的局部变量加载到计算堆栈上
+
+  call	   调用由传递的方法说明符指示的方法。 
+
+
+6. 我们看到了一个奇怪的现象，同样是“+”，对IL来说确实不一样的情况。。。
+
+   《1》 两个字面量的  “+”   =>  被IL优化了，直接拼凑在一起。。
+
+   《2》 两个变量的	“+”  =>  被IL变成了 String.Concat方法的调用。。。
+
+
+7. IL这会查看语法糖的代码，而方法的源码需要用ILSpy来查看。
+
+    下面我们用工具去查看一下Concat的源码。。
+
+ 

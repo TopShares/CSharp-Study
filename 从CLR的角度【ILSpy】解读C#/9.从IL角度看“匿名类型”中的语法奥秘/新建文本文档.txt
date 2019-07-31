@@ -1,0 +1,45 @@
+
+一： 从IL的角度去看 “匿名类型”
+
+1. 匿名类型的概念
+
+    《1》 既然是匿名，肯定是有名字的。。。。那么这个名字是什么样呢？？？
+
+2. 用的场景比较多。。 比如说我们常用到的分页，有一个recordCount。
+
+   动态的去构建类型，然后可以序列化为json。
+
+            //var json = serializer.Serialize(new Response() { Code = 1001, IsSuccess = true, Message = "处理成功" });
+
+            var model = new { Code = 1001, IsSuccess = true, Message = "处理成功" };
+
+            var json = serializer.Serialize(model);
+
+	    {"Code":1001,"IsSuccess":true,"Message":"处理成功"}
+
+3. 匿名类型的产生， 常和Lambda，Linq一起使用。。。。
+
+
+            var list = new List<int>() { 1, 2, 3, 4 };
+
+            var l = list.Where(i => i % 2 == 0).Select(i => new { Code = i, IsSuccess = i / 2, Message = "处理成功" }).ToList();
+
+   匿名类型给我们带来的方便就是“不需要我们到处去定义所谓的”类“”。。
+
+
+4. 探索一下 匿名类型 的 原理
+   
+   <1>  匿名类型其实在后台会生成一个 “类名”，并且接受三个模板参数。，比如本例中的 int,bool,string.
+
+			'<>f__AnonymousType0`3'<'<Code>j__TPar','<IsSuccess>j__TPar','<Message>j__TPar'>
+    
+   <2> 第二个有趣的现象：其中匿名类型中的三个属性，在IL是new一个对象，然后把三个属性作为构造函数传给底层。。。
+
+
+   《3》 第三个有趣的现象：我们发现匿名类中的三个字段，都是readonly标记，也就是说，一旦定义，则不能修改。。。
+    
+   《4》 第四个有趣的现象：equals方法被重写了，equals的条件就是判断每个字段是否都相等。。。如果是，那么两个类型相等。。。
+
+		           同样的道理，toString，GetHashCode也是被重写了。。。
+
+   《5》如果说我们定义了每个属性的值都相同，这样的类型就是一样的。。。

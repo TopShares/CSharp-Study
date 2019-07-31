@@ -1,0 +1,56 @@
+
+一：ILSpy
+
+1. 看一个decimal类型
+
+
+2. 基元类型： int,float,double,short,byte 还有。。。decimal。。。
+
+3. 但是呢？decimal和其他的基元类型不一样。。。
+
+   《1》 int，float,double 都有会变指令来支持。。。
+
+   《2》decimal是C#自己造的一个类型。。。 也就是说在 汇编中根本就不认识所谓的decimal。。。
+
+   《3》 站在 编译器 的角度来说，decimal是一个基元类型，站在CLR角度，根据不认识decimal。
+
+
+二：查看decimal的结构
+
+   1. public struct Decimal  说明decimal是值类型
+
+   2. 
+
+三：IL指定分析
+
+   1. Newobj:  创建一个值类型的新对象或新实例，并将对象引用（O 类型）推送到计算堆栈上。
+
+
+            int i = 10;
+
+            var d1 = new Decimal(i);
+
+            var j = 20;
+
+            var d2 = new Decimal(j);
+
+            var result = Decimal.Add(d1, d2);
+
+            Console.WriteLine(result);
+
+            Console.Read();
+
+    2. 这里就有困惑了，为什么我声明了一个decimal，会有new操作的发生。
+
+
+四：我们用ILSpy来观看一下所谓的Add方法的实现
+
+
+五：查看一下decimal中的的 ”+，- * ，/“的相关运算
+
+    在编译器看来的 ++ 符号，对CLR来说其实就是一个方法： op_Increment
+
+    在编译器看来的 == 符号，对CLR来说其实就是一个方法： op_Equality
+
+六：我们一定要看本质，而不能仅仅停留在表面。【ILSpy，ILDasm】
+

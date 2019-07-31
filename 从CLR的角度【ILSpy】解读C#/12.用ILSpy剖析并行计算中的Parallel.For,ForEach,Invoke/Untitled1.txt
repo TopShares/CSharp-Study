@@ -1,0 +1,103 @@
+
+一：我们从IL的角度去看三个简化的并行计算方法： Pareller
+
+     说到并行计算，大家第一反应就是Task。。。
+
+1.  Parallel.Invoke
+
+
+2.  Parallel.For	 并行的for循环
+
+3.  Parallel.ForEach	 并行的Foreach循环
+
+
+二：介绍一下简单使用
+
+
+1. 增加测试数据
+            var list = new List<int>();
+
+            for (int i = 0; i < 100; i++)
+            {
+                list.Add(i);
+            }
+
+2. 简单的使用For进行并行计算
+            Parallel.For(0, list.Count, (i) =>
+            {
+                Console.WriteLine(i + $"线程:{System.Threading.Thread.CurrentThread.ManagedThreadId}");
+            });
+
+3. 简单的是用ForEach进行并行计算
+
+
+            Parallel.ForEach(list, (i) =>
+            {
+                Console.WriteLine(i + $"线程:{System.Threading.Thread.CurrentThread.ManagedThreadId}");
+            });
+	
+4. 简单的使用Invoke进行并行计算。。。
+
+
+5. 小总结： for和foreach差不多。。。
+            invoke和for应用场景不相同。。。
+
+6. 小案例： 订单提交，我们会调用一个SOA接口，这个接口是给   “机票处理中心”。。。
+	
+		      我们会给旅客发送邮件提醒。。。
+
+		      我们会给旅客发送短信提醒。。。
+
+	     如果“机票处理中心”返回true。。。   那么接下来的两个操作就可以并行计算。。。
+
+	     
+	     这样的话，我们就节省了处理时间，也就提高了用户体验。。。同时呢？增加了CPU处理度。
+	 
+
+二：我们用ILDasm去剖析三个并行计算。。。
+
+
+
+Ldsfld：【load static field】   将静态字段的值推送到计算堆栈上。
+
+
+Stelem.Ref  用计算堆栈上的对象 ref 值（O 类型）替换给定索引处的数组元素。
+
+
+三：接下来我们用ILSpy去看一下源代码。。
+
+1. For
+
+  我们重点去看 fromInclusive 和 toExclusive 是怎么被合理划分的。。。
+
+For(int fromInclusive, int toExclusive, Action<int> body)
+
+=> 
+
+Parallel.ForWorker<object>(fromInclusive, toExclusive, Parallel.s_defaultParallelOptions, body, null, null, null, null);
+
+
+=>
+
+int nNumExpectedWorkers = (<>c__DisplayClass17_.parallelOptions.EffectiveMaxConcurrencyLevel == -1) ? PlatformHelper.ProcessorCount : <>c__DisplayClass17_.parallelOptions.EffectiveMaxConcurrencyLevel;
+
+<>c__DisplayClass17_.rangeManager = new RangeManager((long)fromInclusive, (long)toExclusive, 1L, nNumExpectedWorkers);
+
+			long expr_1F = nToExclusive - nFromInclusive;
+			ulong num = (ulong)(expr_1F / (long)nNumExpectedWorkers);
+
+
+=>
+
+得到了所谓的  this.m_indexRanges[i] 数组。
+
+可以看到，for内部源码是根据 处理器的个数来范围from 和 to 的范围。。。可能范围为3个区块，又或者是5个区。。。。
+
+
+最后我们发现，由FCL中的ParallelForReplicatingTask处理。。。这个类继承于Task。。。
+
+
+我们发现不管是 For ，ForEach，Invoke里面都执行了内部的并行算法： ParallelForReplicatingTask
+
+
+

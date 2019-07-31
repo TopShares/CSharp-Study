@@ -1,0 +1,120 @@
+
+
+一：从IL的角度去看 ”扩展方法“ 和　”部分方法”
+
+1. 都是语法糖式的方法。
+
+
+二： 扩展方法
+
+Skip，Take, ToList, ToArray
+
+如果你没有站在IL或者FCL的角度去看的话，你根本不知道扩展方法是怎么实现的。。。。
+
+
+1. 看一看扩展方法 的IL是怎么样的。。。
+
+     static void Main(string[] args)
+        {
+            var list = new List<int>() { 10, 20, 30 };
+
+            var arr = list.ToList();
+        }
+
+   
+.method private hidebysig static void  Main(string[] args) cil managed
+{
+  .entrypoint
+  // Code size       44 (0x2c)
+  .maxstack  2
+  .locals init ([0] class [mscorlib]System.Collections.Generic.List`1<int32> list,
+           [1] class [mscorlib]System.Collections.Generic.List`1<int32> arr,
+           [2] class [mscorlib]System.Collections.Generic.List`1<int32> '<>g__initLocal0')
+  IL_0000:  nop
+  IL_0001:  newobj     instance void class [mscorlib]System.Collections.Generic.List`1<int32>::.ctor()
+  IL_0006:  stloc.2
+  IL_0007:  ldloc.2
+  IL_0008:  ldc.i4.s   10
+  IL_000a:  callvirt   instance void class [mscorlib]System.Collections.Generic.List`1<int32>::Add(!0)
+  IL_000f:  nop
+  IL_0010:  ldloc.2
+  IL_0011:  ldc.i4.s   20
+  IL_0013:  callvirt   instance void class [mscorlib]System.Collections.Generic.List`1<int32>::Add(!0)
+  IL_0018:  nop
+  IL_0019:  ldloc.2
+  IL_001a:  ldc.i4.s   30
+  IL_001c:  callvirt   instance void class [mscorlib]System.Collections.Generic.List`1<int32>::Add(!0)
+  IL_0021:  nop
+  IL_0022:  ldloc.2
+  IL_0023:  stloc.0
+  IL_0024:  ldloc.0
+  IL_0025:  call       class [mscorlib]System.Collections.Generic.List`1<!!0> [System.Core]System.Linq.Enumerable::ToList<int32>(class [mscorlib]System.Collections.Generic.IEnumerable`1<!!0>)
+  IL_002a:  stloc.1
+  IL_002b:  ret
+} // end of method Program::Main
+
+
+最最核心的一段代码： System.Linq.Enumerable::ToList<int32>
+
+
+原来真正调用的是 Enumerable  下面的一个ToList静态方法。。。
+
+ IL_0025:  call       class [mscorlib]System.Collections.Generic.List`1<!!0> [System.Core]System.Linq.Enumerable::ToList<int32>(class [mscorlib]System.Collections.Generic.IEnumerable`1<!!0>)
+  
+
+接下来，我们用ILSpy去查看一下所谓的  Enumerable 的ToList的实现方式。。
+
+public static class Enumerable
+{
+  		public static List<TSource> ToList<TSource>(this IEnumerable<TSource> source)
+		{
+			if (source == null)
+			{
+				throw Error.ArgumentNull("source");
+			}
+			return new List<TSource>(source);
+		}
+}
+
+
+三：部分方法，大家都知道有一个部分类。。。partial
+
+
+    public partial class Person
+    {
+        public string Name { get; set; }
+
+        partial void Log()
+        {
+
+        }
+    }
+
+    public partial class Person
+    {
+        public int Age { get; set; }
+
+        partial void Log();
+    }
+
+
+ 1. 如果你只在一个类中定了方法声明，编译器会把这个空声明隐藏掉。
+ 2. 只有你对部分方法进行了声明，才可以正常使用。
+
+ 
+ 部分方法的应用场景： 可以自由的扩展第三方的方法，达到最大化的自定义。。
+
+
+ 当然在Linq to Sql 中也是有的。。。。
+
+
+    #region 可扩展性方法定义
+    
+    partial void OnCreated();
+    partial void InsertPerson(Person instance);
+    partial void UpdatePerson(Person instance);
+    partial void DeletePerson(Person instance);
+    
+    #endregion
+
+

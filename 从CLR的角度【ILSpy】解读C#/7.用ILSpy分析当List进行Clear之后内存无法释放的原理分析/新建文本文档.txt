@@ -1,0 +1,81 @@
+
+一：用ILSpy去解析List源码
+
+二：内存无法释放的问题。。。
+
+    也就是说，如果你的List里面有100w条记录，这时候你执行clear方法，其实在内存占有量并不会减少。。。
+
+    Dictionary也是一样的。。。。
+
+三：我们来记录一下：
+
+    1亿的数据： => 672M
+
+
+    我们执行了clear方法之后，内存真的没有释放。。。 如果你不了解，就会容易出现   OutofMemory 内存溢出。
+
+
+四：疑问来了，我们怎么去解决。。。
+
+    用ILSpy去查看一下源代码
+
+
+		public void Add(T item)
+		{
+			if (this._size == this._items.Length)
+			{
+				this.EnsureCapacity(this._size + 1);
+			}
+			T[] arg_36_0 = this._items;
+			int size = this._size;
+			this._size = size + 1;
+			arg_36_0[size] = item;
+			this._version++;
+		}
+
+1. if之后的代码告诉我们， 新加入的值是放在一个 T[] 的一个数组里面。。
+
+2. T[]到底是什么，
+
+   原来List本质上是维护一个数组，也就是说List本质上是一个数组，只是在数组上做了一个封装。。。
+
+   比如说便捷的Add，Remove。。。Contains。。。
+
+3.  EnsureCapacity： if (this._size == this._items.Length) 表示当前的数组已经满了。。。
+
+4. 数组的扩容方法， 每次list满掉之后，会再次声请一倍的空间。
+
+// System.Collections.Generic.List<T>
+private void EnsureCapacity(int min)
+{
+	if (this._items.Length < min)
+	{
+		int num = (this._items.Length == 0) ? 4 : (this._items.Length * 2);
+		if (num > 2146435071)
+		{
+			num = 2146435071;
+		}
+		if (num < min)
+		{
+			num = min;
+		}
+		this.Capacity = num;
+	}
+}
+
+
+4. 查看Clear方法
+
+		public void Clear()
+		{
+			if (this._size > 0)
+			{
+				Array.Clear(this._items, 0, this._size);
+				this._size = 0;
+			}
+			this._version++;
+		}
+
+ 只是将数组里面的值清空了，而并没有销毁数组的格子。。。虽然执行了Clear方法，但是1亿个格子还是在的。。。。
+ 
+ 只不过都是默认值0。。。。

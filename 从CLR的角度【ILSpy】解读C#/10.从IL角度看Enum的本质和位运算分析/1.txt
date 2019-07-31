@@ -1,0 +1,121 @@
+
+
+一：Enum
+
+    很多人都比较惊讶，这个也算是语法糖么？？？
+
+二：Enum是用来干嘛的？？？
+
+   1. 站在CLR的角度，Enum是什么？？？算什么？？？
+
+
+    enum Fruits
+    {
+        Orange,    =>  .field public static literal valuetype ConsoleApplication1.Fruits Orange = int32(0x00000000)
+		       
+		       <1> static literal：     Const => static literal  静态的字面量
+		       <2> int32(0x00000000):   如果你不标记Enum的值，那么默认值是 0...
+		       
+        Nut,      =>   .field public static literal valuetype ConsoleApplication1.Fruits Nut = int32(0x00000001)
+			
+		       <1> int32(0x00000001) 说明是自增。。。
+
+        Apple     =>   .field public static literal valuetype ConsoleApplication1.Fruits Apple = int32(0x00000002)
+
+	               <1> int32(0x00000002) 说明是自增。。。
+
+    }
+
+2. Enum的本质其实就是Const。。。
+
+3. Enum其实就是一个继承于System.Enum的一个类。。。
+
+4. 接下来我们把IL代码还原一下。。。
+
+    //enum Fruits
+    //{
+    //    Orange,
+    //    Nut,
+    //    Apple
+    //}
+
+    public class Fruits
+    {
+        public const int Orange = 0;
+
+        public const int Nut = 1;
+
+        public const int Apple = 2;
+    }
+
+那么这个就是站在编译器的角度和站在CLR角度的问题。。。
+
+
+三：既然是Enum是几个Const的常量值，那么就存在一个所谓的位元算
+
+1. int类型:  32bit...
+
+2. short类型：16bit...
+
+3. byte类型： 8bit...
+
+
+四：现实场景中我们用到的位运算
+
+1. 为什么一定要定义成 1，2，4，8，16，32...
+
+   1 => 0 0 0 0 0 0 0 1
+
+   2 => 0 0 0 0 0 0 1 0
+
+   4 => 0 0 0 0 0 1 0 0
+
+   8 => 0 0 0 0 1 0 0 0
+
+  16 => 0 0 0 1 0 0 0 0
+
+  32 => .....
+
+  每个bit都能表示一种状态，如果为0：表示没有设置。。。
+                           如果为1：表示已经设置。。。
+
+  
+  我们的订单状态和物流状态由第三方推送给我们，比如说对方推送给我们了一个物流提醒，这个时候我根据物流提醒，给当前的这笔交易
+  的收货人发送短信。那么如果说后续的话，对方重复推送了一个“物流提醒”给我，这个时候我应该就知道我当前是否已经推送过物流提醒。。
+
+  我的做法就是用一个数字来判断当前的是否已经推送过某种状态。。
+
+
+   static void Main(string[] args)
+        {
+            var orderID = 0;
+
+            //对方推送一个“到达提醒给我了”。。。这个时候我需要给OrderID复一个状态。。。
+            orderID = orderID ^ 2;
+
+            //对方推送一个“签收提醒”给我，这个时候我需要再和OrderID求一个状态。
+            orderID = orderID ^ 4;   // ...  0 1 1 0
+
+            //这时候对方推送了一个“签收提醒”给我。。。我怎么去检测当前的OrderID是否已经“处理过了”。。
+
+            //方法就是，检测二进制位中当前的第三位是否为1...
+
+            var result = orderID & 4;   //  0 1 1 0
+                                        //  0 1 0 0
+                                        // ----------
+                                        //  0 1 0  0  =>表明>0，说明处理过了。。。
+
+            Console.WriteLine(result);
+        }
+
+
+
+
+
+
+
+
+
+
+
+    

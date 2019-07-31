@@ -1,0 +1,112 @@
+
+
+一：从IL的角度去看委托。。。。
+
+    委托一直是一个比较难以理解的东西。。在C#中。。。。那么这个呢？也是区别高级程序员和低级程序员的一个指标。。。
+
+    用的好也是非常炫的。。。
+
+二：什么是委托。。。 【函数指针】
+
+    那么从IL的角度来看看委托是什么？？？
+
+    委托，其实仅仅是一个集成于 System.MulticastDelegate 的密封类。。。。
+
+
+三：从IL的角度去看委托的使用
+
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var animal = new Animal();
+
+            var action = new FlyAction(animal.Run1);
+
+            Console.WriteLine(action("mary"));
+
+        }
+    }
+
+    //接受一个string的参数，返回string。。。满足这个方法的原型 都可以使用此委托。。。
+    public delegate string FlyAction(string str);
+
+    public class Animal
+    {
+        public string Run1(string str)
+        {
+            return $"{str} 在跑";
+        }
+    }
+}
+
+
+Ldftn： 将指向实现特定方法的本机代码的非托管指针（native int 类型）推送到计算堆栈上。
+
+        那么这是大家口口相传的“函数指针”。。。。
+
+	“计算堆栈”是什么意思？？？ 就是我们即将进行运算的数据。。。。
+
+
+  IL_0008:  ldftn      instance string ConsoleApplication1.Animal::Run1(string)           //函数指针
+  IL_000e:  newobj     instance void ConsoleApplication1.FlyAction::.ctor(object,
+                                                                          native int)
+
+
+其实“委托的（）”，对IL来说就是调用了“委托"的Invoke方法。。。
+
+
+.method private hidebysig static void  Main(string[] args) cil managed
+{
+  .entrypoint
+  // Code size       38 (0x26)
+  .maxstack  2
+  .locals init ([0] class ConsoleApplication1.Animal animal,
+           [1] class ConsoleApplication1.FlyAction action)
+  IL_0000:  nop
+  IL_0001:  newobj     instance void ConsoleApplication1.Animal::.ctor()
+  IL_0006:  stloc.0
+  IL_0007:  ldloc.0
+  IL_0008:  ldftn      instance string ConsoleApplication1.Animal::Run1(string)
+  IL_000e:  newobj     instance void ConsoleApplication1.FlyAction::.ctor(object,
+                                                                          native int)
+  IL_0013:  stloc.1
+  IL_0014:  ldloc.1
+  IL_0015:  ldstr      "mary"
+  IL_001a:  callvirt   instance string ConsoleApplication1.FlyAction::Invoke(string)
+  IL_001f:  call       void [mscorlib]System.Console::WriteLine(string)
+  IL_0024:  nop
+  IL_0025:  ret
+} // end of method Program::Main
+
+
+一个简单的delegate关键字，却给我们生成了一个不小的MulticastDelegate的继承类。。。。
+
+
+我们知道委托有两个专门的类。。。
+
+MulticastDelegate  => Delegate
+
+
+四：我们通过ILSpy去翻看一下MulticastDelegate的源代码的实现。。。
+
+    
+    1.   public MethodInfo Method { get; }
+
+    2.   public object Target { get; }
+
+    3.   public virtual Delegate[] GetInvocationList();  => _invocationList = {object[4]}
+
+         private object _invocationList;
+
+五：多播委托
+
+   多播委托就是将一个一个的方法放入到数组中，，，然后执行多播委托的时候，其实呢？？？？
+
+   就是一个遍历数字的过程。。。。
+
+   多播委托的一个限制条件 => 建议不要给方法定义返回值。。。因为你给了只能返回之后一个方法的值。。。
+

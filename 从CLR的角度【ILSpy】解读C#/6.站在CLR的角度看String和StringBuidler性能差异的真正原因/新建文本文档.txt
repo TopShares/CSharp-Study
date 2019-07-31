@@ -1,0 +1,107 @@
+
+一：用IL去看String 和 StringBuilder 的性能的问题。
+
+1. 我们做一个测试，看看string 和StringBuilder为什么性能差别那么大。。。
+
+       public class Test
+    {
+        public static void Run()
+        {
+            Stopwatch watch = Stopwatch.StartNew();
+
+            var str = string.Empty;
+
+            for (int i = 0; i < short.MaxValue; i++)
+            {
+                str += i;
+            }
+
+            watch.Stop();
+
+            Console.WriteLine(watch.Elapsed);
+        }
+
+        public static void Run2()
+        {
+            Stopwatch watch = Stopwatch.StartNew();
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < short.MaxValue; i++)
+            {
+                sb.Append(i);
+            }
+
+            watch.Stop();
+
+            Console.WriteLine(watch.Elapsed);
+        }
+    }
+
+    string： 1.1s
+
+    stringbuilder: 80毫秒
+
+
+2. 为什么性能差距这么大？？？
+
+《1》String的 +  是怎么实现的。。。
+
+     IL是中string [mscorlib]System.String::Concat(object,object)
+
+     接下来查看一下 Concat方法的源码实现
+
+
+     string expr_36 = string.FastAllocateString(length + str1.Length);  分配一个新空间，这个空间可以容纳str1+str2
+
+
+     string.FillStringChecked(expr_36, 0, str0);
+     string.FillStringChecked(expr_36, length, str1);
+
+
+    //这个就说明FCL中的代码讲的非常好。
+
+	fixed (char* ptr = &dest.m_firstChar)
+	{
+		fixed (char* ptr2 = &src.m_firstChar)
+		{
+			string.wstrcpy(ptr + (IntPtr)destPos, ptr2, src.Length);
+		}
+	}
+
+
+	用到了 “指针”运算去copy字符串 
+
+
+	internal unsafe static void wstrcpy(char* dmem, char* smem, int charCount)
+
+《2》StringBuidler怎么做的？？
+
+  IL指定：callvirt   instance class [mscorlib]System.Text.StringBuilder [mscorlib]System.Text.StringBuilder::Append(int32)
+
+          callvirt： 对对象调用后期绑定方法，并且将返回值推送到计算堆栈上。
+
+
+ 我们发现了  char[] chunkChars = this.m_ChunkChars;
+
+             chunkChars[chunkLength] = value[0];
+	     
+	     chunkChars[chunkLength + 1] = value[1];
+
+   chunkChars  => internal char[] m_ChunkChars;
+   
+
+那么大家仔细想一想，发现到什么？？？  其实StringBuilder => List<char> 
+
+
+
+string => 每次都concat 都会分配一次空间，，，消耗性能
+
+
+StringBuilder =>  当list预定义的length满掉之后才会扩容。
+
+
+
+
+
+

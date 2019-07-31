@@ -1,0 +1,71 @@
+
+一： 从“IL“的角度看一下大家对“属性”的误解
+
+
+ 1：一个是“编译器”的角度。
+  
+   编译器给你做了很多语法糖，让你被表象所迷惑。。。
+   
+
+ 2：一个是“CLR”的角度。
+
+   这个才是让你看本质。。。
+
+
+二： “属性”其实也是一个 语法糖
+  
+ 1. Java中是怎么对“字段”进行封装的。 当然就是GetXXX/SetXXX方法。
+
+
+ 2. C#属性 和 Java的Get/Set方法 应该是等效的？？？
+
+
+ 三：CLR看到的东西 和 编译器 看的到东西如何不一样？
+
+
+ eg: 自动属性
+
+     public class Person
+    {
+        public string Name { get; set; }
+    }
+
+
+1. 多了一个隐藏字段，字段名称为：“<Name>k__BackingField”
+
+2. 原来 set => set_Name方法
+        get => get_Name方法
+
+3.  ldarg.0 加载this指针     将索引为 0 的参数加载到计算堆栈上。
+    ldarg.1                  将方法的参数加入到计算堆栈上。
+    Ldfld		     查找对象中其引用当前位于计算堆栈的字段的值。
+    Ret			     从当前方法返回，并将返回值（如果存在）从调用方的计算堆栈推送到被调用方的计算堆栈上。
+    stfld                    string ConsoleApplication2.Person::'<Name>k__BackingField'
+    
+
+    public partial class Person
+    {
+        private string k__BackingField = string.Empty;
+
+        public Person()
+            : base()
+        {
+
+        }
+
+        public string get_Name()
+        {
+            return this.k__BackingField;
+        }
+
+        public void set_Name(string value)
+        {
+            this.k__BackingField = value;
+        }
+    }
+ 
+ 4.语法糖的好处和坏处
+
+  《1》方便我们写代码，提高工作效率。。。
+  《2》不利于我们了解本质，容易被花花世界所误导。。。
+
