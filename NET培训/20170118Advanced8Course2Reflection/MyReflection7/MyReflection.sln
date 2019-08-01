@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyReflection", "MyReflection\MyReflection.csproj", "{EE51A81B-93AC-4D46-B86D-6B0F8050260A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruanmou.DB.Interface", "Ruanmou.DB.Interface\Ruanmou.DB.Interface.csproj", "{3114A7B2-E9B2-477E-8685-F9467AA0FF0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruanmou.DB.Mysql", "Ruanmou.DB.Mysql\Ruanmou.DB.Mysql.csproj", "{154561A6-3C72-4417-B9D6-467136E62E64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruanmou.DB.Oracle", "Ruanmou.DB.Oracle\Ruanmou.DB.Oracle.csproj", "{9776D166-AEBB-4633-8699-FC6CEA47D2F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruanmou.DB.Sqlserver", "Ruanmou.DB.Sqlserver\Ruanmou.DB.Sqlserver.csproj", "{21FD853F-699F-438A-9C73-CB20DDFB904C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruanmou.Model", "Ruanmou.Model\Ruanmou.Model.csproj", "{52DA0DF6-3F1F-4D6A-9FD7-7BDE554668E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE51A81B-93AC-4D46-B86D-6B0F8050260A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE51A81B-93AC-4D46-B86D-6B0F8050260A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE51A81B-93AC-4D46-B86D-6B0F8050260A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE51A81B-93AC-4D46-B86D-6B0F8050260A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3114A7B2-E9B2-477E-8685-F9467AA0FF0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3114A7B2-E9B2-477E-8685-F9467AA0FF0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3114A7B2-E9B2-477E-8685-F9467AA0FF0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3114A7B2-E9B2-477E-8685-F9467AA0FF0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{154561A6-3C72-4417-B9D6-467136E62E64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{154561A6-3C72-4417-B9D6-467136E62E64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{154561A6-3C72-4417-B9D6-467136E62E64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{154561A6-3C72-4417-B9D6-467136E62E64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9776D166-AEBB-4633-8699-FC6CEA47D2F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9776D166-AEBB-4633-8699-FC6CEA47D2F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9776D166-AEBB-4633-8699-FC6CEA47D2F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9776D166-AEBB-4633-8699-FC6CEA47D2F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21FD853F-699F-438A-9C73-CB20DDFB904C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21FD853F-699F-438A-9C73-CB20DDFB904C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21FD853F-699F-438A-9C73-CB20DDFB904C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21FD853F-699F-438A-9C73-CB20DDFB904C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52DA0DF6-3F1F-4D6A-9FD7-7BDE554668E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52DA0DF6-3F1F-4D6A-9FD7-7BDE554668E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52DA0DF6-3F1F-4D6A-9FD7-7BDE554668E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52DA0DF6-3F1F-4D6A-9FD7-7BDE554668E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
