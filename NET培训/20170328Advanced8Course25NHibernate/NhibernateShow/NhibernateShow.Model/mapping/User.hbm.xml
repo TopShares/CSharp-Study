@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="NhibernateShow.Model" assembly="NhibernateShow.Model">
+  <class name="NhibernateShow.Model.User, NhibernateShow.Model" table="[dbo].[User]" lazy="true" dynamic-insert="true" dynamic-update="true">
+    <id name="Id" column="[Id]">
+      <generator class="identity" />
+    </id>
+    <property name="CustomName" column="[Name]"/>
+    <property name="Account" column="[Account]"/>
+    <property name="Password" column="[Password]"/>
+    <property name="Email" column="[Email]"/>
+    <property name="Mobile" column="[Mobile]"/>
+    <property name="CompanyId" column="[CompanyId]"/>
+    <property name="CompanyName" column="[CompanyName]"/>
+    <property name="State" column="[State]"/>
+    <property name="UserType" column="[UserType]"/>
+    <property name="LastLoginTime" column="[LastLoginTime]"/>
+    <property name="CreatorId" column="[CreatorId]"/>
+    <property name="CreateTime" column="[CreateTime]"/>
+    <property name="LastModifierId" column="[LastModifierId]"/>
+    <property name="LastModifyTime" column="[LastModifyTime]"/>
+  </class>
+</hibernate-mapping>
+
+
+
