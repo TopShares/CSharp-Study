@@ -1,0 +1,2 @@
+GetCommodityList商品数据为空,Name=手机保护套 Level=3 category.Url=http://list.jd.com/list.html?cat=9987,830,866 url=http://list.jd.com/list.html?cat=9987,830,866&page=59
+"{\"Code\":\"02f03s11t\",\"ParentCode\":\"02f03s\",\"Name\":\"手机保护套\",\"Url\":\"http://list.jd.com/list.html?cat=9987,830,866\",\"CategoryLevel\":3,\"State\":0,\"Id\":94}"

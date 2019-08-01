@@ -1,0 +1,4 @@
+GetCommodityList商品数据为空,Name=文化 Level=3 category.Url=http://list.jd.com/list.html?cat=1713,3280&jth=i url=http://list.jd.com/list.html?cat=1713,3280&jth=i&page=40
+"{\"Code\":\"01f06s08t\",\"ParentCode\":\"01f06s\",\"Name\":\"文化\",\"Url\":\"http://list.jd.com/list.html?cat=1713,3280&jth=i\",\"CategoryLevel\":3,\"State\":0,\"Id\":38}"
+GetCommodityList商品数据为空,Name=文化 Level=3 category.Url=http://list.jd.com/list.html?cat=1713,3280&jth=i url=http://list.jd.com/list.html?cat=1713,3280&jth=i&page=60
+"{\"Code\":\"01f06s08t\",\"ParentCode\":\"01f06s\",\"Name\":\"文化\",\"Url\":\"http://list.jd.com/list.html?cat=1713,3280&jth=i\",\"CategoryLevel\":3,\"State\":0,\"Id\":38}"

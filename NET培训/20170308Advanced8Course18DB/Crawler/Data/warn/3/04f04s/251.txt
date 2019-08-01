@@ -1,0 +1,2 @@
+GetCommodityList商品数据为空,Name=苹果配件 Level=3 category.Url=http://list.jd.com/list.html?cat=652,828,5270 url=http://list.jd.com/list.html?cat=652,828,5270&page=36
+"{\"Code\":\"04f04s11t\",\"ParentCode\":\"04f04s\",\"Name\":\"苹果配件\",\"Url\":\"http://list.jd.com/list.html?cat=652,828,5270\",\"CategoryLevel\":3,\"State\":0,\"Id\":251}"

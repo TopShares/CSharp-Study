@@ -1,0 +1,2 @@
+GetCommodityList商品数据为空,Name=手机支架 Level=3 category.Url=http://list.jd.com/list.html?cat=9987,830,12811 url=http://list.jd.com/list.html?cat=9987,830,12811&page=46
+"{\"Code\":\"02f03s19t\",\"ParentCode\":\"02f03s\",\"Name\":\"手机支架\",\"Url\":\"http://list.jd.com/list.html?cat=9987,830,12811\",\"CategoryLevel\":3,\"State\":0,\"Id\":102}"

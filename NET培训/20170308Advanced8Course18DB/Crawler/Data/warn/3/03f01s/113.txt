@@ -1,0 +1,2 @@
+GetCommodityList商品数据为空,Name=家电配件 Level=3 category.Url=http://list.jd.com/list.html?cat=737,794,877 url=http://list.jd.com/list.html?cat=737,794,877&page=225
+"{\"Code\":\"03f01s09t\",\"ParentCode\":\"03f01s\",\"Name\":\"家电配件\",\"Url\":\"http://list.jd.com/list.html?cat=737,794,877\",\"CategoryLevel\":3,\"State\":0,\"Id\":113}"

@@ -1,0 +1,2 @@
+GetCommodityList商品数据为空,Name=国学 Level=3 category.Url=http://list.jd.com/list.html?cat=1713,3275&jth=i url=http://list.jd.com/list.html?cat=1713,3275&jth=i&page=81
+"{\"Code\":\"01f06s03t\",\"ParentCode\":\"01f06s\",\"Name\":\"国学\",\"Url\":\"http://list.jd.com/list.html?cat=1713,3275&jth=i\",\"CategoryLevel\":3,\"State\":0,\"Id\":33}"
