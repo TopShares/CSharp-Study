@@ -1,0 +1,5 @@
+1 特性attribute，和注释有什么区别
+2 声明和使用attribute
+3 应用attribute
+4 AOP面向切面
+5 多种方式实现AOP
