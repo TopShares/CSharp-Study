@@ -1,0 +1,45 @@
+
+访问 www.mukedaba.com 了解更多
+
+----------------------------------------------------------
+
+<SkillInfo>
+    <SkillList>
+        <Skill
+            SkillID="20002" /* 技能ID */
+            SkillEngName="Smash" /* 技能英文名称（注：并非所有名称均为规范拼写） */
+            TriggerType="1" /* 字面意为技能触发类型，0主要为各种精通类技能，1为主动，2为被动，3主要为敌人主动技能，4主要为炼金术技能，5目前为尚未开放的魔法枪 */
+            ImageFile="data/gfx/image/gui_icon_skill_000.dds" /* 技能图标所在文件 */
+            AvailableRace="7" /* 可使用该技能的种族，1为人类，2为精灵，4为巨人，3为人类+精灵，5为人类+巨人（知道UNIX文件属性算法的看到这里可能会会心一笑），目前暂无值为6（精灵+巨人）的技能 */
+        >
+			<Name>重击</Name>
+		</Skill>
+        <Skill
+            SkillID="20003" /* 技能ID */
+            SkillEngName="Hide" /* 技能英文名称（注：并非所有名称均为规范拼写） */
+            TriggerType="2" /* 字面意为技能触发类型，0主要为各种精通类技能，1为主动，2为被动，3主要为敌人主动技能，4主要为炼金术技能，5目前为尚未开放的魔法枪 */
+            ImageFile="data/gfx/image/gui_icon_skill_001.dds" /* 技能图标所在文件 */
+            AvailableRace="1" /* 可使用该技能的种族，1为人类，2为精灵，4为巨人，3为人类+精灵，5为人类+巨人（知道UNIX文件属性算法的看到这里可能会会心一笑），目前暂无值为6（精灵+巨人）的技能 */
+        >
+			<Name>隐身</Name>
+		</Skill>
+        <Skill
+            SkillID="20004" /* 技能ID */
+            SkillEngName="Ikari" /* 技能英文名称（注：并非所有名称均为规范拼写） */
+            TriggerType="3" /* 字面意为技能触发类型，0主要为各种精通类技能，1为主动，2为被动，3主要为敌人主动技能，4主要为炼金术技能，5目前为尚未开放的魔法枪 */
+            ImageFile="data/gfx/image/gui_icon_skill_002.dds" /* 技能图标所在文件 */
+            AvailableRace="1" /* 可使用该技能的种族，1为人类，2为精灵，4为巨人，3为人类+精灵，5为人类+巨人（知道UNIX文件属性算法的看到这里可能会会心一笑），目前暂无值为6（精灵+巨人）的技能 */
+        >
+			<Name>怒之翼</Name>
+		</Skill>
+        <Skill
+            SkillID="20005" /* 技能ID */
+            SkillEngName="Revenge" /* 技能英文名称（注：并非所有名称均为规范拼写） */
+            TriggerType="5" /* 字面意为技能触发类型，0主要为各种精通类技能，1为主动，2为被动，3主要为敌人主动技能，4主要为炼金术技能，5目前为尚未开放的魔法枪 */
+            ImageFile="data/gfx/image/gui_icon_skill_003.dds" /* 技能图标所在文件 */
+            AvailableRace="2" /* 可使用该技能的种族，1为人类，2为精灵，4为巨人，3为人类+精灵，5为人类+巨人（知道UNIX文件属性算法的看到这里可能会会心一笑），目前暂无值为6（精灵+巨人）的技能 */
+        >
+			<Name>光之复仇</Name>
+		</Skill>
+    </SkillList>
+</SkillInfo>
