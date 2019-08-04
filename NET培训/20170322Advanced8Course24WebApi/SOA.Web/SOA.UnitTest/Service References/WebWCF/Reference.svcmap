@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="5c054ea5-6763-4d10-b335-a6d5a4f261dd" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:10018/Entrance.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Entrance.xsd" MetadataType="Schema" ID="61c9bbdd-9657-4ec2-afdf-471b7a5f683a" SourceId="1" SourceUrl="http://localhost:10018/Entrance.svc?xsd=xsd0" />
+    <MetadataFile FileName="Entrance1.xsd" MetadataType="Schema" ID="e9c77ac7-09e5-4f4b-aafe-88e31dc56b4f" SourceId="1" SourceUrl="http://localhost:10018/Entrance.svc?xsd=xsd2" />
+    <MetadataFile FileName="Entrance.wsdl" MetadataType="Wsdl" ID="01356ac4-7124-478f-b9e7-816ce7052ac9" SourceId="1" SourceUrl="http://localhost:10018/Entrance.svc?wsdl" />
+    <MetadataFile FileName="Entrance.disco" MetadataType="Disco" ID="4c39dde5-fd6f-47ff-bc46-d2625effba6a" SourceId="1" SourceUrl="http://localhost:10018/Entrance.svc?disco" />
+    <MetadataFile FileName="Entrance2.xsd" MetadataType="Schema" ID="01502941-b329-4592-8efe-580b701044f8" SourceId="1" SourceUrl="http://localhost:10018/Entrance.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

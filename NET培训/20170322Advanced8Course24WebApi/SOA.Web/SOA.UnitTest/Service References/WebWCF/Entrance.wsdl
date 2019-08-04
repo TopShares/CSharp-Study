@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Entrance" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:10018/Entrance.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:10018/Entrance.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:10018/Entrance.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SOA.WCF.DataContract" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMathService_PlusInt_InputMessage">
+    <wsdl:part name="parameters" element="tns:PlusInt" />
+  </wsdl:message>
+  <wsdl:message name="IMathService_PlusInt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PlusIntResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMathService_GetUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUser" />
+  </wsdl:message>
+  <wsdl:message name="IMathService_GetUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMathService_UserList_InputMessage">
+    <wsdl:part name="parameters" element="tns:UserList" />
+  </wsdl:message>
+  <wsdl:message name="IMathService_UserList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UserListResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IMathService">
+    <wsdl:operation name="PlusInt">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMathService/PlusInt" message="tns:IMathService_PlusInt_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMathService/PlusIntResponse" message="tns:IMathService_PlusInt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMathService/GetUser" message="tns:IMathService_GetUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMathService/GetUserResponse" message="tns:IMathService_GetUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UserList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMathService/UserList" message="tns:IMathService_UserList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMathService/UserListResponse" message="tns:IMathService_UserList_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IMathService" type="tns:IMathService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="PlusInt">
+      <soap:operation soapAction="http://tempuri.org/IMathService/PlusInt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUser">
+      <soap:operation soapAction="http://tempuri.org/IMathService/GetUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserList">
+      <soap:operation soapAction="http://tempuri.org/IMathService/UserList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Entrance">
+    <wsdl:port name="BasicHttpBinding_IMathService" binding="tns:BasicHttpBinding_IMathService">
+      <soap:address location="http://localhost:10018/Entrance.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

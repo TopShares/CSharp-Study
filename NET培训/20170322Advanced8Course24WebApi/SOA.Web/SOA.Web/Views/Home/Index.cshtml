@@ -1,0 +1,213 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+            enables a clean separation of concerns and gives you full control over markup
+            for enjoyable, agile development.
+        </p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Get more libraries</h2>
+        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Web Hosting</h2>
+        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>
+</div>
+
+<form method="post" action="/api/users/register?id=1">
+
+    <div class="row">
+        <div class="col-md-5">
+
+
+
+            <h2>Test </h2>
+            <p>
+                <input type="text" id="txtAccount" name="账号" />
+                <input type="text" id="txtPassword" name="密码" />
+                <input type="button" id="btnLogin" value="登陆" />
+            </p>
+
+            <p><input type="text" id="txtId" name="id" /> </p>
+            <p>
+                <input type="button" id="btnGet1" value="Get1" />
+                <input type="button" id="btnGet2" value="Get2" />
+                <input type="button" id="btnGet3" value="Get3" />
+                <input type="button" id="btnGet4" value="Get4" />
+            </p>
+            <p>
+                <input type="button" id="btnGet5" value="Get5" />
+                <input type="button" id="btnGet6" value="Get6" />
+                <input type="button" id="btnGet7" value="Get7" />
+                <input type="button" id="btnGet8" value="Get8" />
+                <input type="button" id="btnGet9" value="Get9" />
+            </p>
+
+            <p>
+                <input type="button" id="btnPost1" value="Post1" />
+                <input type="button" id="btnPost2" value="Post2" />
+                <input type="button" id="btnPost3" value="Post3" />
+                <input type="button" id="btnPost4" value="Post4" />
+            </p>
+            <p>
+                <input type="button" id="btnPost5" value="Post5" />
+                <input type="button" id="btnPost6" value="Post6" />
+            </p>
+            @*<p><input type="submit" id="btnPost" /> </p>*@
+            <p>
+                <input type="button" id="btnPut1" value="Put1" />
+                <input type="button" id="btnPut2" value="Put2" />
+                <input type="button" id="btnPut3" value="Put3" />
+                <input type="button" id="btnPut4" value="Put4" />
+                <input type="button" id="btnPut5" value="Put5" />
+                <input type="button" id="btnPut6" value="Put6" />
+            </p>
+            <p>
+                <input type="button" id="btnGetCors1" value="跨域Get1" />
+            </p>
+        </div>
+
+    </div>
+    <script src="/Scripts/jquery-1.10.2.js"></script>
+    <script>
+        $(function () {
+            var user = { UserID: "11", UserName: "Eleven", UserEmail: "57265177@qq.com" };
+            var info = "this is muti model";
+
+            $("#btnGet1").on("click", function () {
+                //$.ajax({ url: "/api/users", type: "get", data: { "userName": "Superman" }, success: function (data) { alert(data); }, datatype: "json" });//指向接口，参数匹配的，大小写不区分
+                $.ajax({
+                    url: "/api/users/GetUserByName", type: "get", data: { "username": "Superman" },
+                    //beforeSend: function (XHR) {
+                    //    //发送ajax请求之前向http的head里面加入验证信息
+                    //    XHR.setRequestHeader('Authorization', 'BasicAuth ' + ticket);
+                    //},
+                    success: function (data) {
+                        alert(data);
+                    }, datatype: "json"
+                });
+            });
+            $("#btnGet2").on("click", function () {//单个参数
+                $.ajax({ url: "/api/users/GetUserByID", type: "get", data: { "id": $("#txtId").val() }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnGet3").on("click", function () {//两个参数
+                $.ajax({ url: "/api/users/GetUserByNameId", type: "get", data: { "userName": "Superman", "id": $("#txtId").val() }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnGet4").on("click", function () {//无参数
+                $.ajax({ url: "/api/users/Get", type: "get", data: "", success: function (data) { alert(data); }, datatype: "json" });
+            });
+
+            $("#btnGet5").on("click", function () {//传递实体
+                $.ajax({ url: "/api/users/GetUserByModel", type: "get", data: user, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnGet6").on("click", function () {//传递实体
+                $.ajax({ url: "/api/users/GetUserByModelUri", type: "get", data: user, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnGet7").on("click", function () {//传递实体,序列化后传递
+                $.ajax({ url: "/api/users/GetUserByModelSerialize", type: "get", data: { userString: JSON.stringify(user) }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnGet8").on("click", function () {//传递实体,序列化后传递
+                $.ajax({ url: "/api/users/GetUserByModelSerializeWithoutGet", type: "get", data: { userString: JSON.stringify(user) }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnGet9").on("click", function () {//传递实体,序列化后传递  405 Method Not Allowed
+                $.ajax({ url: "/api/users/NoGetUserByModelSerializeWithoutGet", type: "get", data: { userString: JSON.stringify(user) }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+
+
+
+
+
+
+            $("#btnPost1").on("click", function () {//单个值传递，json数据不要key（后台没拿到。）
+                $.ajax({ url: "/api/users/RegisterNoKey", type: "post", data: { "": $("#txtId").val() }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnPost2").on("click", function () {//key-value形式后台拿不到
+                $.ajax({ url: "/api/users/Register", type: "post", data: { "id": $("#txtId").val() }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnPost3").on("click", function () {//传递json格式的，后台可以用实体接收
+                $.ajax({ url: "/api/users/RegisterUser", type: "post", data: user, success: function (data) { alert(data); }, datatype: "json" });
+            });
+
+            $("#btnPost4").on("click", function () {//传递json序列化后的格式，后台可以用实体接收,需要指定contentType
+                $.ajax({ url: "/api/users/RegisterUser", type: "post", data: JSON.stringify(user), success: function (data) { alert(data); }, datatype: "json", contentType: 'application/json', });
+            });
+
+            $("#btnPost5").on("click", function () {//JObject接收
+                $.ajax({ url: "/api/users/RegisterObject", type: "post", data: { "User": user, "Info": info }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnPost6").on("click", function () {//Dynamic  失败了
+                $.ajax({ url: "/api/users/RegisterObjectDynamic", type: "post", data: { "User": user, "Info": info }, success: function (data) { alert(data); }, datatype: "json", contentType: 'application/json' });
+            });
+
+
+
+
+            $("#btnPut1").on("click", function () {//单个值传递，json数据不要key（后台没拿到。）
+                $.ajax({ url: "/api/users/RegisterNoKeyPut", type: "put", data: { "": $("#txtId").val() }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnPut2").on("click", function () {//key-value形式后台拿不到
+                $.ajax({ url: "/api/users/RegisterPut", type: "put", data: { "id": $("#txtId").val() }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnPut3").on("click", function () {//传递json格式的，后台可以用实体接收
+                $.ajax({ url: "/api/users/RegisterUserPut", type: "put", data: user, success: function (data) { alert(data); }, datatype: "json" });
+            });
+
+            $("#btnPut4").on("click", function () {//传递json序列化后的格式，后台可以用实体接收,需要指定contentType
+                $.ajax({ url: "/api/users/RegisterUserPut", type: "put", data: JSON.stringify(user), success: function (data) { alert(data); }, datatype: "json", contentType: 'application/json', });
+            });
+
+            $("#btnPut5").on("click", function () {//JObject接收
+                $.ajax({ url: "/api/users/RegisterObjectPut", type: "put", data: { "User": user, "Info": info }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnPut6").on("click", function () {//Dynamic  失败了
+                $.ajax({ url: "/api/users/RegisterObjectDynamicPut", type: "put", data: { "User": user, "Info": info }, success: function (data) { alert(data); }, datatype: "json", contentType: 'application/json' });
+            });
+
+            //delete一样 type换成delete
+
+
+
+            $("#btnLogin").on("click", function () {
+                $.ajax({
+                    url: "/api/users/Login", type: "GET", data: { "Account": $("#txtAccount").val(), "Password": $("#txtPassword").val() }, success: function (data) {
+                        var result = JSON.parse(data);
+                        if (result.Result) {
+                            ticket = result.Ticket;
+                            alert(result.Ticket);
+                        }
+                        else {
+                            alert("failed");
+                        }
+                    }, datatype: "json"
+                });
+            });
+
+            var ticket = "";//登陆后放在某个html里面，ajax都得带上
+
+
+            //microsoft.aspnet.webapi.cors
+            jQuery.support.cors = true;
+            var location = "http://localhost:9008";
+            $("#btnGetCors1").on("click", function () {
+                $.ajax({ url: location + "/api/users/GetUserByID", type: "get", data: { "id": 1 }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+
+        });
+    </script>
+</form>
