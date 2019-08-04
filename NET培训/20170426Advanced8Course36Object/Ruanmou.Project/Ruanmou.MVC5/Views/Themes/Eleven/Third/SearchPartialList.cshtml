@@ -1,0 +1,42 @@
+﻿@model PagedList.IPagedList<Ruanmou.Remote.Model.CommodityModel>
+@using PagedList.Mvc;
+@{
+    Layout = null;
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<table class="table">
+    <tr>
+        <th>Id</th>
+
+        <th>类别id</th>
+
+        <th>标题</th>
+
+        <th>@Html.ActionLink("价格", "SearchPartialList", new { orderBy = ViewBag.OrderBy, searchString = ViewBag.SearchString, page = 1 })</th>
+
+        <th>创建时间</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Url)
+            </td>
+        </tr>
+    }
+</table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, pageIndex => Url.Action("SearchPartialList",
+                               new { pageIndex = pageIndex, searchString = ViewBag.SearchString }))

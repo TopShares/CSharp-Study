@@ -1,0 +1,8 @@
+1 用户登陆和检验：AuthorizeAttribute
+2 HttpGet HttpPost AllowAnonymous ChildActionOnly
+3 全局异常处理：HandleErrorAttribute
+4 IActionFilter IResultFilter
+5 Unity的AOP
+6 各种ActionResult
+
+

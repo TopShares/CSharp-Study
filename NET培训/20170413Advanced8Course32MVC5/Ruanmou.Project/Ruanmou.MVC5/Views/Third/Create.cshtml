@@ -1,0 +1,92 @@
+﻿@model Ruanmou.EF.Model.Commodity
+@{
+    ViewBag.Title = "Add New Commodity";
+    List<SelectListItem> CategoryList = ViewBag.categoryList as List<SelectListItem>;
+}
+<h2>Add New Commodity</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategoryId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("categoryList", CategoryList, new { @class = "control-label col-md-3" })
+                @Html.ValidationMessageFor(model => model.CategoryId)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title)
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price)
+                @Html.ValidationMessageFor(model => model.Price)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageUrl, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ImageUrl)
+                @Html.ValidationMessageFor(model => model.ImageUrl)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Url, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Url)
+                @Html.ValidationMessageFor(model => model.Url)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.Submit("Submit")
+                @Html.ValidationMessage("unableToSave")
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            var i = 0;
+            $("form").submit(function () {
+                i++;
+                $.ajax({
+                    url: '/Third/AjaxCreate',
+                    type: 'post',
+                    dataType: 'json',
+                    data: $("form").serializeArray(),
+                    success: function (data) {
+                        if (data.Result == 1) {
+                            alert("添加成功");
+                        }
+                        else if (data.Result == 2) {
+                            alert("登陆超时,请重新登陆");
+                            location.href = "/home/login";
+                        }
+                        else {
+                            alert(data.PromptMsg);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    }
+                });
+                return false;//避免又ajax提交 又表单提交
+            }
+            );
+        });
+    </script>
+}

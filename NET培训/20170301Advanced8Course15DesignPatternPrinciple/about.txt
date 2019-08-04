@@ -1,0 +1,4 @@
+1.  作业点评
+2.  迪米特法则  （Law Of Demeter）
+3： 开闭原则     (Open Closed Principle)
+4： 单例模式

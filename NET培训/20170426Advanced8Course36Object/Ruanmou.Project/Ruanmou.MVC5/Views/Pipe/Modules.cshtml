@@ -1,0 +1,30 @@
+﻿@model IEnumerable<SysModules>
+@{
+    ViewBag.Title = "ShowModules";
+}
+
+<h2>ShowModules</h2>
+<table class="table">
+    <tr>
+        <th>No.</th>
+
+        <th>名称</th>
+
+        <th>详细类型名称</th>
+    </tr>
+    @foreach (SysModules item in Model)
+    {
+        <tr>
+                <td>
+                   @item.Id
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.TypeName
+                </td>
+            </tr>
+    }
+</table>
+

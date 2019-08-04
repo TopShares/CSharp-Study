@@ -1,0 +1,7 @@
+1 http请求的本质，各种ActionResult
+2 列表的绑定、增删改查
+3 ajax删除、ajax表单提交、ajax列表、ajax翻页、ajax三级联动
+4 MVC结合Lucene的搜索引擎
+
+
+

@@ -1,0 +1,204 @@
+2017-04-25 21:18:58,471 [1] INFO  Ruanmou.Framework.Log.Logger - 系统初始化Logger模块
+2017-04-25 21:18:59,705 [1] INFO  Ruanmou.MVC5.WebApiApplication - Application_Start
+2017-04-25 21:18:59,748 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 21:18:59,748 [10] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 21:18:59,778 [10] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 21:18:59,778 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 21:18:59,907 [10] INFO  Ruanmou.MVC5.WebApiApplication - Session_Start
+2017-04-25 21:18:59,914 [9] INFO  Ruanmou.MVC5.WebApiApplication - Session_Start
+2017-04-25 21:19:04,302 [11] INFO  Ruanmou.MVC5.WebApiApplication - Session_End
+2017-04-25 21:19:06,039 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 21:19:06,041 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 21:20:01,874 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 21:20:01,876 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:43:31,803 [1] INFO  Ruanmou.Framework.Log.Logger - 系统初始化Logger模块
+2017-04-25 22:43:32,775 [1] INFO  Ruanmou.MVC5.WebApiApplication - Application_Start
+2017-04-25 22:43:32,811 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:43:32,817 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:43:32,908 [6] INFO  Ruanmou.MVC5.WebApiApplication - Session_Start
+2017-04-25 22:43:35,973 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:43:35,973 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:43:59,279 [1] INFO  Ruanmou.Framework.Log.Logger - 系统初始化Logger模块
+2017-04-25 22:44:00,155 [1] INFO  Ruanmou.MVC5.WebApiApplication - Application_Start
+2017-04-25 22:44:00,183 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:00,188 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:44:00,282 [6] INFO  Ruanmou.MVC5.WebApiApplication - Session_Start
+2017-04-25 22:44:00,515 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:00,516 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:44:03,155 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:03,156 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:44:03,405 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:03,406 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:44:12,404 [10] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:12,407 [10] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:44:12,413 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:12,413 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:44:12,453 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:12,454 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:44:12,590 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:12,590 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:44:17,850 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:17,851 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:44:23,228 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:23,229 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:44:32,402 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:32,403 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:44:50,593 [1] INFO  Ruanmou.Framework.Log.Logger - 系统初始化Logger模块
+2017-04-25 22:44:51,495 [1] INFO  Ruanmou.MVC5.WebApiApplication - Application_Start
+2017-04-25 22:44:51,525 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:51,529 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:44:51,624 [6] INFO  Ruanmou.MVC5.WebApiApplication - Session_Start
+2017-04-25 22:44:51,854 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:51,855 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:44:54,177 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:54,179 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:44:55,043 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:55,043 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:44:59,571 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:44:59,572 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:45:00,378 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:45:00,379 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:45:56,999 [9] ERROR Ruanmou.Web.Core.Filter.LogExceptionFilter - 在执行 controller[Home] 的 action[Index] 时产生异常
+System.ArgumentException: 值不能为 null 或为空。
+参数名: viewName
+   在 System.Web.Mvc.ViewEngineCollection.FindView(ControllerContext controllerContext, String viewName, String masterName)
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 Ruanmou.Web.Core.Extension.ElevenViewResult.FindView(ControllerContext context) 位置 D:\ruanmou\online8\20170421Advanced8Course36Object\Ruanmou.Project\Ruanmou.Web.Core\Extension\ElevenViewResult.cs:行号 31
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2017-04-25 22:45:57,186 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:45:57,187 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:46:00,380 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:46:00,381 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:46:14,917 [6] ERROR Ruanmou.Web.Core.Filter.LogExceptionFilter - 在执行 controller[home] 的 action[index] 时产生异常
+System.ArgumentException: 值不能为 null 或为空。
+参数名: viewName
+   在 System.Web.Mvc.ViewEngineCollection.FindView(ControllerContext controllerContext, String viewName, String masterName)
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 Ruanmou.Web.Core.Extension.ElevenViewResult.FindView(ControllerContext context) 位置 D:\ruanmou\online8\20170421Advanced8Course36Object\Ruanmou.Project\Ruanmou.Web.Core\Extension\ElevenViewResult.cs:行号 31
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2017-04-25 22:46:15,043 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:46:15,043 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:46:17,553 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:46:17,554 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:51:12,878 [25] INFO  Ruanmou.MVC5.WebApiApplication - Session_End
+2017-04-25 22:59:39,661 [1] INFO  Ruanmou.Framework.Log.Logger - 系统初始化Logger模块
+2017-04-25 22:59:40,592 [1] INFO  Ruanmou.MVC5.WebApiApplication - Application_Start
+2017-04-25 22:59:40,623 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:59:40,627 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 22:59:40,723 [9] INFO  Ruanmou.MVC5.WebApiApplication - Session_Start
+2017-04-25 22:59:40,951 [10] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 22:59:40,951 [10] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:00:05,949 [10] ERROR Ruanmou.Web.Core.Filter.LogExceptionFilter - 在执行 controller[Fourth] 的 action[Login] 时产生异常
+System.InvalidOperationException: 未找到视图“Login”或其母版视图，或没有视图引擎支持搜索的位置。搜索了以下位置: 
+~/Views/Themes/Eleven/Fourth/Login.cshtml
+~/Views/Themes/Eleven/Shared/Login.cshtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2017-04-25 23:01:46,425 [1] INFO  Ruanmou.Framework.Log.Logger - 系统初始化Logger模块
+2017-04-25 23:01:47,304 [1] INFO  Ruanmou.MVC5.WebApiApplication - Application_Start
+2017-04-25 23:01:47,338 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:01:47,343 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:01:47,435 [6] INFO  Ruanmou.MVC5.WebApiApplication - Session_Start
+2017-04-25 23:01:47,658 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:01:47,658 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:02:04,689 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:02:04,690 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:02:04,959 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:02:04,959 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:14:11,229 [1] INFO  Ruanmou.Framework.Log.Logger - 系统初始化Logger模块
+2017-04-25 23:14:12,112 [1] INFO  Ruanmou.MVC5.WebApiApplication - Application_Start
+2017-04-25 23:14:12,145 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:14:12,150 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:14:12,241 [9] INFO  Ruanmou.MVC5.WebApiApplication - Session_Start
+2017-04-25 23:14:12,466 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:14:12,467 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:14:15,751 [10] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:14:15,753 [10] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:14:16,052 [11] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:14:16,054 [11] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:14:26,319 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:14:26,319 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:14:26,955 [11] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:14:26,955 [11] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:14:39,442 [10] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:14:39,443 [10] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:15:23,792 [10] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:15:23,793 [10] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:15:24,524 [11] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:15:24,524 [11] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:15:35,146 [10] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:15:35,147 [10] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:15:50,984 [11] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:15:50,985 [11] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:15:58,647 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:15:58,648 [9] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:16:36,369 [11] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:16:36,370 [11] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:16:57,170 [1] INFO  Ruanmou.Framework.Log.Logger - 系统初始化Logger模块
+2017-04-25 23:16:58,043 [1] INFO  Ruanmou.MVC5.WebApiApplication - Application_Start
+2017-04-25 23:16:58,075 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:16:58,079 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:16:58,171 [6] INFO  Ruanmou.MVC5.WebApiApplication - Session_Start
+2017-04-25 23:16:58,394 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:16:58,394 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:17:04,894 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:17:04,894 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:17:05,106 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:17:05,106 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:17:10,941 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:17:10,941 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:17:11,584 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:17:11,585 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:17:19,027 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:17:19,028 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:17:21,965 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:17:21,967 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:18:09,741 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:18:09,742 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:18:41,993 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:18:41,994 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:18:44,180 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:18:44,181 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:19:16,274 [1] INFO  Ruanmou.Framework.Log.Logger - 系统初始化Logger模块
+2017-04-25 23:19:17,263 [1] INFO  Ruanmou.MVC5.WebApiApplication - Application_Start
+2017-04-25 23:19:17,298 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:19:17,303 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:19:17,401 [6] INFO  Ruanmou.MVC5.WebApiApplication - Session_Start
+2017-04-25 23:19:17,625 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:19:17,625 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:19:21,859 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:19:21,860 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:19:22,086 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:19:22,087 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:19:29,325 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:19:29,326 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:19:29,964 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:19:29,965 [8] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:19:31,753 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:19:31,754 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:19:34,950 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:19:34,951 [7] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:20:17,043 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:20:17,044 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:20:23,907 [12] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:20:23,908 [12] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest
+2017-04-25 23:20:26,955 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件BeginRequest
+2017-04-25 23:20:26,956 [6] INFO  Ruanmou.MVC5.WebApiApplication - 验证通过事件PostAuthenticateRequest

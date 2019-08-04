@@ -1,0 +1,437 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ESTM.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="11.2" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TB_DEPARTMENT">
+          <Key>
+            <PropertyRef Name="DEPARTMENT_ID" />
+          </Key>
+          <Property Name="DEPARTMENT_ID" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="DEPARTMENT_NAME" Type="varchar2" MaxLength="50" />
+          <Property Name="PARENT_ID" Type="varchar2" MaxLength="50" />
+          <Property Name="DEPARTMENT_LEVEL" Type="varchar2" MaxLength="10" />
+          <Property Name="STATUS" Type="varchar2" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="TB_MENU">
+          <Key>
+            <PropertyRef Name="MENU_ID" />
+          </Key>
+          <Property Name="MENU_ID" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="MENU_NAME" Type="varchar2" MaxLength="50" />
+          <Property Name="MENU_URL" Type="varchar2" MaxLength="50" />
+          <Property Name="PARENT_ID" Type="varchar2" MaxLength="50" />
+          <Property Name="MENU_LEVEL" Type="varchar2" MaxLength="10" />
+          <Property Name="SORT_ORDER" Type="varchar2" MaxLength="50" />
+          <Property Name="STATUS" Type="varchar2" MaxLength="10" />
+          <Property Name="REMARK" Type="varchar2" MaxLength="1000" />
+          <Property Name="MENU_ICO" Type="varchar2" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TB_MENUROLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="ROLE_ID" Type="varchar2" MaxLength="50" />
+          <Property Name="MENU_ID" Type="varchar2" MaxLength="50" />
+          <Property Name="ROLE_TYPE" Type="varchar2" MaxLength="10" />
+          <Property Name="BUTTON_ID" Type="varchar2" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TB_ROLE">
+          <Key>
+            <PropertyRef Name="ROLE_ID" />
+          </Key>
+          <Property Name="ROLE_ID" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="ROLE_NAME" Type="varchar2" MaxLength="50" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="500" />
+          <Property Name="CREATETIME" Type="date" />
+          <Property Name="MODIFYTIME" Type="date" />
+          <Property Name="ROLE_DEFAULTURL" Type="varchar2" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="TB_USERROLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="ROLE_ID" Type="varchar2" MaxLength="50" />
+          <Property Name="USER_ID" Type="varchar2" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TB_USERS">
+          <Key>
+            <PropertyRef Name="USER_ID" />
+          </Key>
+          <Property Name="USER_ID" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="USER_NAME" Type="varchar2" MaxLength="50" />
+          <Property Name="USER_PASSWORD" Type="varchar2" MaxLength="50" />
+          <Property Name="FULLNAME" Type="varchar2" MaxLength="50" />
+          <Property Name="DEPARTMENT_ID" Type="varchar2" MaxLength="50" />
+          <Property Name="STATUS" Type="varchar2" MaxLength="10" />
+          <Property Name="CREATETIME" Type="date" />
+          <Property Name="MODIFYTIME" Type="date" />
+          <Property Name="REMARK" Type="varchar2" MaxLength="1000" />
+        </EntityType>
+        <Association Name="FK_TB_MENUR_REFERENCE_TB_MENU">
+          <End Role="TB_MENU" Type="Self.TB_MENU" Multiplicity="0..1" />
+          <End Role="TB_MENUROLE" Type="Self.TB_MENUROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_MENU">
+              <PropertyRef Name="MENU_ID" />
+            </Principal>
+            <Dependent Role="TB_MENUROLE">
+              <PropertyRef Name="MENU_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_MENUR_REFERENCE_TB_ROLE">
+          <End Role="TB_ROLE" Type="Self.TB_ROLE" Multiplicity="0..1" />
+          <End Role="TB_MENUROLE" Type="Self.TB_MENUROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Principal>
+            <Dependent Role="TB_MENUROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_USERR_REFERENCE_TB_ROLE">
+          <End Role="TB_ROLE" Type="Self.TB_ROLE" Multiplicity="0..1" />
+          <End Role="TB_USERROLE" Type="Self.TB_USERROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Principal>
+            <Dependent Role="TB_USERROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_USERR_REFERENCE_TB_USERS">
+          <End Role="TB_USERS" Type="Self.TB_USERS" Multiplicity="0..1" />
+          <End Role="TB_USERROLE" Type="Self.TB_USERROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_USERS">
+              <PropertyRef Name="USER_ID" />
+            </Principal>
+            <Dependent Role="TB_USERROLE">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_USERS_REFERENCE_TB_DEPAR">
+          <End Role="TB_DEPARTMENT" Type="Self.TB_DEPARTMENT" Multiplicity="0..1" />
+          <End Role="TB_USERS" Type="Self.TB_USERS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_DEPARTMENT">
+              <PropertyRef Name="DEPARTMENT_ID" />
+            </Principal>
+            <Dependent Role="TB_USERS">
+              <PropertyRef Name="DEPARTMENT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ESTMStoreContainer">
+          <EntitySet Name="TB_DEPARTMENT" EntityType="Self.TB_DEPARTMENT" Schema="MES" store:Type="Tables" />
+          <EntitySet Name="TB_MENU" EntityType="Self.TB_MENU" Schema="MES" store:Type="Tables" />
+          <EntitySet Name="TB_MENUROLE" EntityType="Self.TB_MENUROLE" Schema="MES" store:Type="Tables" />
+          <EntitySet Name="TB_ROLE" EntityType="Self.TB_ROLE" Schema="MES" store:Type="Tables" />
+          <EntitySet Name="TB_USERROLE" EntityType="Self.TB_USERROLE" Schema="MES" store:Type="Tables" />
+          <EntitySet Name="TB_USERS" EntityType="Self.TB_USERS" Schema="MES" store:Type="Tables" />
+          <AssociationSet Name="FK_TB_MENUR_REFERENCE_TB_MENU" Association="Self.FK_TB_MENUR_REFERENCE_TB_MENU">
+            <End Role="TB_MENU" EntitySet="TB_MENU" />
+            <End Role="TB_MENUROLE" EntitySet="TB_MENUROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_MENUR_REFERENCE_TB_ROLE" Association="Self.FK_TB_MENUR_REFERENCE_TB_ROLE">
+            <End Role="TB_ROLE" EntitySet="TB_ROLE" />
+            <End Role="TB_MENUROLE" EntitySet="TB_MENUROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_USERR_REFERENCE_TB_ROLE" Association="Self.FK_TB_USERR_REFERENCE_TB_ROLE">
+            <End Role="TB_ROLE" EntitySet="TB_ROLE" />
+            <End Role="TB_USERROLE" EntitySet="TB_USERROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_USERR_REFERENCE_TB_USERS" Association="Self.FK_TB_USERR_REFERENCE_TB_USERS">
+            <End Role="TB_USERS" EntitySet="TB_USERS" />
+            <End Role="TB_USERROLE" EntitySet="TB_USERROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_USERS_REFERENCE_TB_DEPAR" Association="Self.FK_TB_USERS_REFERENCE_TB_DEPAR">
+            <End Role="TB_DEPARTMENT" EntitySet="TB_DEPARTMENT" />
+            <End Role="TB_USERS" EntitySet="TB_USERS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ESTM" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ESTMContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TB_DEPARTMENT" EntityType="ESTM.TB_DEPARTMENT" />
+          <EntitySet Name="TB_MENU" EntityType="ESTM.TB_MENU" />
+          <EntitySet Name="TB_MENUROLE" EntityType="ESTM.TB_MENUROLE" />
+          <EntitySet Name="TB_ROLE" EntityType="ESTM.TB_ROLE" />
+          <EntitySet Name="TB_USERROLE" EntityType="ESTM.TB_USERROLE" />
+          <EntitySet Name="TB_USERS" EntityType="ESTM.TB_USERS" />
+          <AssociationSet Name="FK_TB_USERS_REFERENCE_TB_DEPAR" Association="ESTM.FK_TB_USERS_REFERENCE_TB_DEPAR">
+            <End Role="TB_DEPARTMENT" EntitySet="TB_DEPARTMENT" />
+            <End Role="TB_USERS" EntitySet="TB_USERS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_MENUR_REFERENCE_TB_MENU" Association="ESTM.FK_TB_MENUR_REFERENCE_TB_MENU">
+            <End Role="TB_MENU" EntitySet="TB_MENU" />
+            <End Role="TB_MENUROLE" EntitySet="TB_MENUROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_MENUR_REFERENCE_TB_ROLE" Association="ESTM.FK_TB_MENUR_REFERENCE_TB_ROLE">
+            <End Role="TB_ROLE" EntitySet="TB_ROLE" />
+            <End Role="TB_MENUROLE" EntitySet="TB_MENUROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_USERR_REFERENCE_TB_ROLE" Association="ESTM.FK_TB_USERR_REFERENCE_TB_ROLE">
+            <End Role="TB_ROLE" EntitySet="TB_ROLE" />
+            <End Role="TB_USERROLE" EntitySet="TB_USERROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_USERR_REFERENCE_TB_USERS" Association="ESTM.FK_TB_USERR_REFERENCE_TB_USERS">
+            <End Role="TB_USERS" EntitySet="TB_USERS" />
+            <End Role="TB_USERROLE" EntitySet="TB_USERROLE" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="TB_DEPARTMENT">
+          <Key>
+            <PropertyRef Name="DEPARTMENT_ID" />
+          </Key>
+          <Property Name="DEPARTMENT_ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DEPARTMENT_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PARENT_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DEPARTMENT_LEVEL" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TB_USERS" Relationship="ESTM.FK_TB_USERS_REFERENCE_TB_DEPAR" FromRole="TB_DEPARTMENT" ToRole="TB_USERS" />
+        </EntityType>
+        <EntityType Name="TB_MENU">
+          <Key>
+            <PropertyRef Name="MENU_ID" />
+          </Key>
+          <Property Name="MENU_ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MENU_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MENU_URL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PARENT_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MENU_LEVEL" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SORT_ORDER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="REMARK" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="MENU_ICO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TB_MENUROLE" Relationship="ESTM.FK_TB_MENUR_REFERENCE_TB_MENU" FromRole="TB_MENU" ToRole="TB_MENUROLE" />
+        </EntityType>
+        <EntityType Name="TB_MENUROLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ROLE_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MENU_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ROLE_TYPE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="BUTTON_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TB_MENU" Relationship="ESTM.FK_TB_MENUR_REFERENCE_TB_MENU" FromRole="TB_MENUROLE" ToRole="TB_MENU" />
+          <NavigationProperty Name="TB_ROLE" Relationship="ESTM.FK_TB_MENUR_REFERENCE_TB_ROLE" FromRole="TB_MENUROLE" ToRole="TB_ROLE" />
+        </EntityType>
+        <EntityType Name="TB_ROLE">
+          <Key>
+            <PropertyRef Name="ROLE_ID" />
+          </Key>
+          <Property Name="ROLE_ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ROLE_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CREATETIME" Type="DateTime" />
+          <Property Name="MODIFYTIME" Type="DateTime" />
+          <Property Name="ROLE_DEFAULTURL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TB_MENUROLE" Relationship="ESTM.FK_TB_MENUR_REFERENCE_TB_ROLE" FromRole="TB_ROLE" ToRole="TB_MENUROLE" />
+          <NavigationProperty Name="TB_USERROLE" Relationship="ESTM.FK_TB_USERR_REFERENCE_TB_ROLE" FromRole="TB_ROLE" ToRole="TB_USERROLE" />
+        </EntityType>
+        <EntityType Name="TB_USERROLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ROLE_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="USER_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TB_ROLE" Relationship="ESTM.FK_TB_USERR_REFERENCE_TB_ROLE" FromRole="TB_USERROLE" ToRole="TB_ROLE" />
+          <NavigationProperty Name="TB_USERS" Relationship="ESTM.FK_TB_USERR_REFERENCE_TB_USERS" FromRole="TB_USERROLE" ToRole="TB_USERS" />
+        </EntityType>
+        <EntityType Name="TB_USERS">
+          <Key>
+            <PropertyRef Name="USER_ID" />
+          </Key>
+          <Property Name="USER_ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="USER_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="USER_PASSWORD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FULLNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DEPARTMENT_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CREATETIME" Type="DateTime" />
+          <Property Name="MODIFYTIME" Type="DateTime" />
+          <Property Name="REMARK" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TB_DEPARTMENT" Relationship="ESTM.FK_TB_USERS_REFERENCE_TB_DEPAR" FromRole="TB_USERS" ToRole="TB_DEPARTMENT" />
+          <NavigationProperty Name="TB_USERROLE" Relationship="ESTM.FK_TB_USERR_REFERENCE_TB_USERS" FromRole="TB_USERS" ToRole="TB_USERROLE" />
+        </EntityType>
+        <Association Name="FK_TB_USERS_REFERENCE_TB_DEPAR">
+          <End Type="ESTM.TB_DEPARTMENT" Role="TB_DEPARTMENT" Multiplicity="0..1" />
+          <End Type="ESTM.TB_USERS" Role="TB_USERS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_DEPARTMENT">
+              <PropertyRef Name="DEPARTMENT_ID" />
+            </Principal>
+            <Dependent Role="TB_USERS">
+              <PropertyRef Name="DEPARTMENT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_MENUR_REFERENCE_TB_MENU">
+          <End Type="ESTM.TB_MENU" Role="TB_MENU" Multiplicity="0..1" />
+          <End Type="ESTM.TB_MENUROLE" Role="TB_MENUROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_MENU">
+              <PropertyRef Name="MENU_ID" />
+            </Principal>
+            <Dependent Role="TB_MENUROLE">
+              <PropertyRef Name="MENU_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_MENUR_REFERENCE_TB_ROLE">
+          <End Type="ESTM.TB_ROLE" Role="TB_ROLE" Multiplicity="0..1" />
+          <End Type="ESTM.TB_MENUROLE" Role="TB_MENUROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Principal>
+            <Dependent Role="TB_MENUROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_USERR_REFERENCE_TB_ROLE">
+          <End Type="ESTM.TB_ROLE" Role="TB_ROLE" Multiplicity="0..1" />
+          <End Type="ESTM.TB_USERROLE" Role="TB_USERROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Principal>
+            <Dependent Role="TB_USERROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_USERR_REFERENCE_TB_USERS">
+          <End Type="ESTM.TB_USERS" Role="TB_USERS" Multiplicity="0..1" />
+          <End Type="ESTM.TB_USERROLE" Role="TB_USERROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_USERS">
+              <PropertyRef Name="USER_ID" />
+            </Principal>
+            <Dependent Role="TB_USERROLE">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="ESTM" />
+        <Alias Key="Target" Value="ESTM.Store" />
+        <EntityContainerMapping CdmEntityContainer="ESTMContainer" StorageEntityContainer="ESTMStoreContainer">
+          <EntitySetMapping Name="TB_DEPARTMENT">
+            <EntityTypeMapping TypeName="ESTM.TB_DEPARTMENT">
+              <MappingFragment StoreEntitySet="TB_DEPARTMENT">
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="DEPARTMENT_LEVEL" ColumnName="DEPARTMENT_LEVEL" />
+                <ScalarProperty Name="PARENT_ID" ColumnName="PARENT_ID" />
+                <ScalarProperty Name="DEPARTMENT_NAME" ColumnName="DEPARTMENT_NAME" />
+                <ScalarProperty Name="DEPARTMENT_ID" ColumnName="DEPARTMENT_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_MENU">
+            <EntityTypeMapping TypeName="ESTM.TB_MENU">
+              <MappingFragment StoreEntitySet="TB_MENU">
+                <ScalarProperty Name="MENU_ICO" ColumnName="MENU_ICO" />
+                <ScalarProperty Name="REMARK" ColumnName="REMARK" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="SORT_ORDER" ColumnName="SORT_ORDER" />
+                <ScalarProperty Name="MENU_LEVEL" ColumnName="MENU_LEVEL" />
+                <ScalarProperty Name="PARENT_ID" ColumnName="PARENT_ID" />
+                <ScalarProperty Name="MENU_URL" ColumnName="MENU_URL" />
+                <ScalarProperty Name="MENU_NAME" ColumnName="MENU_NAME" />
+                <ScalarProperty Name="MENU_ID" ColumnName="MENU_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_MENUROLE">
+            <EntityTypeMapping TypeName="ESTM.TB_MENUROLE">
+              <MappingFragment StoreEntitySet="TB_MENUROLE">
+                <ScalarProperty Name="BUTTON_ID" ColumnName="BUTTON_ID" />
+                <ScalarProperty Name="ROLE_TYPE" ColumnName="ROLE_TYPE" />
+                <ScalarProperty Name="MENU_ID" ColumnName="MENU_ID" />
+                <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_ROLE">
+            <EntityTypeMapping TypeName="ESTM.TB_ROLE">
+              <MappingFragment StoreEntitySet="TB_ROLE">
+                <ScalarProperty Name="ROLE_DEFAULTURL" ColumnName="ROLE_DEFAULTURL" />
+                <ScalarProperty Name="MODIFYTIME" ColumnName="MODIFYTIME" />
+                <ScalarProperty Name="CREATETIME" ColumnName="CREATETIME" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="ROLE_NAME" ColumnName="ROLE_NAME" />
+                <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_USERROLE">
+            <EntityTypeMapping TypeName="ESTM.TB_USERROLE">
+              <MappingFragment StoreEntitySet="TB_USERROLE">
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_USERS">
+            <EntityTypeMapping TypeName="ESTM.TB_USERS">
+              <MappingFragment StoreEntitySet="TB_USERS">
+                <ScalarProperty Name="REMARK" ColumnName="REMARK" />
+                <ScalarProperty Name="MODIFYTIME" ColumnName="MODIFYTIME" />
+                <ScalarProperty Name="CREATETIME" ColumnName="CREATETIME" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="DEPARTMENT_ID" ColumnName="DEPARTMENT_ID" />
+                <ScalarProperty Name="FULLNAME" ColumnName="FULLNAME" />
+                <ScalarProperty Name="USER_PASSWORD" ColumnName="USER_PASSWORD" />
+                <ScalarProperty Name="USER_NAME" ColumnName="USER_NAME" />
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

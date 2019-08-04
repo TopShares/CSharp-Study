@@ -1,0 +1,31 @@
+1 使用本次课程分享里面的Ruanmou.SearchEngines\Ruanmou.SearchEngines\bin\Debug\Ruanmou.SearchEngines.exe(管理员身份)启动wcf服务，索引文  件位于该config的IndexPath，没有索引文件的参见 
+  链接：http://pan.baidu.com/s/1c8GqCm 密码：kl08
+  
+数据库文件bak和脚本  索引文件分享
+
+2 自己新建个mvc5项目，增加个数据查询，配置IOC，使用ef和lucene引擎；
+
+3 在现有的MVC项目中，增加一个UserController，完成对用户的列表管理，完成普通的增删改查、启用停用(修改State)；
+
+4 在现有的MVC项目中，增加一个MenuController，加入对菜单的列表管理(如果能弄成树形结构管理就更好啦)，完成ajax的增删改查；
+
+
+
+
+
+
+
+
+作业要求在下周二(0418)晚上22点前发到邮箱：
+           57265177@qq.com
+并抄送到   25759541@qq.com
+作业用压缩包的形式发给我，压缩包名称命名以群里的昵称开头，然后有更新的话，在昵称后面加上_update1这样子
+第一次提交是：   24一两_homework1.rar
+第二次提交是：   24一两_homework1_Update1.rar
+第三次提交是：   24一两_homework1_Update2.rar
+
+压缩包中希望包含作业说明文档，可以是完成过程中的问题、思路、解决方案、学习感悟、笔记都可以了，，
+如果作业有更新，则必须把更新的内容写入文档，没有更新文档的拒绝批改(:
+
+
+然后越早交作业的  老师会单独批改，一对一指导，超时交的作业可能没法即时批改。。。

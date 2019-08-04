@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.Title = "CommoditySearch";
+    IEnumerable<SelectListItem> FirstCategory = ViewBag.FirstCategory as IEnumerable<SelectListItem>;
+    IEnumerable<SelectListItem> SecondCategory = ViewBag.SecondCategory as IEnumerable<SelectListItem>;
+    IEnumerable<SelectListItem> ThirdCategory = ViewBag.ThirdCategory as IEnumerable<SelectListItem>;
+}
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by Title: @Html.TextBox("searchString", ViewBag.SearchString as string, new { @class = "form-control", @Style = "display:inline" })
+        @Html.DropDownList("firstCategory", FirstCategory)
+        @Html.DropDownList("secondCategory", SecondCategory)
+        @Html.DropDownList("thirdCategory", ThirdCategory)
+        @Html.Button("btnSearch", "查询")
+    </p>
+    <div id="searchPartialList">
+        @Html.Action("SearchPartialList", new { pageIndex = 1, orderBy = 0, searchString = "男装", firstCategory = -1, secondCategory = -1, thirdCategory = -1 })
+    </div>
+}
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            var optionUnSelect = "<option value='-1'>--请选择--</option>";
+
+            $("#firstCategory").on("change", function () {
+                if ($(this).val() == -1) {
+                    $("#secondCategory option").remove();
+                    $("#secondCategory").append(optionUnSelect);
+                    $("#thirdCategory option").remove();
+                    $("#thirdCategory").append(optionUnSelect);
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url: '/Third/CategoryDropdown',
+                        data: { id: $("#firstCategory").val() },
+                        datatype: "json",
+                        success: function (ajaxResult) {
+                            //var data = JSON.parse(ajaxResult);
+                            data = ajaxResult;
+                            if (data.Result == 1) {
+                                $("#secondCategory option").remove();
+                                for (var i = 0; i < data.RetValue.length; i++) {
+                                    if (i == 0)
+                                        $("#secondCategory").append(optionUnSelect);
+                                    else
+                                        $("#secondCategory").append("<option value='" + data.RetValue[i].Value + "'>" + data.RetValue[i].Text + "</option>");
+                                }
+                                $("#secondCategory").val(-1);
+                                $("#thirdCategory option").remove();
+                                $("#thirdCategory").append(optionUnSelect);
+                            }
+                            else {
+                                alert(data.PromptMsg);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(errorThrown);
+                        }
+                    });
+                }
+            });
+
+            $("#secondCategory").on("change", function () {
+                if ($(this).val() == -1) {
+                    $("#thirdCategory option").remove();
+                    $("#thirdCategory").append(optionUnSelect);
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url: '/Third/CategoryDropdown',
+                        data: { id: $("#secondCategory").val() },
+                        datatype: "json",
+                        success: function (ajaxResult) {
+                            //var data = JSON.parse(ajaxResult);
+                            data = ajaxResult;
+                            if (data.Result == 1) {
+                                $("#thirdCategory option").remove();
+                                for (var i = 0; i < data.RetValue.length; i++) {
+                                    if (i == 0)
+                                        $("#thirdCategory").append(optionUnSelect);
+                                    else
+                                        $("#thirdCategory").append("<option value='" + data.RetValue[i].Value + "'>" + data.RetValue[i].Text + "</option>");
+                                }
+                                $("#thirdCategory").val(-1);
+                            }
+                            else {
+                                alert(data.PromptMsg);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(errorThrown);
+                        }
+                    });
+                }
+            });
+
+            $("#btnSearch").on("click", function () {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("SearchPartialList")',
+                    data: { searchString: $("#searchString").val(), orderBy: 0, firstCategory: $("#firstCategory").val(), secondCategory: $("#secondCategory").val(), thirdCategory: $("#thirdCategory").val() },
+                    datatype: "json",
+                    success: function (data) {
+                        $('#searchPartialList').html(data);
+                        bindPageClick();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    }
+                });
+            });
+
+            function bindPageClick() {
+                $(".pagination li a").each(function (dom) {
+                    var href = $(this).attr("href");
+                    if (href) {
+                        $(this).attr("href", "javascript:void(0)");
+                        $(this).on("click", function () {
+                            $.ajax({
+                                type: "POST",
+                                url: href,
+                                data: { searchString: $("#searchString").val(), pageIndex: $(this).text(), firstCategory: $("#firstCategory").val(), secondCategory: $("#secondCategory").val(), thirdCategory: $("#thirdCategory").val() },
+                                datatype: "json",
+                                success: function (data) {
+                                    $('#searchPartialList').html(data);
+                                    bindPageClick();
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    alert(errorThrown);
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+            bindPageClick();
+        });
+    </script>
+}

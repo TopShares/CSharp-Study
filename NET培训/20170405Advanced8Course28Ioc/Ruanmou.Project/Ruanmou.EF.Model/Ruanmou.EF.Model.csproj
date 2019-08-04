@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0431E974-B2B9-462B-BA31-9DB50868F9AE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ruanmou.EF.Model</RootNamespace>
+    <AssemblyName>Ruanmou.EF.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Category.cs" />
+    <Compile Include="Company.cs" />
+    <Compile Include="Commodity.cs" />
+    <Compile Include="JD_Commodity_002.cs" />
+    <Compile Include="JD_Commodity_003.cs" />
+    <Compile Include="JD_Commodity_004.cs" />
+    <Compile Include="JD_Commodity_005.cs" />
+    <Compile Include="JD_Commodity_006.cs" />
+    <Compile Include="JD_Commodity_007.cs" />
+    <Compile Include="JD_Commodity_008.cs" />
+    <Compile Include="JD_Commodity_009.cs" />
+    <Compile Include="JD_Commodity_010.cs" />
+    <Compile Include="JD_Commodity_011.cs" />
+    <Compile Include="JD_Commodity_012.cs" />
+    <Compile Include="JD_Commodity_013.cs" />
+    <Compile Include="JD_Commodity_014.cs" />
+    <Compile Include="JD_Commodity_015.cs" />
+    <Compile Include="JD_Commodity_016.cs" />
+    <Compile Include="JD_Commodity_017.cs" />
+    <Compile Include="JD_Commodity_018.cs" />
+    <Compile Include="JD_Commodity_019.cs" />
+    <Compile Include="JD_Commodity_020.cs" />
+    <Compile Include="JD_Commodity_021.cs" />
+    <Compile Include="JD_Commodity_022.cs" />
+    <Compile Include="JD_Commodity_023.cs" />
+    <Compile Include="JD_Commodity_024.cs" />
+    <Compile Include="JD_Commodity_025.cs" />
+    <Compile Include="JD_Commodity_026.cs" />
+    <Compile Include="JD_Commodity_027.cs" />
+    <Compile Include="JD_Commodity_028.cs" />
+    <Compile Include="JD_Commodity_029.cs" />
+    <Compile Include="JD_Commodity_030.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="Context\JDContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserMenuMapping.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

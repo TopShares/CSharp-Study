@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+            enables a clean separation of concerns and gives you full control over markup
+            for enjoyable, agile development.
+        </p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Get more libraries</h2>
+        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Web Hosting</h2>
+        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>
+</div>
+
+<form method="post" action="/api/users/register?id=1">
+
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Test </h2>
+            <p><input type="text" id="txtId" name="id" /> </p>
+            <p><input type="button" id="btnGet1" value="Get1" />    <input type="button" id="btnGet2" value="Get2" />    <input type="button" id="btnGet3" value="Get3" /> <input type="button" id="btnGet4" value="Get4" /></p>
+
+            <p><input type="button" id="btnPost1" value="Post1" /> <input type="button" id="btnPost2" value="Post2" /> <input type="button" id="btnPost3" value="Post3" /></p>
+            <p><input type="button" id="btnPost4" value="Post4" /></p>
+            @*<p><input type="submit" id="btnPost" /> </p>*@
+        </div>
+
+    </div>
+    <script src="/Scripts/jquery-1.10.2.js"></script>
+    <script>
+        $(function () {
+            $("#btnGet1").on("click", function () {
+                $.ajax({ url: "/api/users", type: "get", data: { "userName": "Superman" }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnGet2").on("click", function () {
+                $.ajax({ url: "/api/users/GetUserByID", type: "get", data: { "id": $("#txtId").val() }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnGet3").on("click", function () {
+                $.ajax({ url: "/api/users", type: "get", data: { "userName": "Superman", "id": $("#txtId").val() }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnGet4").on("click", function () {
+                $.ajax({ url: "/api/users", type: "get", data: "", success: function (data) { alert(data); }, datatype: "json" });
+            });
+
+            $("#btnPost1").on("click", function () {
+                $.ajax({ url: "/api/users/RegisterNone", type: "post", success: function (data) { alert(data); }, datatype: "json" });
+            });
+            //$("#btnPost2").on("click", function () {
+            //    $.ajax({ url: "/api/users/Register", type: "post", data: { "": $("#txtId").val() }, success: function (data) { alert(data); }, datatype: "json" });
+            //});
+            $("#btnPost2").on("click", function () {
+                $.ajax({ url: "/api/users/Register", type: "post", data: { "id": $("#txtId").val() }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+            $("#btnPost3").on("click", function () {
+                $.ajax({ url: "/api/users/RegisterUser", type: "post", data: { "UserID": 1,"UserName":"Think","UserEmail":"57265177@qq.com" }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+
+            $("#btnPost4").on("click", function () {
+                var user = { "UserID": 1, "UserName": "Think", "UserEmail": "57265177@qq.com" };
+                var info = "this is muti model";
+                $.ajax({ url: "/api/users/RegisterObject", type: "post", data: { "User": user, "Info": info }, success: function (data) { alert(data); }, datatype: "json" });
+            });
+        });
+    </script>
+</form>

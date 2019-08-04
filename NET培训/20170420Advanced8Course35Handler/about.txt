@@ -1,0 +1,3 @@
+1 HttpHandler及扩展，自定义后缀，图片防盗链等
+2 MVC的RoutingModule,IRouteHandler、IHttpHandler
+3 MVC扩展路由，扩展httphandler

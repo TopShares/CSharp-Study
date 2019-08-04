@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9ee1ffef54bd4e72a0bcec7c9c804ac8" Name="Diagram1" >
+        <EntityTypeShape EntityType="ESTM.TB_DEPARTMENT" Width="1.5" PointX="0.75" PointY="1.5" />
+        <EntityTypeShape EntityType="ESTM.TB_MENU" Width="1.5" PointX="3" PointY="9.125" />
+        <EntityTypeShape EntityType="ESTM.TB_MENUROLE" Width="1.5" PointX="5.25" PointY="5.375" />
+        <EntityTypeShape EntityType="ESTM.TB_ROLE" Width="1.5" PointX="3" PointY="5.25" />
+        <EntityTypeShape EntityType="ESTM.TB_USERROLE" Width="1.5" PointX="5.25" PointY="1.5" />
+        <EntityTypeShape EntityType="ESTM.TB_USERS" Width="1.5" PointX="3" PointY="1" />
+        <AssociationConnector Association="ESTM.FK_TB_USERS_REFERENCE_TB_DEPAR" />
+        <AssociationConnector Association="ESTM.FK_TB_MENUR_REFERENCE_TB_MENU" />
+        <AssociationConnector Association="ESTM.FK_TB_MENUR_REFERENCE_TB_ROLE" />
+        <AssociationConnector Association="ESTM.FK_TB_USERR_REFERENCE_TB_ROLE" />
+        <AssociationConnector Association="ESTM.FK_TB_USERR_REFERENCE_TB_USERS" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,14 @@
+1 framework clr C# 版本关系，新语法
+2 .net framework core
+3 .net core多个demo
+
+
+
+VS2017企业版下载地址：https://www.visualstudio.com/zh-hans/thank-you-downloading-visual-studio/?sku=Enterprise&rel=15
+VS2017专业版下载地址：https://www.visualstudio.com/zh-hans/thank-you-downloading-visual-studio/?sku=Professional&rel=15
+
+Enterprise:
+NJVYC-BMHX2-G77MM-4XJMR-6Q8QF
+
+Professional:
+KBJFW-NXHK6-W4WJM-CRMQB-G3CDH

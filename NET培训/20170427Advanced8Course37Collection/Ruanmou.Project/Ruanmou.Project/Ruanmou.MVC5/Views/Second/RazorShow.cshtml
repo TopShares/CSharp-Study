@@ -1,0 +1,203 @@
+﻿@using Ruanmou.Web.Core.Extension;
+@{
+    ViewBag.Title = "RazorShow";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = null;
+}
+
+<h2>RazorShow</h2>
+
+<div class="row">
+    <!--Single Line-->
+    @{ string name = "Eleven"; string name2s = "一点半";}
+    <!--razor视图是先render到内存缓冲区，而不S是直接写到response输出流。-->
+    @{ Response.Write("Response Single Line : Name is " + name + "<br />");}
+    @{ ViewContext.Writer.Write("ViewContext Single Line : Name is " + name + "<br />");}
+    @{ <p>Single Line :HTML Name is  @name </p>    }
+    <!--Inline-->
+    Inline : Today is:@{DateTime.Now.ToString("yyyy-MM-dd");} <br />@*错误的；单行不能出现在行内*@
+    Inline : Today is:@DateTime.Now.ToString("yyyy-MM-dd")<br />@*正确行内*@
+    Inline : Name is @name <br />
+
+    <!--Multi-Line-->
+    @{
+        var age = 25;
+        Response.Write("Multi-Line : Age is " + age + "<br />");
+
+        string name3 = "yoyo";
+    }
+
+
+    @Html.Br()
+    @Html.Br()
+    @Html.Br()
+    @Html.Br()
+    @Html.Br()
+    <div class="row">
+        @if (1 > 2)
+        {
+            <p>1 > 2</p>
+        }
+        else
+        {
+            <p>1 < 2</p>
+        }
+        if and for
+        @for (int i = 0; i < 3; i++)
+        {
+            Response.Write(i + " <br />");
+        }
+
+        @Html.Br()
+        @Html.Br()
+        @Html.Br()
+        @Html.Br()
+    </div>
+    @{
+        var name1 = "haha";  /*后台代码*/
+        <p>var name2 = "yizi";</p> /*前台代码  html标签包括的*/
+        <a>123</a>
+        @*使用艾特+冒号*@
+        @:var name3 = ".net";<br />
+        <text>
+            var name4 = "阳光";<br />
+            var name5 = "6";
+        </text>
+    }
+
+
+
+    Link:
+    @Html.Br()
+    ActionLink:ActionLink用来生成HTML中的a标签，LinkText是链接显示出的文字，如果ActionLink的参数中给出Controller则链接指向对应的Controller下的Action。
+    @Html.Br() 如果没有给出Controller则指向当前页面对应的Controller下的Action。如果ActionLink的参数中给出要传递的参数，如id，则在链接的最后写出id值。
+    @Html.Br()
+    @base.Html.ActionLink("LinkText", "Index")
+    |||@Html.ActionLink("带控制器", "ActionName", "ControllerName")
+    |||@Html.ActionLink("带路由信息", "ActionName", new { id = 1, name = 3, age = 4, height = 5 })
+    |||<a href="/Html/ActionName/1?name=3&age=4&height=5">带路由信息</a>
+    |||@Html.ActionLink("链接", "action", new { id = 1, name = 3, age = 4, height = 5 }, new { @class = "classText", style = "width:200px", tt = "xxx" })
+    @Html.Br()
+    @Html.Link(@"http://www.baidu.com", "Try Me", "aaaa")
+    @Html.Br()
+    <a class="classText" href="/Home/Index/@DateTime.Now" style="width:200px" tt="xxx">Home</a>
+    @Html.Br()
+    @Html.Br()
+
+    RouteLink:RouteLink同样是用来生成HTML中的a标签的，但是其参数和ActionLink不同,LinkText依然是链接显示的文字，而链接的其他信息则包含在RouteLink的第二个参数中。
+    @Html.Br()这个参数是个Object，它的action属性表示指向的Action而controller属性表示指向的Controller。如果没有controller属性则指向当前Controller。id属性则为要传递的参数。
+    @Html.Br()
+    @Html.RouteLink("LinkText", new { action = "ActionName" })|||@Html.RouteLink("LinkText", new { action = "ActionName", controller = "ControllerName" })
+    |||@Html.RouteLink("LinkText", new { action = "ActionName", id = 1 })
+    @Html.Br()
+    @Html.Br()
+    @Html.Br()
+    @Html.Br()
+
+    @*@Html.Action("StrongType")*@
+
+    Input:
+    @Html.Br()
+    TextBox:
+    @Html.Br()
+    @Html.TextBox("NameId")
+    |||@Html.TextBox("NameId", "Value")
+    |||@Html.TextBox("NameId", "Value", new { @class = "classText", @style = "width:200px", @tt = "xxx" })
+    @Html.Br()
+
+    @Html.Hidden("NameId")
+    @Html.Br()
+    @Html.Hidden("NameId", "Value")
+    @Html.Br()
+    <br/>
+    @Html.Br()
+    @Html.Password("NameId")|||@Html.Password("NameId", "Value")
+    @Html.Br()
+    @Html.Br()
+
+    @Html.CheckBox("NameId", true)
+    @Html.Br()
+    @Html.CheckBox("NameId", false)
+    @Html.Br()
+    @Html.Br()
+
+
+    @Html.RadioButton("NameId", "Value", true)
+    @Html.Br()
+    @Html.RadioButton("NameId", "Value", false)
+    @Html.Br()
+    @Html.Br()
+
+    List:
+    @{
+        SelectListItem item;
+        List<SelectListItem> list = new List<SelectListItem>();
+        for (int i = 1; i < 5; i++)
+        {
+            item = new SelectListItem();
+            item.Text = "Text" + i;
+            item.Value = "Value" + i;
+            item.Selected = (i == 2);
+            list.Add(item);
+        }
+    }
+
+    @Html.DropDownList("NameId", list)
+    @Html.Br()
+
+    @Html.ListBox("NameId", list)
+    @Html.Br()
+    @Html.Br()
+
+
+    @using (Html.BeginForm("PostData", "Html", FormMethod.Get))
+    {
+        @Html.TextBox("UserNameGet")
+        @Html.Password("PasswordGet")
+        <input type="submit" value="SubmitButton" />
+    }
+    @Html.Br()
+    @Html.Br()
+    @{Html.BeginForm("PostData", "Html", FormMethod.Post);}
+    @Html.TextBox("UserNamePost")
+    @Html.Password("PasswordPost")
+    <input type="submit" value="SubmitButton" />
+    @{Html.EndForm();}
+
+    @Html.Br()
+    @Html.Br()
+    TagBuilder:
+
+    @Html.Submit("SubmitButton")
+
+
+
+    @Html.Image("http://ruanmou.net/image/carousel1.jpg", "冲杯三鹿给党喝", "ya丶丨誓言ぃ ",
+new { @class = "classText", @style = "width:200px", @tt = "xxx" }, "default")
+
+
+
+
+
+
+    @Html.Br()
+    <p>Html.RenderPartial 在指定位置添加一个viewS，返回void 需要放入大括号</p>
+    @{Html.RenderPartial("PartialPage", "这里是Html.RenderPartial");}
+    @Html.Br()
+    <p>Html.Partial 返回的是字符串，放入当前位置</p>
+    @Html.Partial("PartialPage", "这里是Html.Partial")
+
+    @Html.Br()
+    <p>Html.Action 返回的是字符串，放入当前位置,需要经过action的处理</p>
+    @Html.Action("Render", "Second", new { name = "Html.Action" })
+
+    @Html.Br()
+    <p>Html.RenderAction 在指定位置添加一个view，返回void 需要放入大括号,需要经过action的处理</p>
+    @{Html.RenderAction("Render", "Second", new { name = "Html.RenderAction" });}
+</div>
+<div class="row">
+    @section SecondPart{
+        这里是母板页的第二部分
+    }
+
+</div>

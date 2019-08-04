@@ -1,0 +1,49 @@
+﻿<configuration>
+  <configSections>
+    <section name="unity" type="Microsoft.Practices.Unity.Configuration.UnityConfigurationSection, Microsoft.Practices.Unity.Configuration"/>
+  </configSections>
+  <unity>
+    <sectionExtension type="Microsoft.Practices.Unity.InterceptionExtension.Configuration.InterceptionConfigurationExtension, Microsoft.Practices.Unity.Interception.Configuration"/>
+    <containers>
+      <container name="ruanmouContainer">
+        <extension type="Interception"/>
+        <register type="System.Data.Entity.DbContext, EntityFramework" mapTo="Ruanmou.EF.Model.JDContext, Ruanmou.EF.Model"/>
+        <register type="Ruanmou.Bussiness.Interface.IBaseService,Ruanmou.Bussiness.Interface" mapTo="Ruanmou.Bussiness.Service.BaseService, Ruanmou.Bussiness.Service"/>
+        <register type="Ruanmou.Bussiness.Interface.IUserCompanyService,Ruanmou.Bussiness.Interface" mapTo="Ruanmou.Bussiness.Service.UserCompanyService, Ruanmou.Bussiness.Service"/>
+        <register type="Ruanmou.Bussiness.Interface.ICommodityService,Ruanmou.Bussiness.Interface" mapTo="Ruanmou.Bussiness.Service.CommodityService, Ruanmou.Bussiness.Service"/>     
+        <register type="Ruanmou.Bussiness.Interface.IUserMenuService,Ruanmou.Bussiness.Interface" mapTo="Ruanmou.Bussiness.Service.UserMenuService, Ruanmou.Bussiness.Service">
+          <interceptor type="InterfaceInterceptor"/>
+          <interceptionBehavior type="Ruanmou.Framework.LogBehavior, Ruanmou.Framework"/>
+          <lifetime type="transient" />
+          <constructor>
+            <param name="dbContext" type="System.Data.Entity.DbContext, EntityFramework"/>
+            <param name="id" type="System.Int32, mscorlib" value="3"/>
+          </constructor>
+        </register>
+      </container>
+
+      <container name="testContainer">
+        <register type="Ruanmou.Interface.IPhone,Ruanmou.Interface" mapTo="Ruanmou.Service.ApplePhone, Ruanmou.Service"/>
+        <register type="Ruanmou.Interface.IMicrophone, Ruanmou.Interface" mapTo="Ruanmou.Service.Microphone, Ruanmou.Service"/>
+        <register type="Ruanmou.Interface.IHeadphone, Ruanmou.Interface" mapTo="Ruanmou.Service.Headphone, Ruanmou.Service"/>
+        <register type="Ruanmou.Interface.IPower, Ruanmou.Interface" mapTo="Ruanmou.Service.Power, Ruanmou.Service"/>
+      </container>
+
+      <container name="testContainerAOP">
+        <extension type="Interception"/>
+        <register type="Ruanmou.Interface.IPhone,Ruanmou.Interface" mapTo="Ruanmou.Service.ApplePhone, Ruanmou.Service">
+          <interceptor type="InterfaceInterceptor"/>
+          <interceptionBehavior type="Ruanmou.Project.LogBehavior, Ruanmou.Project"/>
+          <lifetime type="transient" />
+          <constructor></constructor>
+        </register>
+
+        <register type="Ruanmou.Interface.IMicrophone, Ruanmou.Interface" mapTo="Ruanmou.Service.Microphone, Ruanmou.Service"/>
+        <register type="Ruanmou.Interface.IHeadphone, Ruanmou.Interface" mapTo="Ruanmou.Service.Headphone, Ruanmou.Service"/>
+        <register type="Ruanmou.Interface.IPower, Ruanmou.Interface" mapTo="Ruanmou.Service.Power, Ruanmou.Service"/>
+        <register type="Ruanmou.Interface.IPhone,Ruanmou.Interface" mapTo="Ruanmou.Service.AndroidPhone, Ruanmou.Service" name="android"/>
+        <register type="Ruanmou.Interface.IPhone,Ruanmou.Interface" mapTo="Ruanmou.Service.ApplePhone, Ruanmou.Service" name="apple"/>
+      </container>
+    </containers>
+  </unity>
+</configuration>

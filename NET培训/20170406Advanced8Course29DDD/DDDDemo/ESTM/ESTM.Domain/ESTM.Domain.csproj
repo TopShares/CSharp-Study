@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9AFE0FD4-737A-4ACC-A382-A9DD14216EAA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ESTM.Domain</RootNamespace>
+    <AssemblyName>ESTM.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseModel\AggregateRoot.cs" />
+    <Compile Include="BaseModel\IAggregateRoot.cs" />
+    <Compile Include="BaseModel\IEntity.cs" />
+    <Compile Include="ESTM.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ESTM.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ESTM.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ESTM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ESTM.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ESTM.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="IRepositories\IMenuRepository.cs" />
+    <Compile Include="IRepositories\IRepository.cs" />
+    <Compile Include="IRepositories\IRoleRepository.cs" />
+    <Compile Include="IRepositories\IDepartmentRepository.cs" />
+    <Compile Include="IRepositories\IUnitOfWork.cs" />
+    <Compile Include="IRepositories\IUnitOfWorkRepositoryContext.cs" />
+    <Compile Include="IRepositories\IUserRepository.cs" />
+    <Compile Include="IRepositories\IUserRoleRepository.cs" />
+    <Compile Include="Model\ESTMContainer.cs" />
+    <Compile Include="Model\TB_DEPARTMENT.cs" />
+    <Compile Include="Model\TB_MENU.cs" />
+    <Compile Include="Model\TB_MENUROLE.cs" />
+    <Compile Include="Model\TB_ROLE.cs" />
+    <Compile Include="Model\TB_USERROLE.cs" />
+    <Compile Include="Model\TB_USERS.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IPowerManagerDomainService.cs" />
+    <Compile Include="Services\PowerManagerDomainService.cs" />
+    <Compile Include="TB_DEPARTMENT.cs">
+      <DependentUpon>ESTM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_MENU.cs">
+      <DependentUpon>ESTM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_MENUROLE.cs">
+      <DependentUpon>ESTM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_ROLE.cs">
+      <DependentUpon>ESTM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_USERROLE.cs">
+      <DependentUpon>ESTM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_USERS.cs">
+      <DependentUpon>ESTM.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EntityDeploy Include="ESTM.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ESTM.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="ESTM.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ESTM.Context.cs</LastGenOutput>
+      <DependentUpon>ESTM.edmx</DependentUpon>
+    </None>
+    <None Include="ESTM.edmx.diagram">
+      <DependentUpon>ESTM.edmx</DependentUpon>
+    </None>
+    <None Include="ESTM.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ESTM.cs</LastGenOutput>
+      <DependentUpon>ESTM.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,8 @@
+1 什么是领域驱动设计
+2 理解领域、拆分领域、细化领域
+3 领域模型设计
+4 EF访问基类，多种事务的实现方式
+5 作业部署
+
+来自Emrys的优化
+http://www.cnblogs.com/emrys5/p/expression_trans_model.html

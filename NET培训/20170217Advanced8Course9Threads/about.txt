@@ -1,0 +1,5 @@
+1 task：waitall  waitany  continueWhenAny  continueWhenAll  
+2 并行运算Parallel
+3 异常处理、线程取消、多线程的临时变量和lock
+4 Await/Async
+5 作业

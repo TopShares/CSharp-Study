@@ -1,0 +1,11 @@
+﻿@using Ruanmou.Web.Core.Extension;
+@{
+    ViewBag.Title = "ViewShow";
+}
+
+<h2>ViewShow2</h2>
+<div>当前View类型:@this.GetType().AssemblyQualifiedName</div>
+<div>BuildManager:@ViewBag.ViewClass</div>
+<div>当前加载的View程序集:</div>
+@Html.ListViewAssemblies()
+

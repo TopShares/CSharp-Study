@@ -1,0 +1,6 @@
+1 多线程的特点：不卡主线程、速度快、无序性
+2 thread：线程等待，回调，前台线程/后台线程， 
+3 threadpool：线程池使用，设置线程池，ManualResetEvent
+4 Task初步接触
+
+

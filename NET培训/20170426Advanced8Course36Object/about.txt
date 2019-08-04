@@ -1,0 +1,4 @@
+1 MVC的Controller激活、Action调用
+2 View的激活使用
+3 理解各种ActionResult  扩展XmlResult  JsonResult JavaScriptResult  EmptyResult
+4 HttpContext Response，Request，Application，Server，Session

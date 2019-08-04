@@ -1,0 +1,11 @@
+https://github.com/dmajkic/redis/downloads 下载地址
+
+管理员模式打开控制台(配置成自己的路径)
+win10非管理员也可以
+D:\ruanmou\online8\20170310Advanced8Course20Redis\redis-2.4.5-win32-win64\64bit\redis-server.exe D:\ruanmou\online8\20170310Advanced8Course20Redis\redis-2.4.5-win32-win64\64bit\redis.conf 
+
+可以打开redis-cli.exe尝试使用，
+输入：set key value  
+结果：OK
+输入：get key  
+结果：value

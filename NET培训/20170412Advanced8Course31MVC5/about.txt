@@ -1,0 +1,6 @@
+1 数据传值的多种方式
+2 razor语法，html扩展控件，layout,partialView 
+3 ioc和mvc的结合，工厂的创建和Bussiness初始化
+4 WCF搜索引擎的封装调用
+
+

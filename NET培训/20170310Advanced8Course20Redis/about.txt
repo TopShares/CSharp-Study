@@ -1,0 +1,7 @@
+1 Cache和NoSql
+2 String
+3 Hashtable
+4 Set
+5 ZSet
+6 List
+7 分布式异步队列

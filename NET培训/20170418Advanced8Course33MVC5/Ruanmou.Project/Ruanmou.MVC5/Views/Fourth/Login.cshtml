@@ -1,0 +1,57 @@
+﻿@model Ruanmou.Web.Core.Models.CurrentUser
+
+@{
+    ViewBag.Title = "登录";
+}
+
+<h2>@ViewBag.Title。</h2>
+<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Fourth", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <h4>使用本地帐户登录。</h4>
+                <hr />
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("VerifyCode", "VerifyCode", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBox("verify", "", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @*@Html.Image("/Handler/VerifyCode.ashx", "验证码图片", "点击刷新", new { onclick = "refresh(this)" }, "img")*@
+                        @*@Html.Image("/self/1.verify", "验证码图片", "点击刷新", new { onclick = "refresh(this)" }, "img")*@
+                        @*@Html.Image("/Fourth/VerifyCode", "验证码图片", "点击刷新", new { onclick = "refresh(this)" }, "img")*@
+                        @Html.Image("/Fourth/Verify", "验证码图片", "点击刷新", new { onclick = "refresh(this)" }, "img")
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="登录" class="btn btn-default" />
+                        @Html.ValidationMessage("failed")
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+<script>
+    function refresh(obj) {
+        $(obj).attr("src", "/Fourth/VerifyCode?random=" + Math.random());
+    }
+</script>
