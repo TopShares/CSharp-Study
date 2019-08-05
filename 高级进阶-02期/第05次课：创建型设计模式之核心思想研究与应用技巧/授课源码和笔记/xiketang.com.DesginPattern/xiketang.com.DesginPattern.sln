@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2046
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xiketang.com.DesginPattern", "xiketang.com.DesginPattern\xiketang.com.DesginPattern.csproj", "{5841B93C-3E35-4D26-822E-180D0324337A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.类的6大关系", "1.类的6大关系", "{A2CE048B-A94A-4F7C-A286-25BEC814DEA4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.单利模式", "2.单利模式", "{49E8187F-2306-4FF3-94F5-06712DFCBD5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingletonDesginPattern", "SingletonDesginPattern\SingletonDesginPattern.csproj", "{CE6FACA8-C457-443B-B670-534D4AA3604D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5841B93C-3E35-4D26-822E-180D0324337A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5841B93C-3E35-4D26-822E-180D0324337A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5841B93C-3E35-4D26-822E-180D0324337A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5841B93C-3E35-4D26-822E-180D0324337A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE6FACA8-C457-443B-B670-534D4AA3604D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE6FACA8-C457-443B-B670-534D4AA3604D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE6FACA8-C457-443B-B670-534D4AA3604D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE6FACA8-C457-443B-B670-534D4AA3604D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5841B93C-3E35-4D26-822E-180D0324337A} = {A2CE048B-A94A-4F7C-A286-25BEC814DEA4}
+		{CE6FACA8-C457-443B-B670-534D4AA3604D} = {49E8187F-2306-4FF3-94F5-06712DFCBD5F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BD10B42E-EED5-4ACC-9256-20A57B632239}
+	EndGlobalSection
+EndGlobal
