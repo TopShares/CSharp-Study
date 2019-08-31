@@ -1,10 +1,10 @@
-Ò»£º¹¹ÔìÕßÄ£Ê½
+ä¸€ï¼šæž„é€ è€…æ¨¡å¼
 
-xmind + Ô´Âë½âÎö
+xmind + æºç è§£æž
 
 
 
-ÓÃÓÚjsonÎÄ¼þÖÐ£¬¶ÁÈ¡¸÷ÏîÅäÖÃ¡£¡£¡£
+ç”¨äºŽjsonæ–‡ä»¶ä¸­ï¼Œè¯»å–å„é¡¹é…ç½®ã€‚ã€‚ã€‚
 
         public override void Load(Stream stream)
         {
@@ -54,22 +54,22 @@ xmind + Ô´Âë½âÎö
 
 
 
-´ó¼ÒÒ»¶¨ÒªÀí½âÀïÃæµÄ£º Provider µÄLoad º¯Êý ºÍ DataÊôÐÔ£¬£¬ÒòÎªLoadµÄÔðÈÎ¾ÍÊÇ£º ½«jsonÎÄ¼þÓ³Éäµ½ DataÊôÐÔÀïÃæÈ¥¡£¡£¡£¡£
+å¤§å®¶ä¸€å®šè¦ç†è§£é‡Œé¢çš„ï¼š Provider çš„Load å‡½æ•° å’Œ Dataå±žæ€§ï¼Œï¼Œå› ä¸ºLoadçš„è´£ä»»å°±æ˜¯ï¼š å°†jsonæ–‡ä»¶æ˜ å°„åˆ° Dataå±žæ€§é‡Œé¢åŽ»ã€‚ã€‚ã€‚ã€‚
 
 
 
 
 
-¶þ£ºÈçºÎ×Ô¶¨Òå
+äºŒï¼šå¦‚ä½•è‡ªå®šä¹‰
 
-ÊµÏÖÒ»¸öPropertiesÎÄ¼þµÄ½âÎö¡£
+å®žçŽ°ä¸€ä¸ªPropertiesæ–‡ä»¶çš„è§£æžã€‚
 
-java¡£
+javaã€‚
 
 port=3306
 host=127.0.0.1
 
-Ö»ÐèÒª×Ô¶¨Òå 3¸öÊµÏÖÀà
+åªéœ€è¦è‡ªå®šä¹‰ 3ä¸ªå®žçŽ°ç±»
 
 1. PropertiesConfigurationExtensions  => configurationBuilder.Add
 2. PropertiesConfigurationProvider : ConfigurationProvider

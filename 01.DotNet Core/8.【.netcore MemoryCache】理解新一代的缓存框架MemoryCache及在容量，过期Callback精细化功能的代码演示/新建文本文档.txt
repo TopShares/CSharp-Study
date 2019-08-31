@@ -1,30 +1,30 @@
-Ò»£º.netcore »º´æ MemoryCache
+ä¸€ï¼š.netcore ç¼“å­˜ MemoryCache
 
-.netcore¶ÔMemoryCache½øÐÐÁËÖØÐÂÉè¼Æ£¬×öÁËÒ»Ð©¾«Ï¸»¯µÄ¿ØÖÆ£¬Öð½¥Ïñguava£¬ehcache¿¿Â£,Ôö¼ÓÁË»º´æÏµÍ³Ó¦¸ÃÓÐµÄ¹¦ÄÜ¡£¡£
+.netcoreå¯¹MemoryCacheè¿›è¡Œäº†é‡æ–°è®¾è®¡ï¼Œåšäº†ä¸€äº›ç²¾ç»†åŒ–çš„æŽ§åˆ¶ï¼Œé€æ¸åƒguavaï¼Œehcacheé æ‹¢,å¢žåŠ äº†ç¼“å­˜ç³»ç»Ÿåº”è¯¥æœ‰çš„åŠŸèƒ½ã€‚ã€‚
 
 
-¡£net framework£º
+ã€‚net frameworkï¼š
 
-¡¶1¡·¾ø¶ÔÊ±¼äµÄ¹ýÆÚ¡£
-¡¶2¡·»¬¶¯Ê±¼äµÄ¹ýÆÚ¡£
+ã€Š1ã€‹ç»å¯¹æ—¶é—´çš„è¿‡æœŸã€‚
+ã€Š2ã€‹æ»‘åŠ¨æ—¶é—´çš„è¿‡æœŸã€‚
 
 
 .net core: 
 
-1. »º´æÈÝÁ¿¿ØÖÆ¡£
+1. ç¼“å­˜å®¹é‡æŽ§åˆ¶ã€‚
 
    limitsize: 100
    itemsize: 1
 
-   netcoreÖÐµÄsizeÃ»ÓÐµ¥Î»£¬Ö»ÊÇÒ»¸öÊý×ÖµÄÀÛ»ý¡£
+   netcoreä¸­çš„sizeæ²¡æœ‰å•ä½ï¼Œåªæ˜¯ä¸€ä¸ªæ•°å­—çš„ç´¯ç§¯ã€‚
 
-   <1> sizeµÄ¿ØÖÆ
+   <1> sizeçš„æŽ§åˆ¶
 
        limitsize:100 
        itemsize:1
 
 
-            //cacheµÄ×î´óÏÞÖÆÊÇ£º100
+            //cacheçš„æœ€å¤§é™åˆ¶æ˜¯ï¼š100
             MemoryCache memoryCache = new MemoryCache(new MemoryCacheOptions()
             {
                 SizeLimit = 100
@@ -43,32 +43,32 @@
 
 
 
-       ÉÏÃæµÄ ÅäÖÃ¿ÉÒÔ±£Ö¤ÄãµÄcacheÖÐÖ»ÄÜ´æÔÚ100¸ökey¡£¡£¡£
+       ä¸Šé¢çš„ é…ç½®å¯ä»¥ä¿è¯ä½ çš„cacheä¸­åªèƒ½å­˜åœ¨100ä¸ªkeyã€‚ã€‚ã€‚
 
-  <2> ÈÝÁ¿µÄ¿ØÖÆ
+  <2> å®¹é‡çš„æŽ§åˆ¶
 
        limitsize:100 
        itemsize:(value).length 
 
-      ¼òµ¥µÄÈÝÁ¿ÊµÏÖ¡£
+      ç®€å•çš„å®¹é‡å®žçŽ°ã€‚
 
       Size = i.ToString().Length
 
 
-2. »º´æ¹ýÆÚ»Øµ÷Í¨Öª
+2. ç¼“å­˜è¿‡æœŸå›žè°ƒé€šçŸ¥
 
-   ¡¶1¡·±»¶¯¹ýÆÚ  
+   ã€Š1ã€‹è¢«åŠ¨è¿‡æœŸ  
 
-        ÉèÖÃ5sÖ®ºó£¬´¥·¢»Øµ÷º¯Êý¡£
+        è®¾ç½®5sä¹‹åŽï¼Œè§¦å‘å›žè°ƒå‡½æ•°ã€‚
 
-	            //cacheµÄ×î´óÏÞÖÆÊÇ£º100
+	            //cacheçš„æœ€å¤§é™åˆ¶æ˜¯ï¼š100
             MemoryCache memoryCache = new MemoryCache(new MemoryCacheOptions()
             {
             });
 
             var cacheOptions = new MemoryCacheEntryOptions()
             {
-                AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(5)  //2s¹ýÆÚ
+                AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(5)  //2sè¿‡æœŸ
             };
 
             cacheOptions.RegisterPostEvictionCallback((key, value, reason, obj) =>
@@ -83,10 +83,10 @@
                 memoryCache.Get("key");
             }
 
-   ¡¶2¡·Ö÷¶¯¹ýÆÚ
+   ã€Š2ã€‹ä¸»åŠ¨è¿‡æœŸ
 
         
-	            //cacheµÄ×î´óÏÞÖÆÊÇ£º100
+	            //cacheçš„æœ€å¤§é™åˆ¶æ˜¯ï¼š100
             MemoryCache memoryCache = new MemoryCache(new MemoryCacheOptions()
             {
             });
@@ -95,7 +95,7 @@
 
             var cacheOptions = new MemoryCacheEntryOptions()
             {
-                AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(10)  //10s¹ýÆÚ
+                AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(10)  //10sè¿‡æœŸ
             };
 
             cacheOptions.RegisterPostEvictionCallback((key, value, reason, obj) =>
@@ -115,15 +115,15 @@
         
 
 
-3. Ôö¼ÓÒ»Ð©Ô­×ÓÐÔ²Ù×÷  GetOrCreate¡£
+3. å¢žåŠ ä¸€äº›åŽŸå­æ€§æ“ä½œ  GetOrCreateã€‚
 
     
 
-4. »º´æÏîÓÅÏÈ¼¶Éè¶¨¡£
+4. ç¼“å­˜é¡¹ä¼˜å…ˆçº§è®¾å®šã€‚
 
-   CacheItem ¶¼¿ÉÒÔÅäÖÃÒ»¸öÓÅÏÈ¼¶¡£¡£
+   CacheItem éƒ½å¯ä»¥é…ç½®ä¸€ä¸ªä¼˜å…ˆçº§ã€‚ã€‚
 
-5. »º´æÑ¹Ëõ   £¨20%£©
+5. ç¼“å­˜åŽ‹ç¼©   ï¼ˆ20%ï¼‰
 
 
         public void Compact(double percentage)

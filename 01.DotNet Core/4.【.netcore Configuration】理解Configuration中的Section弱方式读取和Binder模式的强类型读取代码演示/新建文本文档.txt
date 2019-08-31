@@ -1,9 +1,9 @@
 
-Ò»£º¶àÑù»¯µÄÎ¬¶È¶ÁÈ¡½éÉÜ
+ä¸€ï¼šå¤šæ ·åŒ–çš„ç»´åº¦è¯»å–ä»‹ç»
 
-1. ÊµÓÃ×î¶àµÄÄ£Ê½ Json£¬»·¾³±äÁ¿¡£
+1. å®ç”¨æœ€å¤šçš„æ¨¡å¼ Jsonï¼Œç¯å¢ƒå˜é‡ã€‚
 
-2. ÎÊÌâÌá³ö 
+2. é—®é¢˜æå‡º 
 {
     mysql:{
        "host":"192.168.23.1",
@@ -12,14 +12,14 @@
     "ids": [ 10, 20, 30, 40 ]
 }
 
-ÈçºÎ¶ÁÈ¡idsÖĞµÄÊı¾İ£¬ÈçºÎ¶àÑù»¯µÄ¶ÁÈ¡host£¬portÄØ£¿
+å¦‚ä½•è¯»å–idsä¸­çš„æ•°æ®ï¼Œå¦‚ä½•å¤šæ ·åŒ–çš„è¯»å–hostï¼Œportå‘¢ï¼Ÿ
 
 
 
 
-3. ÈõÀàĞÍ·½Ê½¶ÁÈ¡
+3. å¼±ç±»å‹æ–¹å¼è¯»å–
 
-<1>:  ':'ÔËËã·û  mysql:host
+<1>:  ':'è¿ç®—ç¬¦  mysql:host
 
             IConfiguration configuration = new ConfigurationBuilder().SetBasePath(Environment.CurrentDirectory)
                                                   .AddJsonFile($"appsettings.json", optional: true, reloadOnChange: true)
@@ -42,7 +42,7 @@
     ]
 }
 
-<2> GetSection £¨²»Í¬µÄÈË£¬²»Í¬µÄÊ¹ÓÃÏ°¹ß£© getSection("mysql")["host"]
+<2> GetSection ï¼ˆä¸åŒçš„äººï¼Œä¸åŒçš„ä½¿ç”¨ä¹ æƒ¯ï¼‰ getSection("mysql")["host"]
 
 
             //var info = configuration.GetSection("shopidlist").GetSection("1").GetSection("entid").Value;
@@ -56,7 +56,7 @@
         }
 
 
-3. Ç¿ÀàĞÍ·½Ê½¶ÁÈ¡ :   Microsoft.Extensions.Configuration.Binder
+3. å¼ºç±»å‹æ–¹å¼è¯»å– :   Microsoft.Extensions.Configuration.Binder
 
 
 <1> GetValue
@@ -74,16 +74,16 @@
             return defaultValue;
         }
 
-<2> ÅäÖÃÓ³ÉäÎªÊµÌåÀàBind,Get<T>
+<2> é…ç½®æ˜ å°„ä¸ºå®ä½“ç±»Bind,Get<T>
 
             Rootobject rootobject = new Rootobject();
 
             configuration.Bind(rootobject);
 
 
-<3> Bind ºÍ Get<T>µÄÇø±ğ
+<3> Bind å’Œ Get<T>çš„åŒºåˆ«
 
-ÆäÊµÖ»ÊÇÊ¹ÓÃÉÏµÄ²î±ğ¡£¡£¡£instance.GetType()
+å…¶å®åªæ˜¯ä½¿ç”¨ä¸Šçš„å·®åˆ«ã€‚ã€‚ã€‚instance.GetType()
 
 
         public static void Bind(this IConfiguration configuration, object instance, Action<BinderOptions> configureOptions)
@@ -138,7 +138,7 @@
         }
 
 
-¡¶Get<T>¡·  typeof(T)
+ã€ŠGet<T>ã€‹  typeof(T)
 
         public static object Get(this IConfiguration configuration, Type type, Action<BinderOptions> configureOptions)
         {

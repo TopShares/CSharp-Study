@@ -1,9 +1,9 @@
-һ��AppConfig ���׶ˡ�
+一：AppConfig 【弊端】
 
 1. Console (AppConfig)
    Asp.Net (WebConfig)
 
-<1> xml��ʽ�ġ����� ���޷�֧��������ʽ�� ��ʽ��һ���޷�֧�ֶ�����Դ��
+<1> xml格式的。。。 （无法支持其他格式） 格式单一，无法支持多数据源。
 
   <appSettings>
     <add key="username" value="jack"/>
@@ -13,7 +13,7 @@
   </connectionStrings>
 
  
-  ��һ���� json��xml��ini��memory��command�� env����
+  新一代： json，xml，ini，memory，command， env。。
 
 
 Microsoft.Extensions.Configuration
@@ -23,10 +23,10 @@ Microsoft.Extensions.Configuration
 
 
 
-<2> ������Ϣkeyֻ��һά�����á�
+<2> 配置信息key只能一维化配置。
 
 
-��һ��������ϵͳ֧�ֲ㼶��ϵ��
+新一代的配置系统支持层级关系：
 {
   "username": "jack",
   "mysql": {
@@ -38,13 +38,13 @@ Microsoft.Extensions.Configuration
 
  
 
-<3> ��ܵĻ�����Ϣ �� Ӧ�ó��������������һ�顣
+<3> 框架的基础信息 和 应用程序配置是耦合在一块。
 
 
-�Զ��׼�����ȫ�����ˡ���
+显而易见，完全解耦了。。
 
 
-<4> �޷�ʹ�ö໷���汾��������
+<4> 无法使用多环境版本。。。。
 
     
     Development.
@@ -53,12 +53,12 @@ Microsoft.Extensions.Configuration
     Production.
 
 
-��һ��������ϵͳ������ͨ��������������ȡ��ͬ���ļ�������
+新一代的配置系统：可以通过环境变量来获取不同的文件。。。
 
 
-<5> ����ʵ�����õ��ȼ��أ�û��watch���ƣ�
+<5> 很难实现配置的热加载（没有watch机制）
 
-reLoadchange �������þͿ����ˡ�����
+reLoadchange 参数配置就可以了。。。
 
 
 using Microsoft.Extensions.Configuration;
@@ -99,13 +99,13 @@ namespace ConsoleApp1
 
 
 
-������һ��������ϵͳ��ν��н����
+二：新一代的配置系统如何进行解决的
 
 
-��������������ȼ�������
+三：多个变量优先级的问题
 
 
-˭�ں��棬��˭Ϊ׼������
+谁在后面，以谁为准。。。
 
 
 
