@@ -1,0 +1,108 @@
+
+一：数据结构
+
+1. 数据结构的选择，我们需要场景。
+
+2. 不同的数据结构有不同的复杂度，也就是说适应不同的场景。
+
+   <1> 线性结构：Stack，Queue, List,   Dictionary, HashSet
+   
+   List： 索引的查找的复杂度为O(1)
+          按值查找的复杂度为O（N）
+	  删除的复杂度 O（N)
+          插入：       O(N）      因为涉及到大量的元素移动。。。
+
+	  复杂度：讲究的是最坏情况下的时间复杂度【空间复杂度】
+
+   Queue: 受限的线性表，一端进入，另一端出。
+
+          Enqueue： 进入队列
+	  Dequeue： 出队列
+  
+   Stack：受限的线性表，一端进，一端出。
+
+        stack.Push(1) 推入队列
+
+        stack.Pop()   弹出队列
+
+  
+  HashSet：它的高明之处在于有一个“hashFunc”函数，这个函数用于计算槽位。。。
+
+           查找复杂度：	   O（1）
+	   删除复杂度：    O（1）
+
+
+给一个测试，看看List和HashSet 按值查找的时间复杂度，到底有多大的区别。
+
+
+public class Class1
+{
+    static void Main(string[] args)
+    {
+        //Queue queue = new Queue();
+
+        //queue.Enqueue(1);
+
+        //queue.Dequeue();
+
+        //Stack stack = new Stack();
+
+        //stack.Push(1);
+
+        //stack.Pop();
+
+        List<string> list = new List<string>();
+
+        HashSet<string> hashset = new HashSet<string>();
+
+        //给一个测试 1000W
+        for (int i = 0; i <= 10000000; i++)
+        {
+            list.Add(i.ToString());
+
+            list.Add(i.ToString());
+        }
+
+        Stopwatch watch = Stopwatch.StartNew();
+
+        var single = list.Contains("10000000");
+
+        watch.Stop();
+
+        Stopwatch watch2 = Stopwatch.StartNew();
+
+        var single2=hashset.Contains("10000000");
+
+        watch2.Stop();
+
+        Console.WriteLine("{0}  {1}",watch.Elapsed,watch2.Elapsed);
+
+    }
+}
+
+Dictionary： 是一个比hashset多一个value的字典。。。它的key即使一个hashset。。。。
+
+        Dictionary<int, int> dictionary = new Dictionary<int, int>();
+
+        dictionary.Add(1, 10);
+
+        dictionary.Add(2, 20);
+
+        dictionary.ContainsKey(2);   // HashSet Contains 复杂度是一样的。。。。
+
+        dictionary.ContainsValue(2);  // 复杂度就变成了O（N)
+
+
+<2> 树形结构  SortDictionary 【红黑树】 认为是树种难度最高之一。。。。。
+
+    SortDictionary 比 Dictionary多了一个排序的功能。。。。
+
+    当然呢，是有损失的。。。
+
+    1. SortDictionary 的查找复杂度已经不是O（1），而是LogN
+
+    2. SortDictionary 的范围查找的它的复杂度 logN +  M ,  (M: 返回的最终数据的个数）    
+    
+                       那么Dictionary的范围查找的时间复杂度是O(N)。
+
+总结：数据结构没有绝对的好，或者坏，而是场景。什么场景有什么数据结构。。。

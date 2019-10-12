@@ -1,0 +1,85 @@
+
+一：linq to Sql
+
+1. 在前面的课程中，我说过了Linq to Object。。。那时候我们的数据都是内存中的数据，而我们直接从Object中拿去数据，现在呢，，，，
+
+   我们可以直接从SqlServer中去拿。。。
+
+2. linq to sql 其实是一个ORM框架，将以前的弱类型转换为强类型。Nhibernate 这个也是第三方的ORM框架。
+
+
+二：现在我们来见证一下ORM的威力
+
+访问数据库必备的一个链接：原来在apconfig里面就已经给我们生成好了：
+
+<connectionStrings>
+        <add name="Mytest.Properties.Settings.TestConnectionString" connectionString="Data Source=.;Initial Catalog=Test;Integrated Security=True"
+            providerName="System.Data.SqlClient" />
+    </connectionStrings>
+
+
+操作步骤： 提交数据表修改  => 提交数据库修改
+
+
+1. Insert操作
+
+        MyDatabaseDataContext context = new MyDatabaseDataContext();
+
+        var person = new Person()
+        {
+            Name = "test",
+            Age = 80
+        };
+
+        //提交表修改
+        context.Person.InsertOnSubmit(person);
+
+        //提交数据库修改
+        context.SubmitChanges();   
+
+
+2. Update操作
+
+        var person = context.Person.FirstOrDefault(i => i.Name == "test");
+
+        if (person != null)
+        {
+            person.Name = "test123";   //数据表修改
+        }
+    
+     
+3. Delete操作
+
+        //Delete操作
+        var person = context.Person.FirstOrDefault(i => i.Name == "test123");
+
+        if (person != null)
+        {
+            context.Person.DeleteOnSubmit(person);   //数据表提交
+        }
+
+
+4. Select操作
+
+   我们通过编译器勘察我们的linq语句生成的sql语句：
+
+-- linq ---
+ var person = from n in context.Person
+                     where n.Name == "test"
+                     select n;
+
+---- sql ---
+person = {SELECT [t0].[ID], [t0].[Name], [t0].[Age]
+FROM [dbo].[Person] AS [t0]
+WHERE [t0].[Name] = @p0
+}
+
+
+总结一下： 我们ORM果然比传统的ADO.Net 操作起来更方便。。。更有效率。。。。
+
+           代价是什么？？？ 执行效率比ADO.Net 稍微慢一点。。。
+
+
+	   毕竟ORM的原理： C#  ConvertTo  Sql  ConvertTo Connection ....
+
+

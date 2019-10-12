@@ -1,0 +1,109 @@
+
+一：接口
+
+1. 在C++上，类是可以被多继承的，那么这中多继承关系在C#或者面向对象语言中，是不可以的。。。。
+  
+   如果你一定要实现这种效果，可以采用接口的多继承。
+
+
+2. 掌握如何定义接口
+
+    public interface IFly
+    {
+
+    }
+
+    将原来的class改成interface
+
+    接口的命名使用 “I“ + xxxx。。。。
+
+3. 接口中可以存在哪些成员？？？
+
+   1. 索引器
+
+   2. 属性
+
+   3. 方法
+
+ namespace Mytest
+{
+    public class Program
+    {
+        static void Main(string[] args)
+        {
+            var bird = new Bird();
+
+            bird.Fly();
+
+            var animal = new Animal();
+
+            animal.Fly();
+        }
+    }
+
+    public interface IFly
+    {
+        void Fly();
+    }
+
+    public class Bird : IFly
+    {
+        public void Fly()
+        {
+            Console.WriteLine("i can fly");
+        }
+    }
+
+    public class Animal : IFly
+    {
+        public void Fly()
+        {
+            Console.WriteLine("i am animal");
+        }
+    }
+}
+
+
+4.  IList；  
+
+         Clear方法    【用于清空集合的数据】
+
+    
+    我们知道有两个类继承了IList接口，    Array 
+				         ArrayList
+
+    
+    接口是并不知道谁要来实现我。。我只管定义就可以了。。。
+
+
+二：抽象类
+
+    1. 我们要了解抽象类的定义  【在原来的class前面加上要给 abstract 就可以了】
+      public abstract class Stream : MarshalByRefObject, IDisposable
+      {
+
+      }
+
+    2. 同时接口也可以给抽象类来实现
+
+    
+    3. 查看一下抽象类中可以定义哪些元素
+
+      《1》属性
+
+      《2》结构体
+
+      《3》方法
+
+      《4》抽象方法
+
+      《4》virtual
+
+    4. 我们要了解 abstract，virtual 与 override的关系。。。
+
+       override可以重写父类中标记为 abstract，virtual 的方法。
+
+    5. 类的三大类型，【继承，封装，多态】
+    
+
+      

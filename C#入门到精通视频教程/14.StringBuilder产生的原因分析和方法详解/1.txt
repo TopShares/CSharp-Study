@@ -1,0 +1,29 @@
+
+
+一：StringBuilder的来历
+
+   既然我有了String，干嘛还多此一举来一个StringBuilder？？？？ 
+
+   因为String有一个严重的性能问题。。。。【在字符串拼接方面】
+
+
+二：我们开始做一个实验
+
+ 1. 对string进行 5w 次的拼接，耗费时间大概近4s。。。
+
+ 2. StriingBuilder呢？？？ 耗费时间近1毫秒。。。
+
+
+ 三：我们来看一下StringBuilder中的方法
+
+1. Append：      用于追加字符串
+
+2. AppendLine:   用于追加一行字符串，后面会有换行符
+
+3. AppendFormat：这个就相当于String.Format...
+
+4. Length:       获取StringBuilder的长度
+
+    
+
+    

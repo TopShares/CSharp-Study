@@ -1,0 +1,71 @@
+
+一：数组【Array】
+
+1. 我们了解一下定义数组的集中方法
+
+            //第一种：我们定义的数组
+            int[] nums1 = { 10, 20, 30, 40, 50 };
+
+            //第二种
+            int[] nums2 = new int[] { 10, 20, 30, 40, 50 };
+
+            //第三种
+            int[] num3=new int[5] { 10, 20, 30, 40, 50 };
+
+
+ 我们在编译器中定义了三种方式的数组，那么在CLR看来，到底是哪一种嗯？？？
+
+ IL_0002:  newarr     [mscorlib]System.Int32
+
+ 我们从IL中可以看到，其实你定义的三种方式，对CLR来说，只有一种。。。所以说这是编译器给我们的语法糖。。。
+
+ 
+ 二：查看一下数组定义的方法
+
+ 1.GetValue
+
+	获取数组值的两种方法
+
+	    int[] nums1 = { 10, 20, 30, 40, 50 };
+
+            var result = nums1.GetValue(2);
+
+            result = nums1[1];
+	
+2. Array是所有数组的基类，Array的基类Object
+   
+		继承关系：    数组 => Array => Object
+
+   《1》 BinarySearch  二分查找， 它的复杂度log2N.
+
+      var i = Array.BinarySearch(nums1, 30);
+    
+   《2》Clear： 用于将指定范围内的数据恢复到它的默认值
+
+       Array.Clear(nums1, 0, nums1.Length);
+      
+   《3》Exists： 用于判断数组中是否存在指定的值
+
+             var b = Array.Exists<int>(nums1, (m) =>
+              {
+                  return m == 20;
+              });
+	  
+   《4》 Sort：   用于将数组进行排序
+
+            int[] nums1 = { 30, 20, 10, 50, 40 };
+
+            Array.Sort(nums1);
+
+3. 如果动态的给数组赋值
+
+            //当我new的时候，堆上面就已经给我分配了5个int大小的内存空间
+            int[] nums1 = new int[5];
+
+            var rand = new Random();
+
+            for (int i = 0; i < nums1.Length; i++)
+            {
+                nums1[i] = rand.Next();
+            }
+

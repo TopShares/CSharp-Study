@@ -1,0 +1,121 @@
+
+一：Linq to Object
+
+1. Linq是一个新的集成查询语言
+
+   Linq to Object  【对象】
+
+   Linq to Xml
+
+   Linq to Sql
+
+   Linq to xxx
+
+
+2. 我们举一个简单的例子：
+
+        int[] nums = { 10, 20, 30, 40, 50, 60 };
+
+        //这个就是简单的Linq语句
+        var query = from n in nums
+                    where n % 20 == 0
+                    select n;
+
+        var list = query.ToList();
+
+        Console.WriteLine("最终数据为:{0}", string.Join(",", list));
+
+
+3. 大家看一下这个所谓的linq，是不是觉得很简单，有一点像sql语句。 select * from table where id=20 and dd...
+   
+   Linq 的思想就是把Object想象成数据表，然后呢用Linq去查询这张表
+
+
+4. 接受一个复杂一点的group by 操作
+        //统计一下各个数字出现的次数
+        int[] nums = { 10, 30, 20, 10, 30 };
+
+        var query = from n in nums
+                    group n
+     by n into g
+                    select new
+                    {
+                        g.Key,
+                        count = g.Count()
+                    };
+
+        var list = query.ToList();
+
+        foreach (var item in list)
+        {
+            Console.WriteLine("num={0}, count={1}", item.Key, item.count);
+        }
+
+5. 我们研究一下linq 中的关键字底层是怎么实现的。。。
+
+   发现的一些线索：
+
+     《1》 发现了一个 System.Linq.Enumerable::Where 方法。
+
+           从IL中，我们看到，其实所谓的Linq语句，本质上不是什么新语法，而是语法糖，其实仅仅是一个where方法的事情。。。
+    
+     《2》 我们现在用Where方法，自己亲自来实验一下。。。
+
+        //我们用where方法来实现第一个条件查询的操作
+        var query = nums.Where(i => i % 20 == 0).ToList();
+
+        Console.WriteLine(string.Join(",", query));
+
+
+6. linq语句和where扩展方法，大家要知道他们的利弊，或者说从可读性上有各自的使用场景。
+
+
+7. 我们探索一下Enumerable类。
+
+《1》我们看到的很多网站上的分页，它其实呢，就是skip和take的操作。
+
+
+ static void Main(string[] args)
+ {
+        int[] nums = { 10, 20, 30, 40, 50, 60 };
+
+        //这个就是简单的linq语句
+        //var query = from n in nums
+        //            where n % 20 == 0
+        //            select n;
+
+        //统计一下各个数字出现的次数
+        //int[] nums = { 10, 30, 20, 10, 30 };
+
+        //var query = from n in nums
+        //            group n
+        //            by n into g
+        //            select new
+        //            {
+        //                g.Key,
+        //                count = g.Count()
+        //            };
+
+        //var list = query.ToList();
+
+        //foreach (var item in list)
+        //{
+        //    Console.WriteLine("num={0}, count={1}", item.Key, item.count);
+        //}
+
+        //我们用where方法来实现第一个条件查询的操作
+        //var query = nums.Where(i => i % 20 == 0).ToList();
+
+        //Console.WriteLine(string.Join(",", query));
+
+        //求nums中的最小值。 最普通的方法，我们需要自己去写for得到最大值，或者最小值。。。
+        //                   如果我们使用linq的话，或者叫扩展发放，那么我们就可以最简化的方法得到结果。。。。
+
+        var min = nums.Min();
+
+        var max = nums.Max();
+
+        //我需要跳过第一个数字，取后面的两个数
+        var segments = nums.Skip(1).Take(2);
+
+    }

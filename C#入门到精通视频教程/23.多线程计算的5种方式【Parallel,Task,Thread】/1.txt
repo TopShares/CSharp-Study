@@ -1,0 +1,140 @@
+
+
+一：线程
+
+   1. 到目前为止，我们写的代码都是单线程。
+
+class Class1
+{
+    static void Main(string[] args)
+    {
+        Run1();
+
+        Run2();
+
+        Console.WriteLine("我是主线程 {0}", Thread.CurrentThread.ManagedThreadId);
+    }
+
+    static void Run1()
+    {
+        Thread.Sleep(5000);
+
+        Console.WriteLine("run1执行完毕 {0}, threadid={1}", DateTime.Now, Thread.CurrentThread.ManagedThreadId);
+    }
+
+    static void Run2()
+    {
+        //假定执行该方法所耗费的时间
+        Thread.Sleep(2000);
+
+        Console.WriteLine("run2执行完毕 {0} threadid={1}", DateTime.Now, Thread.CurrentThread.ManagedThreadId);
+    }
+}
+
+我们发现，代码确实是串行执行的。
+
+
+接下来，我们用Thread来做。。
+
+二：如何定义和使用Thread
+
+1. thread是一个类，所以我们new一下就可以了。。。
+
+   我们可以看到,new Thread的时候，里面需要我们传递入口方法，接口两种形式的委托。。
+
+   《1》ParameterizedThreadStart  => 这个委托方法可能需要我们传递一个参数。。。 有点像Action（string）
+
+				 public delegate void ParameterizedThreadStart(object obj);
+
+   《2》 ThreadStart              => 这个和上面那个比，少了一个Parameter，说明不需要参数。也就是Action
+
+				 public delegate void ThreadStart();
+
+
+class Class1
+{
+    static void Main(string[] args)
+    {
+        //    Run1();
+
+        //    Run2();
+
+        //    Console.WriteLine("我是主线程 {0}", Thread.CurrentThread.ManagedThreadId);
+
+        var thread = new Thread(Run1);
+
+        var thread2 = new Thread(Run2);
+
+        thread.Start();
+        thread2.Start();
+
+        Console.WriteLine("我是主线程 {0}", Thread.CurrentThread.ManagedThreadId);
+    }
+
+    static void Run1()
+    {
+        Thread.Sleep(5000);
+
+        Console.WriteLine("run1执行完毕 {0}, threadid={1}", DateTime.Now, Thread.CurrentThread.ManagedThreadId);
+    }
+
+    static void Run2()
+    {
+        //假定执行该方法所耗费的时间
+        Thread.Sleep(2000);
+
+        Console.WriteLine("run2执行完毕 {0} threadid={1}", DateTime.Now, Thread.CurrentThread.ManagedThreadId);
+    }
+}
+
+那上面的代码，我们可以看到，有三个线程去跑了这些任务， 分别是线程1，线程3，线程4.。。。
+
+这样我们就想到了，一个人肯定比不了三个人去完成一件事。。。
+
+这样的话，我们就做到了负载均衡。。。
+
+2. ThreadPool 
+
+   这个是我们进行多线程计算的第二种方式。。。
+
+        ThreadPool.QueueUserWorkItem(i => { Run1(); });
+
+        ThreadPool.QueueUserWorkItem(i => { Run2(); });
+
+        Console.WriteLine("我是主线程 {0}", Thread.CurrentThread.ManagedThreadId);
+
+        Console.Read();
+
+3. Task来做多线程计算。。。
+
+   Task在Thread和ThreadPool上面做了很多的优化。。。所以说，我们能用Task的地方就不要用Thread。。。。
+
+        //第三种：
+        Task task = new Task(Run1);
+
+        Task task2 = new Task(Run2);
+
+        task.Start();
+        task2.Start();
+
+        Console.WriteLine("我是主线程 {0}", Thread.CurrentThread.ManagedThreadId);
+
+        Console.Read();
+
+4. 使用TaskFactory来实现。
+
+        Task.Factory.StartNew(Run1);
+
+        Task.Factory.StartNew(Run2);
+
+        Console.WriteLine("我是主线程 {0}", Thread.CurrentThread.ManagedThreadId);
+
+5. Parallel.Invoke
+        //第五种
+        Parallel.Invoke(Run1, Run2);
+
+        Console.WriteLine("我是主线程 {0}", Thread.CurrentThread.ManagedThreadId);
+
+        Console.Read();
+
+后面的三种多线程方式，就是说我们不光用到了多线程，还会用到多核。。。

@@ -1,0 +1,66 @@
+
+一：委托
+
+1. 大家在学C++的时候，可能了解过函数指针的。
+
+   将委托作为方法的参数，通常情况下，我们的方法参数都是一个类型。或者是基元类型。
+
+2. 首先我们要了解委托的定义方式
+
+   为了查看委托的定义方式，我们可以从FCL（Framework Common Library）中去找现成的。 
+
+
+   eg： public delegate void Action();
+
+         解读：1. 声明关键字 delegate
+
+	       2. delegate它是一个方法的容器。也就是说专门装载方法的。
+
+	                   所以说这个Action委托应该需要标记什么样的方法才可以装入到委托中。。。
+
+	       3. void表示装入方法的返回值，Action() => "()"表示方法的入参，我们看到方式是无参的。
+
+3.  我们该如何使用委托。
+
+    我们要知道，delegate本质上来说是一个类。
+    
+    .class public auto ansi sealed Mytest.MyDelegate extends [mscorlib]System.MulticastDelegate
+
+    那么既然是一个类，那么我们就应该使用new运算符。。。
+
+4. 执行委托中的方法，有两种方式，第一种就是invoke，第二种就是（）语法糖。
+
+namespace Mytest
+{
+    public class Program
+    {
+        static void Main(string[] args)
+        {
+            var mydelegate = new MyDelegate(Run);
+
+            //mydelegate.Invoke("i can fly");
+            mydelegate("i can fly");
+        }
+
+        static void Run(string str)
+        {
+            Console.WriteLine(str);
+        }
+    }
+
+    // 这个委托告诉编译器，我需要装入的方法，比如是 string的入参，无返回值的。
+    public delegate void MyDelegate(string str);
+}
+
+
+二：事件 【它是一种设计模式，叫做观察者模式】
+
+1. 猫抓老鼠，这个典型观察者模式。。。
+
+2. 事件的定义 public event SubEventHandler SubEvent;
+
+              一定要透过现象看本质： SubEvent 本质上来说，其实即使一个方法，【无参数，无返回值】
+
+	     
+	       sub.SubEvent += new SubEventHandler(Response);  将事件关联到方法中。
+    

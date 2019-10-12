@@ -1,0 +1,257 @@
+
+
+一：变量和常量
+
+1. 变量概念
+
+   值类型 和 引用类型
+
+
+
+
+2. 值类型 =>  简单类型  
+
+                           => 整数类型/基元类型 【byte,short,int,long ... 】
+
+			   => 浮点类型 【float，double】
+
+			   => 布尔类型【bool】 (true/false)
+
+              复杂的类型  【Enum，Struct】
+
+	   
+3. 整数类型：
+    
+   为什么这样的语句行得通：long i = 10;
+
+   我们就要从计算机的概念上说起。
+
+      我们所有的代码和逻辑最终都会变成机器代码，也就是0/1代码。。。  也就是说机器只认识0/1。。。
+
+      我们计算机的存储单位： bit => byte => kb => mb => gb => .....
+
+      既然可以将10存放到变量i中，那就说明i一定会占据着内存中的一小块空间。 那么这一小块空间到底有多大呢？？？
+
+      byte    8位		=> 8bit		=> 1b 空间   =>   0 - 255
+
+      short   16位		=>16bit         => 2b 空间   =>   -32768 - 32767
+     
+      int     32位		=>32bit         => 4b 空间   =>   -21亿  - 21亿
+     
+      ...
+
+4. 浮点类型
+   
+   用计算机来表示小数
+   
+   float类型一点要用一个“f”来标记，否则会被认为是double类型。  =＞　    float i = 10.3f;
+
+   double类型是C#编译器默认的一个小数表示方式。   =>  double i = 10.3;
+
+5. 浮点类型所能表示的范围大小
+   
+   《1》小数位数的概念：
+                        float： 精确到7位。       表示范围。。。
+			double: 精确到15-16位。   表示范围。。。
+
+
+6. 布尔类型
+    
+    只有true和false之分。
+   
+
+
+二： 复杂类型
+
+1. 枚举类型
+
+   《1》 应用场景：方便于我们编程，如果说没有枚举，我们只能用数字来表示，有了枚举之后，我们就可以用“强类型”来替代简单的数字。
+   
+   《2》 枚举定义好了之后，就不能再给它定义，因为枚举就是恒定不变的东西，只要了定义了就不能改变它的值。。。
+    
+   《3》 通过ILDasm，进行就会发现Enum就是一个Const常量，所以这就是不变的本质。。。
+
+   《4》 了解所谓的Enum类。
+
+   《5》 观察一下系统中是怎么使用Enum类型的。。。
+    
+
+2. Struct类型 【我们在讲解类的时候详细说明结构体】
+
+namespace Mytest
+{
+    public class Program
+    {
+        static void Main(string[] args)
+        {
+            Point point = new Point(10, 20);
+
+            Console.WriteLine(string.Format("x={0}, y={1}", point.x, point.y));
+        }
+    }
+
+    public struct Point
+    {
+        public int x;
+
+        public int y;
+
+        public Point(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+    }
+}
+
+ 我们发现，定义结构体和定义类，非常相似，一个差别在于，一个是class，一个是struct。。。
+
+
+
+三：引用类型
+
+1. 我们自定义的class。
+
+    public class Person
+    {
+        public int Age { get; set; }
+    }
+
+2. Array
+    
+    Person[] person = new Person[2];
+
+    person[0] = new Person();
+
+    person[1] = new Person(); 
+     
+
+3. Delegate  我们会放到后面去说
+
+   public delegate Action myaction();
+
+   可以看到，delegate其实是一个语法糖，本质上来说它也是一个类，一个继承自 System.MulticastDelegate 的类
+   .class public auto ansi sealed Mytest.myaction
+       extends [mscorlib]System.MulticastDelegate
+
+   ...
+
+4. String类型
+
+    在C中是没有String的，它的做法呢，就是用char[]来实现的。
+
+
+四：引用类型和值类型的差异 【考试 和 面试中经常遇到的一个问题】
+
+    1. 栈 和 堆 的概念
+
+      值类型是存放在栈上面，而且栈的默认空间大小是1M。
+
+      引用类型是存放在堆上面，而且堆没有默认的空间大小，就是说它的大小是受我们机器的内存大小限制。
+
+
+      可以看得到，栈是有空间大小的，所以说栈是高效的，同时也是有大小限制的。
+
+      所以我们从设计思想上来说，动态大小的东西我们大体上会放到堆上。
+                                固定大小的东西我们大体上会放到栈上。
+
+
+
+   
+五：类型转换
+
+1. 隐式类型转换
+
+2. 强制类型转换
+
+
+那么这两种转换在值类型和引用类型之间还是不一样的。。。。
+
+
+
+值类型  
+        => 隐式转换, 将小类型转换为大类型   【将小范围的数字塞到大范围的数字里面去】
+
+	                                    int => long
+
+					    short => int
+
+					    byte => short
+
+					    byte => long
+
+					    ....
+
+                     举个例子：             byte b = 20;
+					    int i = b;
+        
+	=> 强制转换，将大类型转换为小类型，编译器需要程序员自己指定，这样的话出了问题就需要找程序员自己，责任自己承担。。。
+
+	   
+	   《1》 (类型）xxxx   =>                   int b = 20000;
+						    byte i = (byte)b;    //输出了错误的32，所以说是有风险的，责任需要程序员自负
+            
+	   《2》 Convert.Toxxx =>	            为了防止错误的输出，FCL（.net framework）给我们提供了一个风险防范机制，就是说
+	                                            
+						    抛出异常比 错误的输出更有意义
+
+
+
+                源代码剖析：
+
+		public static byte ToByte(int value)
+		{
+			if (value < 0 || value > 255)
+			{
+				throw new OverflowException(Environment.GetResourceString("Overflow_Byte"));
+			}
+			return (byte)value;
+		}
+
+
+引用类型：【万事万物皆对象】
+
+           基类，父类，子类。。。。那么我们的转换方式就是子类转化为父类，或者父类转化为子类。。。这种转换方式，我们认为是
+
+	   强制转换或者是隐式转换。。。。
+
+
+         =>隐式转换   【将子类转换为父类】
+
+	               
+				var bird = new Bird();
+
+				bird.Name = "燕子";
+
+				Animal animal = bird;           //这个地方就是把  “子类”  转换为了  “父类”
+
+				Console.WriteLine(animal.Name);
+	       
+
+
+	 =>强制转换  
+
+		 严重性	代码	说明	项目	文件	行
+		 错误	CS0266	无法将类型“Mytest.Animal”隐式转换为“Mytest.Bird”。存在一个显式转换(是否缺少强制转换?)	Mytest	E:\Solutions\Mytest\Mytest\Program.cs	19
+
+	  
+        static void Main(string[] args)
+        {
+            var bird = new Bird();
+
+            bird.Name = "燕子";
+
+            Animal animal = bird;   // 这个地方就是把  “子类”  转换为了  “父类”
+
+            Bird bird2 = (Bird)animal;  //我们又把  “父类”  转化为了  “子类”
+
+            Console.WriteLine(bird2.Name);
+        }
+	                       
+	     
+   
+           
+
+	   
+
+

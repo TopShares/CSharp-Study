@@ -1,0 +1,95 @@
+
+一：泛型的产生背景
+
+1.从ArrayList说起。
+  
+   我们可以看到，ArrayList的Add方法，它接受的是一个object类型的值。。。。
+
+   既然是object，那我就可以随便塞入。。。比如字符串，数组，类。。。
+
+   但是我们有一个思想：
+   
+   《1》物以类聚的思想。ArrayList既然要放string，那么ArrayList中 最好都是string。
+    
+   《2》 性能问题，我把string给了object。这个好像没问题，但是我将int给object，那么
+                   就有了装箱操作。。。
+
+    既然有两个无法逃避的问题，C#之父就必须要改变了。。。 这时候泛型就应运而生。。。
+
+           List<int> list = new List<int>();
+
+        list.Add(10);
+
+        list.Add("20");
+
+	可以看到，Add字符串”20“的时候，编译器不让我们过。。。
+
+    static void Main(string[] args)
+    {
+        //ArrayList list = new ArrayList();
+
+        //list.Add("3");
+
+        //list.Add(1);
+
+        //list.Add(new int[] { 1, 2, 3 });
+
+        //foreach (var item in list)
+        //{
+        //    Console.WriteLine(item);
+        //}
+
+        List<int> list = new List<int>();
+
+        list.Add(10);
+
+        list.Add(20);
+    }
+
+ 
+ 二：泛型
+
+ 1. 如何定义
+
+    FCL中用一个 ”T“作为占位符，这个T，我们可以后期指定任何类型。
+
+ 2. 我们说一下T可以应用在哪里？？？
+
+    《1》可以用在类上面。
+
+    《2》还可以用在接口上
+
+    《3》 还可以用在方法的返回值上面
+
+    《4》 还可以用在方法的参数上面。
+
+    《5》 还可以用在一个委托上面。
+
+
+3. 我们来简单的模拟操作一下
+
+ public class MyList<T>
+{
+    public static List<T> list = new List<T>();
+
+    public void Add(T t)
+    {
+        list.Add(t);
+    }
+
+    public void Remove(T t)
+    {
+        list.Remove(t);
+    }
+}
+
+4. 泛型约束
+   
+   where T : struct 
+
+   where的作用就是对T的占位符进行类型约束，struct表示只能是值类型。。
+
+				           class 表示只能是引用类型。
+   
+  
+5. 泛型参数在一个类中，不光可以定义一个，还可以定义两个。。。

@@ -1,0 +1,84 @@
+
+流程控制语句 和C，C++是一模一样的。
+
+
+一：选择语句
+
+    1: if
+
+    2. if else
+
+    3. if()
+       {
+         嵌套
+       }
+       else
+       {
+         嵌套
+       }
+
+     4. switch(condition)
+        {
+	  case cond1: ...... break;
+	   case cond2: ...... break;
+	    case cond3: ...... break;
+            default: break;
+	}
+
+二：迭代语句
+
+   while(condition)
+   {
+      ...               //先判断，再执行
+   }
+
+   do
+   {
+      ...              //先执行，再判断
+   }while(condition);
+  
+            for (int i = 0; i < length; i++)
+            {
+
+            }
+
+            //item 就是arr的迭代变量
+            foreach (var item in arr)
+            {
+                Console.WriteLine(item);
+            }
+
+其实这些流程控制语句，都是有代码段。。。
+
+
+三：跳转语句
+
+1. break     大家一定要知道，break的应用场景，我们一般在循环语句中会使用到。
+             目的就是提前结束循环。
+
+2. continue  它的应用场景，就是跳过当前本次循环。
+
+            //item 就是arr的迭代变量
+            foreach (var item in arr)
+            {
+                ////30之后的数据我不在需要输出了。。。  => 10  20
+                //if (item == 30)
+                //    break;
+
+                if (item == 30)
+                    continue;             // 10 20 40 50
+
+                Console.WriteLine(item);
+            }
+
+3. return    它的应用场景就是提前结束方法的执行
+
+            Console.WriteLine("1");
+
+            return;
+
+            Console.WriteLine("2");
+
+            Console.WriteLine("3");
+
+

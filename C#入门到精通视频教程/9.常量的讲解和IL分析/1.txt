@@ -1,0 +1,64 @@
+
+一：常量
+
+    1. 特性：			固定不变的值。
+
+    2. 运行时：			在编译的时候就已经确定了。
+
+    3. 能使用常量的类型：	基础类型 + string
+
+    4. 怎么标识：		用Const来标识
+
+    5. 怎么设置值：		在初始化的时候设置值
+
+    6. 书写方式：		我们默认的书写方式都是采用大写的形式
+
+二：使用
+
+1. 我们发现，Const其实就是一个static的变量，一个静态的值，因为它是跟着类走的。而不是实例。
+
+namespace Mytest
+{
+    public class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine(Person.num); 
+        }
+    }
+
+    public class Person
+    {
+        /// <summary>
+        /// 这个就是一个所谓的const常量
+        /// </summary>
+        public const int num = 10;
+    }
+}
+
+2. 我们来修改一下Person.num值，看是否可以？？？
+
+        static void Main(string[] args)
+        {
+            Person.num = 10;
+        }
+
+严重性	代码	说明	项目	文件	行
+错误	CS0131	赋值号左边必须是变量、属性或索引器	Mytest	E:\Solutions\Mytest\Mytest\Program.cs	13
+
+
+
+验证： 在编译的时候就已经确定了。
+
+1. Const的IL代码：
+
+	.field public static literal int32 NUM = int32(0x0000000A)  
+
+	可以发现，它就是一个静态的字面量。
+
+2. 也就是我在编译成dll的时候就已经确认的值
+    
+   我们在Lib2中定义了一个Const变量，然后我们在Main中引用了这个Const，
+
+   然后我们删除Lib2，结果发信啊Main中还是保留了100这个值。也就说明100已经打入到了Lib2中。
+

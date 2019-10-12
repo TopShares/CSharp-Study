@@ -1,0 +1,140 @@
+
+
+一：ADO.Net
+
+ 1. 一个专门用于访问数据类的组件。。。
+
+
+二：既然你需要访问数据库，那么我们就需要建立一个数据库。
+
+    1. Sqlserver 2008 大家需要下载一下，去官网。。。
+    
+    2. 我们创建了一个数据库，建立了一个表，person。
+
+
+三：SqlConnection  sql的桥梁
+
+    它是一个链接上数据库的桥梁。
+
+    SqlConnection connecton = new SqlConnection("Data Source=.;Initial Catalog=Test;Integrated Security=True");
+
+    connection.Open();
+
+四：SqlCommand     发送sql命令
+
+    SqlCommand command = new SqlCommand("select * from person", connection);
+    
+ 
+五：SqlDataReader  接受数据库返回的游标
+
+
+demo：
+
+
+public class Class1
+{
+    static void Main(string[] args)
+    {
+        var list = new List<Person>();
+
+        //桥梁
+        SqlConnection connection = new SqlConnection("Data Source=.;Initial Catalog=Test;Integrated Security=True");
+
+        connection.Open();
+
+        //命令
+        SqlCommand command = new SqlCommand("select * from person", connection);
+
+        //接收sqlserver返回的结果，【接收到数据库返回的游标】
+        SqlDataReader reader = command.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+
+        while (reader.Read())
+        {
+            list.Add(new Person()
+            {
+                ID = Convert.ToInt32(reader["ID"]),
+                Name = reader["Name"] + "",
+                Age = Convert.ToInt32(reader["Age"])
+            });
+        }
+
+        command.Clone();
+        connection.Close();
+
+        //最后我们才能对这个List进行排序或者其他操作。。。。
+        list = list.OrderByDescending(i => i.Age).ToList();
+
+        foreach (var item in list)
+        {
+            Console.WriteLine("ID={0}, Name={1}, Age={2}", item.ID, item.Name, item.Age);
+        }
+    }
+}
+
+public class Person
+{
+    public int ID { get; set; }
+
+    public string Name { get; set; }
+
+    public int Age { get; set; }
+}
+
+上面这种方式，我们认为是在线式的读取。
+
+
+离线式的数据访问
+
+1. SqlDataAdapter
+
+    用于Datatable <=> SqlCommand的一个桥梁。
+
+2. DataTable 就是内存中一张表，和SqlServer中的Person表是一样的。。。
+
+public class Class1
+{
+    static void Main(string[] args)
+    {
+        //var list = new List<Person>();
+
+        var datatable = new DataTable();
+
+        //桥梁
+        SqlConnection connection = new SqlConnection("Data Source=.;Initial Catalog=Test;Integrated Security=True");
+
+        connection.Open();
+
+        //命令
+        SqlCommand command = new SqlCommand("select * from person", connection);
+
+        SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+        adapter.Fill(datatable);
+
+        command.Clone();
+        connection.Close();
+
+        foreach (DataRow row in datatable.Rows)
+        {
+            Console.WriteLine("ID={0}, Name={1}, Age={2}", row["ID"], row["Name"], row["Age"]);
+        }
+
+        ////最后我们才能对这个List进行排序或者其他操作。。。。
+        //list = list.OrderByDescending(i => i.Age).ToList();
+
+        //foreach (var item in list)
+        //{
+        //    Console.WriteLine("ID={0}, Name={1}, Age={2}", item.ID, item.Name, item.Age);
+        //}
+    }
+}
+
+public class Person
+{
+    public int ID { get; set; }
+
+    public string Name { get; set; }
+
+    public int Age { get; set; }
+}
+    

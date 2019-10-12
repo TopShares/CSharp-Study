@@ -1,0 +1,75 @@
+
+一：结构体
+
+1. 我们要知道如何定义结构体
+
+   它的定义方式和类的形式非常像。
+
+    public struct Point
+    {
+        public int x;
+
+        public int y;
+
+        public Point(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+    }
+ 
+2. Struct的核心你一定要知道， Struct是集成于 ValueType 的。也就是说它是值类型。。。
+
+
+二：类
+
+1. 方法
+
+        <1>特殊的方法： 构造函数 
+	
+	                          无参：
+
+        public Person()
+        {
+            this.x = 100000000;
+            this.y = 30000;
+        }
+
+	var person = new Person();
+
+
+
+				  有参：
+
+       public Person(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
+      var person = new Person(10, 20);
+
+        <2> 静态方法
+
+            可以看到，只需要在实例方法上面加上一个static就可以了。。。
+
+	public static void Fly()
+        {
+            Console.WriteLine(".....");
+        }
+
+<3> 既然我在new的时候执行了一次构造函数，那么我在调用静态方法的时候会有相应的
+    静态的构造函数吗？？？？
+
+    好处就是，我们在执行方法的时候，在构造函数中做一些初始化操作。。。
+
+        static Person()
+        {
+            Console.WriteLine("我是静态构造函数。");
+        }
+
+<4> 析构函数
+    
+     1. 如果去定义析构函数
+
+     2. 了解析构函数的原理，时间点

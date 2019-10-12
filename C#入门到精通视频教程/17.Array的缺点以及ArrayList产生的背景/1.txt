@@ -1,0 +1,66 @@
+
+一：Array的缺点
+
+1. 复杂度比较高的一些操作有哪些？？？
+
+    《1》 添加  O(N)
+
+    《2》 删除  O(N)
+
+2. 对数组进行删除
+
+            int[] nums = { 10, 20, 30, 40, 50 };
+
+            //第一个：删除数组中的第一个元素
+            for (int i = 1; i < nums.Length; i++)
+            {
+                nums[i - 1] = nums[i];
+            }
+
+            nums[nums.Length-1] = 0;
+ 
+    是不是第一个感觉就是什么？？？我做一个删除删除，好复杂。。。。而且呢，
+
+    还需要循环一次，如果说我的nums里面有1亿条数据，那是不是会遍历一亿次？？？ O（N）
+
+
+3. 对数据进行插入
+
+      //第二个，将原来误删的10重新塞入到数组中
+            for (int i = nums.Length - 2; i >= 0; i--)
+            {
+                nums[i + 1] = nums[i];
+            }
+
+            nums[0] = 10;
+
+
+4. 这么复杂的操作对我们有哪些思考？？？
+
+   这么简单的一个添加删除都这么复杂，那我编程还怎么做？？？
+
+   ArrayList，那么集合就是为了解决上面数组存在的这个问题。。。
+
+              ArrayList list = new ArrayList();
+
+            list.Add(10);
+            list.Add(20);
+            list.Add(30);
+            list.Add(40);
+            list.Add(50);
+
+            //第一个操作：删除数组中的第一个元素
+            list.RemoveAt(0);
+
+            //第二个操作，将原来误删的10重新塞入到数组中
+            list.Insert(0, 10);
+ 
+    那么当你看到上面的ArrayList，是不是非常简单，并且简化了我们编程复杂度。。。。
+    让我们更加专注于“业务逻辑”。
+
+5. 既然ArrayList这么简单，是不是需要查看一下源代码，它们是怎么实现的。。。。
+
+  RemoveAt最后执行的一条语句是：
+
+   Array.Copy(this._items, index + 1, this._items, index, this._size - index);
+

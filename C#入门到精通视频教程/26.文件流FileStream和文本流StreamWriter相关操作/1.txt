@@ -1,0 +1,82 @@
+
+一：文件流
+
+ 1. FileStream
+
+    我们要读取数据，需要三步骤
+
+    1. 定义一个byte数组，用于接受文件流【字符的asc码】。
+
+    2. 将文件流的字节塞入到bytes数组中。。
+
+    3. 通过默认编码【utf8，gb2312】将字节转换成字符串。
+
+   《1》 Read操作
+
+          将读取的文件展现到console中，要记住我们读取的是一个字符的asc码，我们需要自己转换为string。
+
+   《2》Write操作
+
+        var path = @"H:\test\1\mytest.txt";
+
+        byte[] b = new byte[3] { 108, 108, 108 };
+
+        FileStream fs = new FileStream(path, FileMode.Open);
+
+        fs.Write(b, 0, b.Length);
+
+        //var bytes = new byte[fs.Length];
+
+        //fs.Read(bytes, 0,bytes.Length);
+
+
+        //var str = Encoding.Default.GetString(bytes);
+
+        //Console.WriteLine(str);
+
+
+看到上面的这些繁琐的步骤，是不是很排斥。。。。我仅仅想把字符串写入到文本文件，你却给我来了一大推步骤。。。。
+
+违反了我只关注于业务逻辑的这个准则。。。
+
+
+2. 改进方法
+
+   《1》StreamWriter 【用于写文件】 【文本流】
+
+
+        StreamWriter sw = new StreamWriter(path);
+
+        sw.WriteLine("hello world 123");
+
+        sw.Close();
+
+        一定要记得，要做close操作，因为你open了，就拿到了一个文件句柄。
+   
+        //StreamWriter sw = new StreamWriter(path);
+
+        //sw.WriteLine("hello world 123");
+
+        //sw.Close();
+
+        using (StreamWriter sw = new StreamWriter(path))
+        {
+            sw.WriteLine("hello world 12345");
+        }
+
+   《2》StreamReader 【用于读文件】 【文本流】
+   
+     
+        using (StreamReader sr = new StreamReader(path))
+        {
+            var line = sr.ReadLine();
+
+            Console.WriteLine(line);
+        }
+
+
+3. 最后有一个终极方案，就是用File的ReadAllText方法，代码量更少，而且还不需要操心文件句柄的问题。
+
+       var line = File.ReadAllText(path);
+
+C#的指导思想：【用最少的代码，最最大可能的事情】【我们应该把更多的时间放到业务逻辑上，而不是在编码上】

@@ -1,0 +1,198 @@
+
+一：算术运算符
+
+     +，- * / %     五个运算符
+
+     使用“即时窗口”给大家演示一下算术运算符的使用。
+
+
+二：赋值运算符
+
+    其实就是运算符的组合， += -=  。。。。 
+
+    是一个我们偷懒的方式
+
+        static void Main(string[] args)
+        {
+            int i = 10;
+
+            int j = 0;
+
+            j += i;   // j=j+i;  => j=0+10  => 10
+
+            Console.WriteLine(j);
+
+            Console.Read();
+        }
+
+三：关系运算符
+
+    ==， >,  <,  !=,  >=,  <=
+
+    我们现实中 “=” 就是 等于的意思，那么在计算中一个“=”号表示 赋值操作， 两个“==”表示Math中的一个”=“号。
+
+    关系运算符返回的是bool类型，也就是所谓的”true/false“。。。这两种状态。
+
+
+四：逻辑运算符
+
+    &， | ，^
+
+    &: 对应的位都是1，则为1，
+       对应的位有一个不是1，则为0
+
+    byte i=10;
+
+    byte j=5;
+
+    byte r=i&j ;   =>   0 0 0 0 1 0 1 0    // 10
+                        0 0 0 0 0 1 0 1    //  5
+		      -------------------
+		        0 0 0 0 0 0 0 0    //  0
+
+    |: 如果两个数字的对应位上，有一个为1则为1，否则为0.
+
+    byte i=10;
+
+    byte j=5;
+
+    byte r=i|j ;   =>   0 0 0 0 1 0 1 0    // 10
+                        0 0 0 0 0 1 0 1    //  5
+		      -------------------
+		        0 0 0 0 1 1 1 1    // 15
+
+    ^：如果两个数字的对应为相同是，则为0，否则为1.
+
+    byte i=10;
+
+    byte j=5;
+
+    byte r=i^j     =>   0 0 0 0 1 0 1 0    // 10
+                        0 0 0 0 0 1 0 1    //  5
+		      -------------------
+		        0 0 0 0 1 1 1 1    // 15
+
+
+
+五：移位运算符
+
+     << ,  >>
+
+     int i = 2;
+
+     i = i << 1;
+
+		   => 0 0 0 0 0 0 1 0
+
+		      0 0 0 0 0 1 0 0  表示你左移了一位，相当于*2
+
+
+     那么同样的道理，当你右移1位，相当于/2了。对不对。。。
+
+
+
+六：其他运算符
+
+    is运算符：判断指定的变量是否为指定的类型。
+
+	      如果某个变量是某一个类型，那么也必然是这个类型的父类型。
+
+	      int i=10;
+
+	      var r= i is int		// OK
+
+	      var rr=i is ValueType     // OK
+
+	      var rr=i is Object        // OK
+
+    as运算符： 用于强制转换，因为普通的转换会出现异常，值类型   => 引用类型
+
+                                                       引用类型 => 值类型
+
+
+    public class Program
+    {
+        static void Main(string[] args)
+        {
+            var animal = new Animal();
+
+            var person = new Person();
+
+            var bird = new Bird();
+
+            /*
+             *    第一种做法：想把Animal转换为Person，也就是父类转化为子类
+             *     
+             *    普通的转换 => 会抛出异常，异常会非常消耗CPU已经性能
+             */
+            var r = (Person)animal;
+
+            /*
+             *   第二种做法，我们使用 as 运算符，用来判断Animal是否可以成功转换为Person
+             */
+
+            var rr = animal as Person;    //最后判断rr是否为null来区别是否可以转换成功，
+                                          // 如果不为null，说明转换成功
+                                          // 如果为  null，说明转换失败
+
+            /* 
+             * 那三种做法，就是使用我们刚才说到的 is 运算符，用true/false来判断当前是否可以成功转换
+             */
+            var rrr = animal is Person;
+        }
+    }
+
+    public class Animal
+    {
+
+    }
+
+    /// <summary>
+    /// 显然人也是一种动物。
+    /// </summary>
+    public class Person : Animal
+    {
+
+    }
+
+    /// <summary>
+    /// 鸟也是一种动物，所以也是需要继承于Animal
+    /// </summary>
+    public class Bird : Animal
+    {
+
+    }
+
+   三目运算符：  ？：
+
+        static void Main(string[] args)
+        {
+            var str = Console.ReadLine();   //从控制台接收字符
+
+            var result = Convert.ToInt32(str) >= 10 ? "你输入的数字大于等于10" : "你输入的数字小于10";
+
+            Console.WriteLine(result);
+        }
+
+   typeof
+
+        就是说获取一个变量的类型信息，这个信息是我们从 程序集中获取的。。。所以说这个是有性能损耗的
+
+
+          var t = typeof(int);
+
+          Console.WriteLine(t.FullName);
+
+七：运算符的优先级
+
+    给你需要先执行的操作加上括号，不然的话，运算符很多的时候可能会搞混掉。。。
+
+    x += x++ & 3 + 9 * ++x | x++ + 3;
+
+    那么上面这个表达式，你根本都不知道最后的值是什么，所以解决办法由两种。。。
+
+    第一种：分解。
+
+    第二种：加上括号
+
+            x += (((x++ & 3) + (9 * ++x)) | (x++ + 3));

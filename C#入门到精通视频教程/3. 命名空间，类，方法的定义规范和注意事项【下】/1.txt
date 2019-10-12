@@ -1,0 +1,107 @@
+
+一：开始C#之旅
+
+1. 掌握如何为C#程序添加注释
+
+   《1》 行注释   //
+   《2》 多行注释 /*  */
+
+2. 掌握命名空间的概念以及如何引用命名空间。
+
+     《1》掌握如何引用命令空间 和 定义命名空间
+
+             掌握如何定义namespace： 
+
+	          namespace xxxx
+		  {
+		     
+		  }
+              如何引用namespace：
+
+	       using  xxxxx;
+          
+
+
+     《2》 命名空间的概念
+      
+            一个程序中，最大的模板是namespace 
+
+	                                  => class
+
+					       =>  method
+           
+           
+
+
+3. 了解类的声明方法。
+
+   《1》如何定义类
+       
+        访问修饰符（public internal ...）class 类名
+	{
+	  
+	}
+    
+   《2》 如何定义方法
+
+         访问修饰符(public private ....)  方法返回值(void,string...) 方法名
+	 {
+	    
+	 }
+ 
+ public： 无限制的访问权限
+ private：只能被本类访问。
+
+
+ 方法返回值：void，,int,long,string，List<int>，object。。。。
+
+
+
+
+4. 了解Main方法的使用
+   
+   入口函数 static void Main(string[] args)
+           {
+              Console.WriteLine("你好");
+           }
+
+   入口函数的参数：string[] args 那么这里的args是干嘛的？？？
+
+   我们在启动的时候可以塞入启动参数。
+
+
+5. 掌握一些常用的标识符和关键字
+
+   因为这些是被我们常用的，也就是说系统内置的，我们不能定义标识符或者变量对系统内置的进行冲突。
+   
+  //简单类型： int,long,decimal,float.
+  //复杂类型： struct,class,enum,delegate,event.
+  //关键字：   as,is,readonly,const,checked,var.
+
+  将这个的目的就是以防大家对系统关键字的冲突。
+
+6. 了解什么是C#语句
+
+   javascript:  有没有分号都没有关系，它以行为标准。
+   
+   java/C#:     他们都是以 分号 结束。
+
+            var i = 0;   // int i=0;
+
+            var j = 1;
+
+            var result = i + j;
+            
+            Console.WriteLine(args[0]);
+  
+
+7. 掌握编写C#程序时需要遵循的书写规则和命名规范
+
+   这个需要大家要了解的。
+
+   《1》面向接口编程。
+
+   《2》接口名前面要加上“I”。
+
+
+
